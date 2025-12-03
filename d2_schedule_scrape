@@ -1,0 +1,3856 @@
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
+import pandas as pd
+import re
+import requests
+from requests.exceptions import HTTPError
+from functools import lru_cache
+from typing import Optional
+from datetime import datetime
+import warnings
+import pytz
+warnings.filterwarnings('ignore')
+session = requests.Session()
+
+cst = pytz.timezone('America/Chicago')
+formatted_date = datetime.now(cst).strftime('%m_%d_%Y')
+current_season = datetime.today().year
+comparison_date = pd.to_datetime(formatted_date, format="%m_%d_%Y")
+
+# Mapping dictionary: scraped name variations -> standardized accepted names
+TEAM_NAME_MAPPING = {
+    # Adams State variations
+    'Adams State': 'Adams St.',
+    'Adams State University': 'Adams St.',
+    
+    # Adelphi
+    'Adelphi University': 'Adelphi',
+    
+    # Alabama A&M
+    'Alabama A&M': 'Alabama A&M',
+    'Alabama A&M University': 'Alabama A&M',
+    
+    # Alabama Huntsville
+    'Alabama Huntsville': 'UAH',
+    'The University of Alabama in Huntsville': 'UAH',
+    'University of Alabama in Huntsville': 'UAH',
+    'Alabama-Huntsville': 'UAH',
+    'Alabama - Huntsville': 'UAH',
+    
+    # Albany State
+    'Albany State': 'Albany St. (GA)',
+    'Albany State University': 'Albany St. (GA)',
+    
+    # American International
+    'American International': "American Int'l",
+    'American International College': "American Int'l",
+    
+    # Anderson
+    'Anderson': 'Anderson (SC)',
+    'Anderson University (SC)': 'Anderson (SC)',
+    'Anderson (S.C.)': 'Anderson (SC)',
+    
+    # Angelo State
+    'Angelo State': 'Angelo St.',
+    'Angelo State University': 'Angelo St.',
+    
+    # Arkansas Fort Smith
+    'Ark. - Fort Smith': 'Ark.-Fort Smith',
+    'Arkansas Fort Smith': 'Ark.-Fort Smith',
+    'Arkansas-Fort Smith': 'Ark.-Fort Smith',
+    'University of Arkansas Fort Smith': 'Ark.-Fort Smith',
+    'University of Arkansas-Fort Smith': 'Ark.-Fort Smith',
+    'Arkansas- Fort Smith': 'Ark.-Fort Smith',
+    'UA-Fort Smith': 'Ark.-Fort Smith',
+    
+    # Arkansas Monticello
+    'Arkansas Monticello': 'Ark.-Monticello',
+    'Arkansas-Monticello': 'Ark.-Monticello',
+    'Arkansas - Monticello': 'Ark.-Monticello',
+    'University of Arkansas at Monticello': 'Ark.-Monticello',
+    'Arkansas-Monticello (7)': 'Ark.-Monticello',
+    
+    # Arkansas Tech
+    'Arkansas Tech University': 'Arkansas Tech',
+    'Arkansas Tech (7)': 'Arkansas Tech',
+    
+    # Ashland
+    'Ashland (OH)': 'Ashland',
+    'Ashland University': 'Ashland',
+    
+    # Assumption
+    'Assumption (MA)': 'Assumption',
+    'Assumption University': 'Assumption',
+    
+    # Auburn Montgomery
+    'Auburn Montgomery': 'AUM',
+    'Auburn University Montgomery': 'AUM',
+    'Auburn University Montgomery (Ala.)': 'AUM',
+    
+    # Augusta
+    'Augusta University': 'Augusta',
+    
+    # Augustana
+    'Augustana': 'Augustana (SD)',
+    'Augustana (S.D.)': 'Augustana (SD)',
+    'Augustana University': 'Augustana (SD)',
+    'Augustana University (SD)': 'Augustana (SD)',
+    
+    # Azusa Pacific
+    'Azusa Pacific Cougars': 'Azusa Pacific',
+    'Azusa Pacific University': 'Azusa Pacific',
+    'APU': 'Azusa Pacific',
+    
+    # Barry
+    'Barry University': 'Barry',
+    
+    # Barton
+    'Barton College': 'Barton',
+    
+    # Belmont Abbey
+    'Belmont Abbey College': 'Belmont Abbey',
+    
+    # Bemidji State
+    'Bemidji State': 'Bemidji St.',
+    'Bemidji State University': 'Bemidji St.',
+    
+    # Benedict
+    'Benedict College': 'Benedict',
+    
+    # Bentley
+    'Bentley University': 'Bentley',
+    
+    # Biola
+    'Biola Eagles': 'Biola',
+    'Biola University (Calif.)': 'Biola',
+    
+    # Bloomfield
+    'Bloomfield College': 'Bloomfield',
+    'Bloomfield (NJ)': 'Bloomfield',
+    
+    # Bloomsburg
+    'Bloomsburg University': 'Bloomsburg',
+    
+    # Bluefield State
+    'Bluefield State': 'Bluefield St.',
+    'Bluefield State University': 'Bluefield St.',
+
+    # Bridgeport
+    'University of Bridgeport': 'Bridgeport',
+    
+    # Cal State variations
+    'CSU San Bernardino': 'CSUSB',
+    'Cal State San Bernardino': 'CSUSB',
+    'Cal State University San Bernardino': 'CSUSB',
+    'California State University, San Bernardino': 'CSUSB',
+    
+    'CSU San Marcos': 'Cal St. San Marcos',
+    'Cal State San Marcos': 'Cal St. San Marcos',
+    
+    'Cal State Dominguez Hills': 'Cal St. Dom. Hills',
+    'California State University, Dominguez Hills': 'Cal St. Dom. Hills',
+    'Seed Cal State Dominguez Hills': 'Cal St. Dom. Hills',
+    
+    'Cal State East Bay': 'Cal St. East Bay',
+    
+    'Cal State Los Angeles': 'Cal State LA',
+    'California State University, Los Angeles': 'Cal State LA',
+    'CSU Los Angeles': 'Cal State LA',
+    
+    'Cal State Monterey Bay': 'Cal St. Monterey Bay',
+    'California State University Monterey Bay': 'Cal St. Monterey Bay',
+    'Seed Cal State Monterey Bay': 'Cal St. Monterey Bay',
+    'CSU Monterey Bay': 'Cal St. Monterey Bay',
+
+    'Seed Cal State San Marcos': 'Cal St. San Marcos',
+    
+    'Cal State Stanislaus': 'Stanislaus St.',
+    'Stanislaus State': 'Stanislaus St.',
+    
+    # Caldwell
+    'Caldwell University': 'Caldwell',
+    
+    # California PA
+    'California (Pa.)': 'California (PA)',
+    'California University of Pennsylvania': 'California (PA)',
+    
+    # Cameron
+    'Cameron University': 'Cameron',
+    
+    # Carson-Newman
+    'Carson-Newman': 'Carson-Newman',
+    'Carson-Newman University': 'Carson-Newman',
+    
+    # Catawba
+    'Catawba College': 'Catawba',
+    
+    # Cedarville
+    'Cedarville University': 'Cedarville',
+    
+    # Central Missouri
+    'Central Missouri': 'Central Mo.',
+    'University of Central Missouri': 'Central Mo.',
+    
+    # Central Oklahoma
+    'Central Oklahoma': 'Central Okla.',
+    'University of Central Oklahoma': 'Central Okla.',
+    
+    # Central Washington
+    'Central Washington': 'Central Wash.',
+    'Central Washington University': 'Central Wash.',
+    
+    # Chaminade
+    'Chaminade Silverswords': 'Chaminade',
+    'Chaminade University': 'Chaminade',
+    'Chaminade (Hawaii)': 'Chaminade',
+    
+    # Charleston WV
+    'Concord University': 'Concord',
+    'University of Charleston': 'Charleston (WV)',
+    'University of Charleston (WV)': 'Charleston (WV)',
+    'Charleston': 'Charleston (WV)',
+    'Charleston (W.V)': 'Charleston (WV)',
+    'RV Charleston (W.V)': 'Charleston (WV)',
+    
+    # Chestnut Hill
+    'Chestnut Hill College': 'Chestnut Hill',
+    
+    # Chico State
+    'Chico State': 'Chico St.',
+    
+    # Chowan
+    'Chowan University': 'Chowan',
+    
+    # Christian Brothers
+    'Christian Brothers University': 'Christian Brothers',
+    
+    # Claflin
+    'Claflin University': 'Claflin',
+    
+    # Clarion
+    'Clarion University': 'Clarion',
+    
+    # Clark Atlanta
+    'Clark Atlanta University': 'Clark Atlanta',
+    'Clark-Atlanta University': 'Clark Atlanta',
+    
+    # Coker
+    'Coker': 'Coker',
+    'Coker University': 'Coker',
+    
+    # Colorado Christian
+    'Colorado Christian': 'Colo. Christian',
+    'Colorado Christian University': 'Colo. Christian',
+    
+    # Colorado Mesa
+    'Colorado Mesa University': 'Colorado Mesa',
+    
+    # Colorado School of Mines
+    'Colorado School of Mines': 'Colo. Sch. of Mines',
+    'Mines': 'Colo. Sch. of Mines',
+    
+    # Colorado State Pueblo
+    'Colorado State Pueblo': 'CSU Pueblo',
+    'Colorado State University Pueblo': 'CSU Pueblo',
+    
+    # Columbus State
+    'Columbus State': 'Columbus St.',
+    'Columbus State University': 'Columbus St.',
+    
+    # Concordia
+    'Concordia': 'CUI',
+    'Concordia Golden Eagles': 'CUI',
+    'Concordia University Irvine': 'CUI',
+    
+    # Concordia St. Paul
+    'Concordia - St. Paul': 'Concordia-St. Paul',
+    'Concordia University, St. Paul': 'Concordia-St. Paul',
+    'Concordia, St. Paul': 'Concordia-St. Paul',
+    
+    # D'Youville
+    "D'Youville University": "D'Youville",
+    
+    # Davenport
+    'Davenport University': 'Davenport',
+    
+    # Davis & Elkins
+    'Davis & Elkins College': 'Davis & Elkins',
+    
+    # Delta State
+    'Delta State': 'Delta St.',
+    'Delta State University': 'Delta St.',
+    
+    # Dominican
+    'Dominican (NY)': 'Dominican (NY)',
+    'Dominican (NY) University': 'Dominican (NY)',
+    'Dominican University': 'Dominican (NY)',
+    'Dominican University of New York': 'Dominican (NY)',
+    'Dominican': 'Dominican (NY)',
+    'Dominican (N.Y.)': 'Dominican (NY)',
+    'NDominican (N.Y.)': 'Dominican (NY)',
+
+    # Drury
+    'Drury University': 'Drury',
+    
+    # East Central
+    'East Central University': 'East Central',
+    'East Central (7)': 'East Central',
+    
+    # East Stroudsburg
+    'East Stroudsburg University': 'East Stroudsburg',
+    
+    # Eastern New Mexico
+    'Eastern New Mexico': 'Eastern N.M.',
+    'Eastern New Mexico University': 'Eastern N.M.',
+    
+    # Eckerd
+    'Eckerd College': 'Eckerd',
+    
+    # Edward Waters
+    'Edward Waters University': 'Edward Waters',
+    
+    # Embry-Riddle
+    'Embry-Riddle': 'Embry-Riddle (FL)',
+    'Embry-Riddle (Fla.)': 'Embry-Riddle (FL)',
+    'Embry-Riddle University (Fla.)': 'Embry-Riddle (FL)',
+    
+    # Emmanuel
+    'Emmanuel': 'Emmanuel (GA)',
+    'Emmanuel (Ga.)': 'Emmanuel (GA)',
+    'Emmanuel University (Ga.)': 'Emmanuel (GA)',
+    'Emmanuel University': 'Emmanuel (GA)',
+
+    # Emory & Henry
+    'Emory & Henry College': 'Emory & Henry',
+    'Emory & Henry University': 'Emory & Henry',
+
+    # Emporia State
+    'Emporia State': 'Emporia St.',
+    'Emporia State (Kan.)': 'Emporia St.',
+    'Emporia State University': 'Emporia St.',
+    
+    # Erskine
+    'Erskine College': 'Erskine',
+    
+    # Fairmont State
+    'Fairmont State': 'Fairmont St.',
+    'Fairmont State University': 'Fairmont St.',
+    
+    # Felician
+    'Felician University': 'Felician',
+    'NFelician': 'Felician',
+    
+    # Findlay
+    'University of Findlay': 'Findlay',
+    
+    # Florida Southern
+    'Florida Southern': 'Fla. Southern',
+    'Florida Southern College': 'Fla. Southern',
+    
+    # Florida Tech
+    'Florida Tech': 'Florida Tech',
+    
+    # Flagler
+    'Flagler College': 'Flagler',
+    
+    # Fort Hays State
+    'Fort Hays State': 'Fort Hays St.',
+    'Fort Hays State (Kan.)': 'Fort Hays St.',
+    'Fort Hays State University': 'Fort Hays St.',
+    
+    # Francis Marion
+    'Francis Marion University': 'Francis Marion',
+    
+    # Franklin Pierce
+    'Franklin Pierce University': 'Franklin Pierce',
+    
+    # Fresno Pacific
+    'Fresno Pacific Sunbirds': 'Fresno Pacific',
+    'Fresno Pacific University (Calif.)': 'Fresno Pacific',
+    'FPU': 'Fresno Pacific',
+    
+    # Frostburg State
+    'Frostburg State': 'Frostburg St.',
+    'Frostburg State (MD) University': 'Frostburg St.',
+    'Frostburg State University': 'Frostburg St.',
+    
+    # Gannon
+    'Gannon University': 'Gannon',
+    'Gannon (Pa.)': 'Gannon',
+    
+    # Georgia Southwestern
+    'Georgia Southwestern': 'Ga. Southwestern',
+    'Georgia Southwestern State': 'Ga. Southwestern',
+    'Georgia Southwestern State University': 'Ga. Southwestern',
+    
+    # GCSU
+    'GCSU': 'Georgia College',
+    'Georgia College and State University': 'Georgia College',
+    
+    # Georgian Court
+    'Georgian Court University': 'Georgian Court',
+    
+    # Glenville State
+    'Glenville State': 'Glenville St.',
+    'Glenville State University': 'Glenville St.',
+    
+    # Goldey-Beacom
+    'Goldey Beacom College': 'Goldey-Beacom',
+    'Goldey-Beacom College': 'Goldey-Beacom',
+    
+    # Grand Valley State
+    'Grand Valley State': 'Grand Valley St.',
+    'Grand Valley State University': 'Grand Valley St.',
+    'Grand Valley': 'Grand Valley St.',
+    
+    # Harding
+    'Harding (Ark.)': 'Harding',
+    'Harding University': 'Harding',
+    'Harding (7)': 'Harding',
+    
+    # Hawaii Hilo
+    "Hawai'i Hilo": 'Hawaii Hilo',
+    "Hawai'i": 'Hawaii Hilo',
+    'Hawaii at Hilo': 'Hawaii Hilo',
+    'University of Hawaii at Hilo': 'Hawaii Hilo',
+    'Hawaii-Hilo': 'Hawaii Hilo',
+    'UHH': 'Hawaii Hilo',
+    'University of Hawaii': 'Hawaii Hilo',
+    
+    # Hawaii Pacific
+    "Hawai'i Pacific": 'Hawaii Pacific',
+    'Hawaii Pacific University': 'Hawaii Pacific',
+    'HPU Sharks': 'Hawaii Pacific',
+    
+    # Henderson State
+    'Henderson State': 'Henderson St.',
+    'Henderson State University': 'Henderson St.',
+    'Henderson State (7)': 'Henderson St.',
+
+    # Hillsdale
+    'Hillsdale College': 'Hillsdale',
+    'Hillsdale': 'Hillsdale',
+
+    # Holy Family
+    'Holy Family University': 'Holy Family',
+    
+    # Illinois Springfield
+    'Illinois Springfield': 'Ill. Springfield',
+    'Illinois-Springfield': 'Ill. Springfield',
+    'University of Illinois Springfield': 'Ill. Springfield',
+    'Ill.-Springfield': 'Ill. Springfield',
+    
+    # Indiana PA
+    'Indiana (Pa.)': 'Indiana (PA)',
+    'Indiana University (PA)': 'Indiana (PA)',
+    'Indiana University (Pa.)': 'Indiana (PA)',
+    'Indiana University of Pennsylvania': 'Indiana (PA)',
+    'IUP': 'Indiana (PA)',
+    
+    # Indianapolis
+    'Indianapolis': 'UIndy',
+    'University of Indianapolis': 'UIndy',
+    
+    # Jefferson
+    'Jefferson University': 'Jefferson',
+    'Jefferson (Pa.)': 'Jefferson',
+    'SJefferson': 'Jefferson',
+    
+    # Kentucky State
+    'Kentucky State': 'Kentucky St.',
+    'Kentucky State University': 'Kentucky St.',
+    
+    # Kentucky Wesleyan
+    'Kentucky Wesleyan': 'Ky. Wesleyan',
+    'Kentucky Wesleyan College': 'Ky. Wesleyan',
+    
+    # King
+    'King': 'King (TN)',
+    'King (Tenn.)': 'King (TN)',
+    'King University (Tenn.)': 'King (TN)',
+    'King University': 'King (TN)',
+    
+    # Kutztown
+    'Kutztown University': 'Kutztown',
+    
+    # Lake Erie
+    'Lake Erie': 'Lake Erie',
+    'Lake Erie College': 'Lake Erie',
+    
+    # Lander
+    'Lander University': 'Lander',
+    
+    # Lane
+    'Lane College': 'Lane',
+    
+    # LeMoyne-Owen
+    'LeMoyne-Owen College': 'LeMoyne-Owen',
+    
+    # Lee
+    'Lee (Tenn.)': 'Lee',
+    'Lee University': 'Lee',
+    'Lee University (Tenn.)': 'Lee',
+    
+    # Lenoir-Rhyne
+    'Lenoir-Rhyne (NC) University': 'Lenoir-Rhyne',
+    'Lenoir-Rhyne University': 'Lenoir-Rhyne',
+    'Lenoir Rhyne University': 'Lenoir-Rhyne',
+    
+    # Lewis
+    'Lewis University': 'Lewis',
+    
+    # Limestone
+    'Limestone University': 'Limestone',
+    
+    # Lincoln MO
+    'Lincoln University of Missouri': 'Lincoln (MO)',
+    'Lincoln': 'Lincoln (MO)',
+    
+    # Lincoln PA
+    'Lincoln (Pa.)': 'Lincoln (PA)',
+    'Lincoln University': 'Lincoln (PA)',
+    'Lincoln University (Pa.)': 'Lincoln (PA)',
+    
+    # Lincoln Memorial
+    'Lincoln Memorial University': 'Lincoln Memorial',
+    
+    # Lock Haven
+    'Lock Haven University': 'Lock Haven',
+
+    # Lubbock Christian
+    'Lubbock Christian University (Texas)': 'Lubbock Christian',
+    'Lubbock Christian University': 'Lubbock Christian',
+    
+    # Lynn
+    'Lynn University': 'Lynn',
+    
+    # Malone
+    'Malone University': 'Malone',
+    'Malone (OH) University': 'Malone',
+    
+    # Mansfield
+    'Mansfield University': 'Mansfield',
+    
+    # Mars Hill
+    'Mars Hill': 'Mars Hill',
+    'Mars Hill University': 'Mars Hill',
+    
+    # Mary
+    'Mary (N.D.)': 'Mary',
+    'UMary': 'Mary',
+    'UMary (N.D.)': 'Mary',
+    'University of Mary': 'Mary',
+    
+    # Maryville
+    'Maryville': 'Maryville (MO)',
+    'Maryville University': 'Maryville (MO)',
+    'Maryville (Mo.)': 'Maryville (MO)',
+    
+    # McKendree
+    'McKendree University': 'McKendree',
+    
+    # Menlo
+    'Menlo College': 'Menlo',
+    'Menlo Oaks': 'Menlo',
+    
+    # Mercy
+    'Mercy University': 'Mercy',
+    
+    # Metropolitan State Denver
+    'Metropolitan State - Denver': 'MSU Denver',
+    'Metropolitan State University of Denver': 'MSU Denver',
+    'Metro State': 'MSU Denver',
+    
+    # Miles
+    'Miles College': 'Miles',
+    
+    # Millersville
+    'Millersville University': 'Millersville',
+    
+    # Minnesota Crookston
+    'Minnesota Crookston': 'Minn.-Crookston',
+    'Minnesota-Crookston': 'Minn.-Crookston',
+    'University of Minnesota Crookston': 'Minn.-Crookston',
+    
+    # Minnesota Duluth
+    'Minnesota Duluth': 'Minn. Duluth',
+    'University of Minnesota Duluth': 'Minn. Duluth',
+    
+    # Minnesota State
+    'Minnesota State': 'Minnesota St.',
+    'University of Minnesota State, Mankato': 'Minnesota St.',
+    'Minnesota State Mankato': 'Minnesota St.',
+    'Minnesota State - Mankato': 'Minnesota St.',
+    'Minnesota State University': 'Minnesota St.',
+    'Minnesota State, Mankato': 'Minnesota St.',
+    
+    # Minot State
+    'Minot State': 'Minot St.',
+    'Minot State University': 'Minot St.',
+    
+    # Mississippi College
+    'Mississippi College': 'Mississippi Col.',
+    
+    # Missouri S&T
+    'Missouri S&T': 'Missouri S&T',
+    
+    # Missouri Southern
+    'Missouri Southern': 'Mo. Southern St.',
+    'Missouri Southern State': 'Mo. Southern St.',
+    
+    # Missouri St. Louis
+    'Missouri - St. Louis': 'Mo.-St. Louis',
+    'Missouri-St. Louis': 'Mo.-St. Louis',
+    'University of Missouri - St. Louis': 'Mo.-St. Louis',
+    'UMSL': 'Mo.-St. Louis',
+    'Missouri - St Louis': 'Mo.-St. Louis',
+    'Missouri St. Louis': 'Mo.-St. Louis',
+    
+    # Missouri Western
+    'Missouri Western State University': 'Missouri Western',
+    'Missouri Western State': 'Missouri Western',
+    
+    # Molloy
+    'Molloy University': 'Molloy',
+    
+    # Montana State Billings
+    'Montana State Billings': 'Mont. St. Billings',
+    'Montana State University Billings': 'Mont. St. Billings',
+    'MSU Billings': 'Mont. St. Billings',
+    
+    # Montevallo
+    'University of Montevallo': 'Montevallo',
+    
+    # Morehouse
+    'Moorehouse College': 'Morehouse',
+    'Morehouse College': 'Morehouse',
+    
+    # Mount Olive
+    'University of Mount Olive': 'Mount Olive',
+    
+    # New Haven
+    'University of New Haven': 'New Haven',
+    
+    # New Mexico Highlands
+    'New Mexico Highlands': 'N.M. Highlands',
+    'New Mexico Highlands University': 'N.M. Highlands',
+    
+    # Newberry
+    'Newberry College': 'Newberry',
+    
+    # Newman
+    'Newman (Kan.)': 'Newman',
+    'Newman University': 'Newman',
+    
+    # North Georgia
+    'University of North Georgia': 'North Georgia',
+    
+    # North Greenville
+    'North Greenville University': 'North Greenville',
+    
+    # Northeastern State
+    'Northeastern State': 'Northeastern St.',
+    'Northeastern State (Okla.)': 'Northeastern St.',
+    'Northeastern State University': 'Northeastern St.',
+    
+    # Northern State
+    'Northern State': 'Northern St.',
+    'Northern State University': 'Northern St.',
+    
+    # Northwest Missouri State
+    'Northwest Missouri': 'Northwest Mo. St.',
+    'Northwest Missouri State': 'Northwest Mo. St.',
+    'Northwest Missouri State University': 'Northwest Mo. St.',
+    'NW Missouri State': 'Northwest Mo. St.',
+    
+    # Northwest Nazarene
+    'Northwest Nazarene University': 'Northwest Nazarene',
+    
+    # Northwestern Oklahoma
+    'Northwestern Oklahoma State': 'Northwestern Okla.',
+    'Northwestern Oklahoma State University': 'Northwestern Okla.',
+    'Northwestern Oklahoma': 'Northwestern Okla.',
+    'Northwestern Oklahoma State (7)': 'Northwestern Okla.',
+
+    # Northwood
+    'Northwood (MI)': 'Northwood',
+    'Northwood University': 'Northwood',
+    
+    # Nova Southeastern
+    'Nova Southeastern University': 'Nova Southeastern',
+    
+    # Ohio Dominican
+    'Ohio Dominican': 'Ohio Dominican',
+    'Ohio Dominican University': 'Ohio Dominican',
+    
+    # Oklahoma Baptist
+    'Oklahoma Baptist': 'Okla. Baptist',
+    'Oklahoma Baptist University': 'Okla. Baptist',
+    'Oklahoma Baptist (7)': 'Okla. Baptist',
+    
+    # Oklahoma Christian
+    'Oklahoma Christian': 'Okla. Christian',
+    'Oklahoma Christian University': 'Okla. Christian',
+    
+    # Ouachita Baptist
+    'Ouachita Baptist University': 'Ouachita Baptist',
+    'Ouachita Baprtist': 'Ouachita Baptist',
+    
+    # Pace
+    'Pace (NY) University': 'Pace',
+    'Pace University': 'Pace',
+    'NE10SW No. 2 Pace': 'Pace',
+    
+    # Palm Beach Atlantic
+    'Palm Beach Atlantic': 'Palm Beach Atl.',
+    'Palm Beach Atlantic University': 'Palm Beach Atl.',
+    
+    # Pitt-Johnstown
+    'Pitt-Johnstown': 'Pitt.-Johnstown',
+    'University of Pittsburgh at Johnstown': 'Pitt.-Johnstown',
+    
+    # Pittsburg State
+    'Pittsburg State': 'Pittsburg St.',
+    'Pittsburg State (Kan.)': 'Pittsburg St.',
+    'Pittsburg State University': 'Pittsburg St.',
+    '#16 Pittsburg State': 'Pittsburg St.',
+    
+    # Point Loma
+    'Point Loma Sea Lions': 'Point Loma',
+    'Point Loma Nazarene': 'Point Loma',
+    'PLNU': 'Point Loma',
+    
+    # Post
+    'Post University': 'Post',
+    
+    # Purdue Northwest
+    'Purdue Northwest': 'Purdue Northwest',
+    'Purdue University Northwest': 'Purdue Northwest',
+    
+    # Queens NY
+    'Queens College': 'Queens (NY)',
+    'Queens': 'Queens (NY)',
+    'Queens (N.Y.)': 'Queens (NY)',
+    
+    # Quincy
+    'Quincy University': 'Quincy',
+    
+    # Regis
+    'Regis': 'Regis (CO)',
+    'Regis University': 'Regis (CO)',
+
+    # Rockhurst
+    'Rockhurst University': 'Rockhurst',
+    
+    # Rogers State
+    'Rogers State': 'Rogers St.',
+    'Rogers State (Okla.)': 'Rogers St.',
+    'Rogers State University': 'Rogers St.',
+    'Rogers State University (Okla.)': 'Rogers St.',
+    
+    # Rollins
+    'Rollins College': 'Rollins',
+
+    # Saginaw Valley
+    'Saginaw Valley State University': 'Saginaw Valley',
+    'Saginaw Valley State': 'Saginaw Valley',
+    
+    # Saint Anselm
+    'Saint Anselm College': 'Saint Anselm',
+    
+    # Saint Leo
+    'Saint Leo University': 'Saint Leo',
+    
+    # Saint Martin's
+    "Saint Martin's University": "Saint Martin's",
+    
+    # Saint Michael's
+    "Saint Michael's College": "Saint Michael's",
+    "St. Michael's": "Saint Michael's",
+    
+    # Salem
+    'Salem': 'Salem (WV)',
+    'Salem University': 'Salem (WV)',
+    
+    # San Francisco State
+    'San Francisco State': 'San Fran. St.',
+    'San Francisco State University': 'San Fran. St.',
+    
+    # Savannah State
+    'Savannah State': 'Savannah St.',
+    'Savannah State University': 'Savannah St.',
+    
+    # Seton Hill
+    'Seton Hill (Pa.)': 'Seton Hill',
+    'Seton Hill University': 'Seton Hill',
+    
+    # Shepherd
+    'Shepherd (WV) University': 'Shepherd',
+    'Shepherd University': 'Shepherd',
+    
+    # Shippensburg
+    'Shippensburg University': 'Shippensburg',
+    
+    # Shorter
+    'Shorter University': 'Shorter',
+    'Shorter University (Ga.)': 'Shorter',
+    
+    # Sioux Falls
+    'Sioux Falls (S.D.)': 'Sioux Falls',
+    'Sioux Falls Cougars': 'Sioux Falls',
+    'University of Sioux Falls': 'Sioux Falls',
+    'University of Sioux Falls (S.D.)': 'Sioux Falls',
+    
+    # Slippery Rock
+    'Slippery Rock University': 'Slippery Rock',
+    
+    # Sonoma State
+    'Sonoma State': 'Sonoma St.',
+    'Sonoma State University': 'Sonoma St.',
+    
+    # South Carolina Aiken
+    'South Carolina Aiken': 'USC Aiken',
+    'USC Aiken': 'USC Aiken',
+    'University of South Carolina Aiken': 'USC Aiken',
+    'S.C. Aiken': 'USC Aiken',
+
+    # South Carolina Beaufort
+    'South Carolina Beaufort': 'USC Beaufort',
+    'USC Beaufort': 'USC Beaufort',
+    'University of South Carolina Beaufort': 'USC Beaufort',
+
+    # Southeastern Oklahoma
+    'Southeastern Oklahoma': 'Southeastern Okla.',
+    'Southeastern Oklahoma State': 'Southeastern Okla.',
+    'Southeastern Oklahoma State University': 'Southeastern Okla.',
+    'Southeastern Oklahoma State (7)': 'Southeastern Okla.',
+    
+    # Southern Arkansas
+    'Southern Arkansas': 'Southern Ark.',
+    'Southern Arkansas University': 'Southern Ark.',
+    'Southern Arkansas (7)': 'Southern Ark.',
+    'Southern Arkanas': 'Southern Ark.',
+    
+    # Southern Connecticut State
+    'Southern Connecticut': 'Southern Conn. St.',
+    'Southern Connecticut State': 'Southern Conn. St.',
+    'Southern Connecticut State University': 'Southern Conn. St.',
+    
+    # Southern New Hampshire
+    'Southern NH': 'Southern N.H.',
+    'Southern New Hampshire': 'Southern N.H.',
+    'Southern New Hampshire University': 'Southern N.H.',
+    'Southern N.H': 'Southern N.H.',
+    
+    # Southern Nazarene
+    'Southern Naz.': 'Southern Nazarene',
+    'Southern Nazarene University': 'Southern Nazarene',
+    'Southern Nazarene (7)': 'Southern Nazarene',
+    
+    # Southern Wesleyan
+    'Southern Wesleyan University (S.C.)': 'Southern Wesleyan',
+    'Southern Wesleyan University': 'Southern Wesleyan',
+    
+    # Southwest Baptist
+    'Southwest Baptist University': 'Southwest Baptist',
+    
+    # Southwest Minnesota State
+    'Southwest Minnesota State': 'Southwest Minn. St.',
+    'Southwest Minnesota State University': 'Southwest Minn. St.',
+    
+    # Southwestern Oklahoma
+    'Southwestern Oklahoma State': 'Southwestern Okla.',
+    'Southwestern Oklahoma State University': 'Southwestern Okla.',
+    'Southwestern Oklahoma': 'Southwestern Okla.',
+    'Southwestern Oklahoma State (7)': 'Southwestern Okla.',
+    'Southwestern OK': 'Southwestern Okla.',
+    
+    # Spring Hill
+    'Spring Hill College': 'Spring Hill',
+    'Spring Hill College (Ala.)': 'Spring Hill',
+    
+    # St. Cloud State
+    'St. Cloud State': 'St. Cloud St.',
+    'St. Cloud State University': 'St. Cloud St.',
+    
+    # St. Edward's
+    "St. Edward's University": "St. Edward's",
+    'St. Edwards': "St. Edward's",
+    
+    # St. Mary's
+    "St. Mary's": "St. Mary's (TX)",
+    "St. Mary's University (TX)": "St. Mary's (TX)",
+
+    # St. Thomas Aquinas
+    'Saint Thomas Aquinas': 'St. Thomas Aquinas',
+    'St. Thomas Aquinas College': 'St. Thomas Aquinas',
+    
+    # Staten Island
+    'College of Staten Island': 'Staten Island',
+
+    # Tampa
+    'University of Tampa': 'Tampa',
+
+    # Texas A&M International
+    'Texas A&M International': "Tex. A&M Int'l",
+    'Texas A&M International University': "Tex. A&M Int'l",
+    
+    # Texas A&M Kingsville
+    'Texas A&M - Kingsville': 'Tex. A&M-Kingsville',
+    'Texas A&M University - Kingsville': 'Tex. A&M-Kingsville',
+    'Texas A&M-Kingsville': 'Tex. A&M-Kingsville',
+    'Texas A&M Kingsville': 'Tex. A&M-Kingsville',
+
+    # Tiffin
+    'Tiffin (OH)': 'Tiffin',
+    'Tiffin University (Ohio)': 'Tiffin',
+    'Tiffin (Ohio)': 'Tiffin',
+    
+    # Trevecca Nazarene
+    'Trevecca Naz.': 'Trevecca Nazarene',
+    'Trevecca Nazarene University': 'Trevecca Nazarene',
+    
+    # Truman State
+    'Truman State': 'Truman St.',
+    'Truman State University': 'Truman St.',
+    'Truman': 'Truman St.',
+    
+    # Tusculum
+    'Tusculum': 'Tusculum',
+    'Tusculum University': 'Tusculum',
+    
+    # Tuskegee
+    'Tuskegee University': 'Tuskegee',
+    
+    # UNC Pembroke
+    'UNC Pembroke': 'UNC Pembroke',
+    'RV UNC Pembroke': 'UNC Pembroke',
+    
+    # UCCS
+    'University of Colorado at Colorado Springs': 'UCCS',
+    'University of Colorado Colorado Springs': 'UCCS',
+    'CU': 'UCCS',
+    'UC - Colorado Springs': 'UCCS',
+    'UC Colorado Springs': 'UCCS',
+    
+    # Union
+    'Union': 'Union (TN)',
+    'Union (Tenn.)': 'Union (TN)',
+    'Union University': 'Union (TN)',
+    'Union University (Tenn.)': 'Union (TN)',
+    
+    # Upper Iowa
+    'Upper Iowa University': 'Upper Iowa',
+
+    # UT Permian Basin
+    'Texas Permian Basin': 'UT Permian Basin',
+    'University of Texas of the Permian Basin': 'UT Permian Basin',
+    
+    # UT Tyler
+    'University of Texas at Tyler': 'UT Tyler',
+    'Texas-Tyler': 'UT Tyler',
+    
+    # UVA Wise
+    'UVA Wise': 'UVA Wise',
+    'UVA-Wise': 'UVA Wise',
+    'UVa.-Wise': 'UVA Wise',
+    'Virginia-Wise': 'UVA Wise',
+    
+    # Valdosta State
+    'Valdosta State': 'Valdosta St.',
+    'Valdosta State University': 'Valdosta St.',
+    
+    # Virginia State
+    'Virginia State': 'Virginia St.',
+    'Virginia State University': 'Virginia St.',
+    
+    # Walsh
+    'Walsh (OH)': 'Walsh',
+    'Walsh University': 'Walsh',
+    'Walsh (Ohio)': 'Walsh',
+    'Walsh University (Ohio)': 'Walsh',
+    
+    # Washburn
+    'Washburn (Kan.)': 'Washburn',
+    'Washburn University': 'Washburn',
+    
+    # Wayne State MI
+    'Wayne State': 'Wayne St. (MI)',
+    'Wayne State University': 'Wayne St. (MI)',
+    'Wayne State (Mich.)': 'Wayne St. (MI)',
+    
+    # Wayne State NE
+    'Wayne State College': 'Wayne St. (NE)',
+    'Wayne State (Neb.)': 'Wayne St. (NE)',
+    
+    # West Alabama
+    'West Alabama': 'West Ala.',
+    'University of West Alabama': 'West Ala.',
+    
+    # West Chester
+    'West Chester University of Pennsylvania': 'West Chester',
+    
+    # West Florida
+    'University of West Florida': 'West Florida',
+    
+    # West Liberty
+    'West Liberty University': 'West Liberty',
+    
+    # West Texas A&M
+    'West Texas A&M': 'West Tex. A&M',
+    'West Texas A&M University': 'West Tex. A&M',
+    
+    # West Virginia State
+    'West Virginia State': 'West Virginia St.',
+    'West Virginia State University': 'West Virginia St.',
+    
+    # West Virginia Wesleyan
+    'West Virginia Wesleyan': 'West Va. Wesleyan',
+    'West Virginia Wesleyan College': 'West Va. Wesleyan',
+    
+    # Western Oregon
+    'Western Oregon': 'Western Ore.',
+    'Western Oregon University': 'Western Ore.',
+    
+    # Westmont
+    'Westmont College (Calif.)': 'Westmont',
+    'Westmont Warriors': 'Westmont',
+    
+    # Wheeling (formerly Wheeling Jesuit)
+    'Wheeling University': 'Wheeling',
+    'Wheeling Jesuit University': 'Wheeling',
+
+    # Wilmington (DE)
+    'Wilmington': 'Wilmington (DE)',
+    'Wilmington (DE) University': 'Wilmington (DE)',
+    'Wilmington (Del.)': 'Wilmington (DE)',
+    'Wilmington University': 'Wilmington (DE)',
+    'Wilmington University (Del.)': 'Wilmington (DE)',
+    
+    # William Jewell
+    'William Jewell College (Mo.)': 'William Jewell',
+    'William Jewell': 'William Jewell',
+    
+    # Wingate
+    'Wingate University': 'Wingate',
+    
+    # Winona State
+    'Winona State': 'Winona St.',
+    'Winona State University': 'Winona St.',
+    
+    # Wisconsin-Parkside
+    'Wisconsin-Parkside': 'Wis.-Parkside',
+    'Parkside': 'Wis.-Parkside',
+    'UW Parkside': 'Wis.-Parkside',
+    
+    # Young Harris
+    'Young Harris College': 'Young Harris',
+    'Young Harris': 'Young Harris',
+    'RV Young Harris': 'Young Harris',
+}
+
+def get_soup(url):
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+    response.raise_for_status()
+    return BeautifulSoup(response.text, "html.parser")
+
+def extract_social_links(team_url):
+    """
+    Given the URL to a team page, return the first href inside the .school-links block
+    with "/sports/baseball/schedule" appended.
+    """
+    try:
+        r = session.get("https://" + team_url, timeout=10)
+        r.raise_for_status()
+    except Exception as e:
+        print(f"Failed to fetch {team_url}: {e}")
+        return None
+
+    # Use lxml parser - much faster than html.parser
+    soup = BeautifulSoup(r.text, "lxml")
+
+    # Find the block
+    block = soup.find("div", class_="school-links")
+    if block is None:
+        return None
+
+    # Get first link only
+    first_link = block.find("a", href=True)
+    if first_link is None:
+        return None
+    
+    return first_link["href"] + "/sports/baseball/schedule/2025"
+
+def enrich_with_social_links(df, max_workers=10):
+    """
+    Extract social links and return as dictionary with team names as keys.
+    
+    Args:
+        df: DataFrame with 'Team' and 'link' columns
+        max_workers: Number of concurrent threads (default: 10)
+    
+    Returns:
+        dict: {team_name: social_link, ...}
+    """
+    teams = df["Team"].tolist()
+    urls = df["link"].tolist()
+    results = [None] * len(urls)
+    
+    # Parallel execution
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all tasks
+        future_to_idx = {
+            executor.submit(extract_social_links, url): idx 
+            for idx, url in enumerate(urls)
+        }
+        
+        # Collect results as they complete
+        for future in as_completed(future_to_idx):
+            idx = future_to_idx[future]
+            try:
+                results[idx] = future.result()
+            except Exception as e:
+                print(f"Error processing index {idx}: {e}")
+                results[idx] = None
+    
+    return dict(zip(teams, results))
+
+def split_links_by_provider(team_links_dict, presto_list):
+    """
+    Split team links into presto_links and sidearm_links dictionaries.
+    
+    Args:
+        team_links_dict: Dictionary with {team_name: social_link}
+        presto_list: List of team names that use Presto
+    
+    Returns:
+        tuple: (presto_links, sidearm_links)
+    """
+    presto_links = {}
+    sidearm_links = {}
+    
+    for team, link in team_links_dict.items():
+        if team in presto_list:
+            presto_links[team] = link
+        else:
+            sidearm_links[team] = link
+    
+    return presto_links, sidearm_links
+
+def apply_team_mapping(name, mapping_dict=TEAM_NAME_MAPPING):
+    """
+    Apply team name mapping to standardize names.
+    
+    Parameters:
+    -----------
+    name : str
+        Team name to standardize
+    mapping_dict : dict
+        Dictionary mapping scraped names to accepted names
+        
+    Returns:
+    --------
+    str
+        Standardized team name, or original if no mapping found
+    """
+    if pd.isna(name) or name is None:
+        return name
+    
+    # Try exact match first
+    if name in mapping_dict:
+        return mapping_dict[name]
+    
+    # Return original if no mapping found
+    return name
+    
+def should_remove_game(opponent):
+    """
+    Determine if a game row should be removed entirely.
+    
+    Returns True if the game should be deleted.
+    """
+    if opponent is None or pd.isna(opponent):
+        return True
+    
+    opponent_lower = opponent.lower()
+    
+    # Remove non-game entries
+    non_games = [
+        'alumni', 'alumni game', 'alumni golf tournament', 
+        'open', 'tba', 'tbd', 'trip'
+    ]
+    if any(ng in opponent_lower for ng in non_games):
+        return True
+    
+    # Remove exhibition/scrimmage games
+    exhibition_terms = ['exhibition', 'exh.', 'exh', 'scrimmage']
+    if any(term in opponent_lower for term in exhibition_terms):
+        return True
+    
+    # Remove tournament/championship/regional games
+    tournament_terms = [
+        'tournament', 'championship', 'regional', 'super regional',
+        'world series', 'first round', 'second round', 'quarterfinal',
+        'semifinal', 'semi-final', 'selection show', 'finals',
+        'g-mac', 'gac tournament', 'glvc', 'gnac', 'gsc tournament',
+        'pbc', 'psac', 'rmac', 'ccaa', 'lsc', 'miaa', 'pacwest',
+        'conference carolinas tournament', 'best-of-three', 'best-of-3',
+        'double elimination', 'great american conference', 
+        'great lakes valley', 'gulf south conference', 'lone star conference',
+        'mountain east conference', 'northern sun intercollegiate',
+        'pacific west conference', 'southern intercollegiate', 'siac',
+        'russ matt', 'russmatt', 'great midwest athletic conference', 'ncaa'
+    ]
+    if any(term in opponent_lower for term in tournament_terms):
+        return True
+    
+    # Remove games with "vs." in the middle (not at start)
+    if ' vs. ' in opponent or ' vs ' in opponent.lower():
+        return True
+    
+    return False
+
+def clean_opponent_name(opponent):
+    """
+    Clean an opponent name by removing rankings, seeds, parenthetical info, and location details.
+    
+    Returns cleaned name or None if game should be removed.
+    """
+    if opponent is None or pd.isna(opponent):
+        return None
+    
+    # Check if game should be removed entirely
+    if should_remove_game(opponent):
+        return None
+    
+    # Strip leading "vs." or "vs "
+    opponent = re.sub(r'^vs\.?\s+', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove "No. X" rankings at the start (before removing other number patterns)
+    opponent = re.sub(r'^No\.\s+(?:RV|\d+)\s+', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove rankings at the start: #1, #12, #22, #10/6, etc.
+    opponent = re.sub(r'^#\d+(?:/\d+)?\s+', '', opponent)
+    
+    # Remove seed numbers at the start: (1), (2), (6), etc.
+    opponent = re.sub(r'^\(\d+\)\s+', '', opponent)
+    
+    # Remove bracket rankings at the start: [27], [3], [RV], etc.
+    opponent = re.sub(r'^\[\d+\]\s+', '', opponent)
+    opponent = re.sub(r'^\[RV\]\s+', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove (RV) anywhere in the name
+    opponent = re.sub(r'\s*\(RV\)\s*', ' ', opponent, flags=re.IGNORECASE)
+    
+    # Remove "X-seed" or "Seed" at the start
+    opponent = re.sub(r'^\d+-seed\s+', '', opponent, flags=re.IGNORECASE)
+    opponent = re.sub(r'^Seed\s+', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove seed-related text: "Seed", "No. 8 Seed", "(No. 4 Seed)", etc.
+    opponent = re.sub(r'\s*\(No\.\s*\d+\s+Seed\)', '', opponent, flags=re.IGNORECASE)
+    opponent = re.sub(r'\s*No\.\s*\d+\s+Seed', '', opponent, flags=re.IGNORECASE)
+    opponent = re.sub(r'#?\d+\s+Seed\s+', '', opponent, flags=re.IGNORECASE)
+    opponent = re.sub(r'\s+Seed\s*$', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove game length notations: (7 inn.), (9 inn.), etc.
+    opponent = re.sub(r'\s*\(\d+\s+inn\.?\)', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove location details: (at Location), (@ Location), (At Location)
+    opponent = re.sub(r'\s*\((?:at|@)\s+[^)]+\)', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove game type/event notations
+    game_events = [
+        'Elimination Game', 'Senior Day', 'THO Games', 'Teal Out',
+        'Faculty/Staff Appreciation Night', 'Pink Out', 'Military Appreciation',
+        'Senior Night', 'Youth Day', 'Breast Cancer Awareness'
+    ]
+    for event in game_events:
+        opponent = re.sub(r'\s*\(' + re.escape(event) + r'\)', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove parenthetical tournament/championship info
+    # But keep state abbreviations like (Pa.), (Calif.), etc.
+    opponent = re.sub(r'\s*\([^)]*(?:Championship|Tournament|Conference)[^)]*\)', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove game number notations: (0-1 game)
+    opponent = re.sub(r'\s*\(\d+-\d+\s+game\)', '', opponent, flags=re.IGNORECASE)
+    
+    # Remove (#3 Seed) style notations
+    opponent = re.sub(r'\s*\(#\d+\s+Seed\)', '', opponent, flags=re.IGNORECASE)
+    
+    # Clean up extra whitespace
+    opponent = re.sub(r'\s+', ' ', opponent).strip()
+    
+    return opponent if opponent else None
+
+def clean_schedule_dataframe(df, log_unmapped=True):
+    """
+    Clean a baseball schedule DataFrame by removing invalid games and cleaning opponent names.
+    
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        DataFrame with columns including 'Opponent', 'home_team', 'away_team'
+    log_unmapped : bool, default=True
+        Whether to print unmapped team names for review
+        
+    Returns:
+    --------
+    pandas.DataFrame
+        Cleaned DataFrame with invalid games removed and names cleaned
+    """
+    df = df.copy()
+    
+    # Clean Opponent column
+    df['Opponent_cleaned'] = df['Opponent'].apply(clean_opponent_name)
+    
+    # Remove rows where opponent should be deleted
+    df_cleaned = df[df['Opponent_cleaned'].notna()].copy()
+    
+    # Apply team name mapping to Opponent
+    df_cleaned['Opponent'] = df_cleaned['Opponent_cleaned'].apply(apply_team_mapping)
+    df_cleaned = df_cleaned.drop('Opponent_cleaned', axis=1)
+    
+    # Clean home_team and away_team columns (same logic, but don't remove rows)
+    def clean_team_name(x):
+        if pd.isna(x) or x is None:
+            return x
+        if should_remove_game(x):
+            return x
+        cleaned = clean_opponent_name(x)
+        if cleaned is None:
+            return x
+        return apply_team_mapping(cleaned)
+    
+    if 'home_team' in df_cleaned.columns:
+        df_cleaned['home_team'] = df_cleaned['home_team'].apply(clean_team_name)
+    
+    if 'away_team' in df_cleaned.columns:
+        df_cleaned['away_team'] = df_cleaned['away_team'].apply(clean_team_name)
+    
+    # Log unmapped teams
+    if log_unmapped:
+        unmapped_teams = set()
+        for col in ['Opponent', 'home_team', 'away_team']:
+            if col in df_cleaned.columns:
+                teams = df_cleaned[col].dropna().unique()
+                for team in teams:
+                    if team not in TEAM_NAME_MAPPING.values() and team not in TEAM_NAME_MAPPING:
+                        unmapped_teams.add(team)
+        
+        if unmapped_teams:
+            print(f"\n⚠ Found {len(unmapped_teams)} unmapped team names:")
+            for team in sorted(unmapped_teams):
+                print(f"  - {team}")
+            print("\nThese teams may need to be added to TEAM_NAME_MAPPING or the accepted list.")
+    
+    # Reset index
+    df_cleaned = df_cleaned.reset_index(drop=True)
+    
+    return df_cleaned
+
+def parse_flexible_date(date_str, year=2025):
+    """
+    Parse multiple date formats and convert to datetime.
+    
+    Handles formats like:
+    - "Apr 1 (Tue)"
+    - "Apr 12"
+    - "Fri, Apr 11"
+    - "Sat, Apr 12"
+    """
+    # Remove day of week in parentheses if present: "Apr 1 (Tue)" -> "Apr 1"
+    date_str = re.sub(r'\s*\([^)]*\)', '', date_str)
+    
+    # Remove leading day of week if present: "Fri, Apr 11" -> "Apr 11"
+    date_str = re.sub(r'^[A-Za-z]+,\s*', '', date_str)
+    
+    # Now we have a clean format like "Apr 1" or "Apr 12"
+    try:
+        # Parse with year added
+        date_obj = datetime.strptime(f"{date_str} {year}", "%b %d %Y")
+        return date_obj
+    except ValueError as e:
+        print(f"Error parsing '{date_str}': {e}")
+        return None
+
+def get_stat_dataframe_with_link(stat_name):
+    if stat_name not in stat_links:
+        print(f"Stat '{stat_name}' not found. Available stats: {list(stat_links.keys())}")
+        return None
+
+    all_data = []
+    page_num = 1
+
+    while page_num < 7:
+        url = stat_links[stat_name]
+        if page_num > 1:
+            url = f"{url}/p{page_num}"
+
+        try:
+            soup = get_soup(url)
+            table = soup.find("table")
+            if not table:
+                break
+
+            headers = [th.text.strip() for th in table.find_all("th")]
+            headers.append("link")   # <-- ADD A NEW COLUMN
+
+            for row in table.find_all("tr")[1:]:
+                cols = row.find_all("td")
+
+                row_data = []
+                link_val = None
+
+                for idx, col in enumerate(cols):
+                    # TEAM COLUMN (usually first column)
+                    if headers[idx] == "Team":
+                        a = col.find("a")
+                        if a:
+                            team_name = a.text.strip()
+                            link_val = "ncaa.com" + a["href"]
+                            row_data.append(team_name)
+                        else:
+                            # fallback if no <a>
+                            row_data.append(col.text.strip())
+                    else:
+                        row_data.append(col.text.strip())
+
+                # append the extracted link
+                row_data.append(link_val)
+
+                all_data.append(row_data)
+
+        except requests.exceptions.HTTPError:
+            break
+        except Exception as e:
+            print(f"Error for {stat_name}, page {page_num}: {e}")
+            break
+
+        page_num += 1
+
+    if all_data:
+        df = pd.DataFrame(all_data, columns=headers)
+
+        # convert numeric columns
+        for col in df.columns:
+            if col not in ("Team", "link"):
+                df[col] = pd.to_numeric(df[col], errors="coerce")
+
+        return df
+
+    return None
+
+"""
+COMPLETE INTEGRATION with your existing scraping functions.
+This adapts SmartScraper to work with your scrape_sidearm_schedule_auto function.
+"""
+
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import pickle
+import os
+
+
+def _create_driver():
+    """Create an optimized Chrome driver instance."""
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+    chrome_options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
+    
+    # Performance optimizations
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--blink-settings=imagesEnabled=false')
+    
+    # Disable unnecessary features
+    chrome_options.add_experimental_option('prefs', {
+        'profile.default_content_setting_values': {
+            'images': 2,
+            'plugins': 2,
+            'popups': 2,
+            'geolocation': 2,
+            'notifications': 2,
+            'media_stream': 2,
+        }
+    })
+    
+    chrome_options.page_load_strategy = 'eager'
+    
+    return webdriver.Chrome(options=chrome_options)
+
+
+def _standardize_team_name(name):
+    """
+    Standardize team names by removing rankings and common variations.
+    
+    Args:
+        name: Raw team name from schedule
+    
+    Returns:
+        Standardized team name
+    """
+    # Remove rankings like "No. 22/29" or "No. 15" or "#10/7"
+    name = re.sub(r'(No\.\s*\d+(/\d+)?|#\d+(/\d+)?)\s*', '', name, flags=re.IGNORECASE)
+    
+    # Strip whitespace
+    name = name.strip()
+    
+    return name
+
+
+def _parse_game(game, team_name):
+    """Parse a single game element into a dictionary."""
+    game_dict = {'Team': team_name}
+    
+    # Date
+    date_elem = game.find('span', class_='sidearm-schedule-game-opponent-date')
+    if not date_elem:
+        date_elem = game.find('div', class_='sidearm-schedule-game-opponent-date')
+    
+    if date_elem:
+        date_span = date_elem.find('span')
+        game_dict['Date'] = date_span.text.strip() if date_span else date_elem.get_text(strip=True)
+    else:
+        game_dict['Date'] = None
+    
+    # Opponent name
+    opponent_name = None
+    opponent_elem = game.find('span', class_='sidearm-schedule-game-opponent-name')
+    if not opponent_elem:
+        opponent_elem = game.find('div', class_='sidearm-schedule-game-opponent-name')
+    
+    if opponent_elem:
+        opponent_link = opponent_elem.find('a')
+        if opponent_link:
+            opponent_name = opponent_link.text.strip()
+        else:
+            opponent_name = opponent_elem.get_text(strip=True)
+        opponent_name = re.sub(r'\s*\(DH\)\s*$', '', opponent_name)
+    
+    if not opponent_name or opponent_name == '':
+        return None
+    
+    # Standardize opponent name
+    opponent_name = _standardize_team_name(opponent_name)
+    
+    game_dict['Opponent'] = opponent_name
+    
+    # Location
+    vs_elem = game.find('span', class_='sidearm-schedule-game-home')
+    away_elem = game.find('span', class_='sidearm-schedule-game-away')
+    
+    if vs_elem:
+        game_dict['Location'] = 'Home'
+        is_home = True
+    elif away_elem:
+        game_dict['Location'] = 'Away'
+        is_home = False
+    else:
+        game_dict['Location'] = 'Neutral'
+        is_home = None
+    
+    # Result and Score
+    result_elem = game.find('div', class_='sidearm-schedule-game-result')
+    
+    if result_elem:
+        spans = result_elem.find_all('span')
+        innings_pattern = re.compile(r'^\d+\s*(Inn\.?|Innings?)$', re.IGNORECASE)
+        
+        result_parts = []
+        for span in spans:
+            span_text = span.get_text(strip=True)
+            if not innings_pattern.match(span_text):
+                result_parts.append(span_text)
+        
+        result_text = ' '.join(result_parts)
+        
+        if 'W,' in result_text or 'L,' in result_text:
+            win_loss = 'W' if 'W,' in result_text else 'L'
+            score_match = re.search(r'(\d+)-(\d+)', result_text)
+            
+            if score_match:
+                score1 = int(score_match.group(1))
+                score2 = int(score_match.group(2))
+                if win_loss == 'W':
+                    team_score = score1 if score1 > score2 else score2
+                    opponent_score = score2 if score1 > score2 else score1
+                if win_loss == 'L':
+                    team_score = score1 if score1 < score2 else score2
+                    opponent_score = score2 if score1 < score2 else score1
+                
+                game_dict['Result'] = f"{win_loss}{team_score}-{opponent_score}"
+                
+                if is_home is True:
+                    game_dict['home_team'] = team_name
+                    game_dict['away_team'] = game_dict['Opponent']
+                    game_dict['home_score'] = team_score
+                    game_dict['away_score'] = opponent_score
+                elif is_home is False:
+                    game_dict['home_team'] = game_dict['Opponent']
+                    game_dict['away_team'] = team_name
+                    game_dict['home_score'] = opponent_score
+                    game_dict['away_score'] = team_score
+                else:
+                    game_dict['home_team'] = game_dict['Opponent']
+                    game_dict['away_team'] = team_name
+                    game_dict['home_score'] = opponent_score
+                    game_dict['away_score'] = team_score
+            else:
+                game_dict.update({'Result': None, 'home_team': None, 'away_team': None,
+                                'home_score': None, 'away_score': None})
+        elif 'Canceled' in result_text or 'PPD' in result_text or 'Postponed' in result_text:
+            game_dict['Result'] = 'Canceled'
+            if is_home is True:
+                game_dict['home_team'] = team_name
+                game_dict['away_team'] = game_dict['Opponent']
+            elif is_home is False:
+                game_dict['home_team'] = game_dict['Opponent']
+                game_dict['away_team'] = team_name
+            else:
+                game_dict['home_team'] = game_dict['Opponent']
+                game_dict['away_team'] = team_name
+            game_dict['home_score'] = None
+            game_dict['away_score'] = None
+        else:
+            game_dict['Result'] = None
+            if is_home is True:
+                game_dict['home_team'] = team_name
+                game_dict['away_team'] = game_dict['Opponent']
+            elif is_home is False:
+                game_dict['home_team'] = game_dict['Opponent']
+                game_dict['away_team'] = team_name
+            else:
+                game_dict['home_team'] = game_dict['Opponent']
+                game_dict['away_team'] = team_name
+            game_dict['home_score'] = None
+            game_dict['away_score'] = None
+    else:
+        game_dict['Result'] = None
+        if is_home is True:
+            game_dict['home_team'] = team_name
+            game_dict['away_team'] = game_dict['Opponent']
+        elif is_home is False:
+            game_dict['home_team'] = game_dict['Opponent']
+            game_dict['away_team'] = team_name
+        else:
+            game_dict['home_team'] = game_dict['Opponent']
+            game_dict['away_team'] = team_name
+        game_dict['home_score'] = None
+        game_dict['away_score'] = None
+    
+    return game_dict
+
+
+def parse_soup_v1(soup, team_name):
+    """Parse v1 format from soup."""
+    games = soup.find_all('li', class_='sidearm-schedule-game')
+    schedule_data = []
+    
+    for game in games:
+        parsed = _parse_game(game, team_name)
+        if parsed is not None:
+            schedule_data.append(parsed)
+    
+    if not schedule_data:
+        raise ValueError(f"No valid games found")
+    
+    df = pd.DataFrame(schedule_data)
+    columns = ['Team', 'Date', 'Opponent', 'Location', 'Result', 
+               'home_team', 'away_team', 'home_score', 'away_score']
+    return df[columns]
+
+
+def parse_soup_v3(soup, team_name):
+    """Parse v3 format (wrapper) from soup."""
+    game_wrappers = soup.find_all('li', class_='sidearm-schedule-game-wrapper')
+    schedule_data = []
+    
+    for wrapper in game_wrappers:
+        game = wrapper.find('div', class_='sidearm-schedule-game')
+        if not game:
+            continue
+        
+        parsed = _parse_game(game, team_name)
+        if parsed is not None:
+            schedule_data.append(parsed)
+    
+    if not schedule_data:
+        raise ValueError(f"No valid games found")
+    
+    df = pd.DataFrame(schedule_data)
+    columns = ['Team', 'Date', 'Opponent', 'Location', 'Result', 
+               'home_team', 'away_team', 'home_score', 'away_score']
+    return df[columns]
+
+
+def parse_soup_v2(soup, team_name):
+    """Parse v2 format (new Sidearm) from soup."""
+    games = soup.find_all('div', {'data-test-id': 's-game-card-standard__root'})
+    schedule_data = []
+    
+    for game in games:
+        game_dict = {'Team': team_name}
+        
+        # Opponent
+        opponent_link = game.find('a', {'data-test-id': 's-game-card-standard__header-team-opponent-link'})
+        if opponent_link:
+            opponent_name = opponent_link.get_text(strip=True)
+            opponent_name = re.sub(r'^#\d+\s+', '', opponent_name)
+            # Standardize opponent name
+            opponent_name = _standardize_team_name(opponent_name)
+            game_dict['Opponent'] = opponent_name
+        else:
+            continue
+        
+        # Date
+        date_elem = game.find('span', {'data-test-id': 's-game-card-standard__header-game-date-details'})
+        if date_elem:
+            date_text = date_elem.find('span')
+            game_dict['Date'] = date_text.text.strip() if date_text else None
+        else:
+            game_dict['Date'] = None
+        
+        # Location
+        stamp = game.find('div', {'data-test-id': 's-stamp__root'})
+        if stamp:
+            stamp_text = stamp.get_text(strip=True).lower()
+            if 'at' in stamp_text or 'away' in stamp_text:
+                game_dict['Location'] = 'Away'
+                is_home = False
+            elif 'vs' in stamp_text or 'home' in stamp_text:
+                game_dict['Location'] = 'Home'
+                is_home = True
+            else:
+                game_dict['Location'] = 'Neutral'
+                is_home = None
+        else:
+            game_dict['Location'] = 'Home'
+            is_home = True
+        
+        # Result
+        score_elem = game.find('span', {'data-test-id': 's-game-card-standard__header-game-team-score'})
+        
+        if score_elem:
+            result_text = score_elem.get_text(strip=True)
+            
+            if result_text.startswith('W') or result_text.startswith('L'):
+                win_loss = result_text[0]
+                score_match = re.search(r'(\d+)-(\d+)', result_text)
+                
+                if score_match:
+                    score1 = int(score_match.group(1))
+                    score2 = int(score_match.group(2))
+                    if win_loss == 'W':
+                        team_score = score1 if score1 > score2 else score2
+                        opponent_score = score2 if score1 > score2 else score1
+                    if win_loss == 'L':
+                        team_score = score1 if score1 < score2 else score2
+                        opponent_score = score2 if score1 < score2 else score1
+                    
+                    game_dict['Result'] = f"{win_loss}{team_score}-{opponent_score}"
+                    
+                    if is_home is True:
+                        game_dict['home_team'] = team_name
+                        game_dict['away_team'] = game_dict['Opponent']
+                        game_dict['home_score'] = team_score
+                        game_dict['away_score'] = opponent_score
+                    elif is_home is False:
+                        game_dict['home_team'] = game_dict['Opponent']
+                        game_dict['away_team'] = team_name
+                        game_dict['home_score'] = opponent_score
+                        game_dict['away_score'] = team_score
+                    else:
+                        game_dict['home_team'] = game_dict['Opponent']
+                        game_dict['away_team'] = team_name
+                        game_dict['home_score'] = opponent_score
+                        game_dict['away_score'] = team_score
+                else:
+                    game_dict.update({'Result': None, 'home_team': None, 
+                                    'away_team': None, 'home_score': None, 
+                                    'away_score': None})
+            else:
+                game_dict['Result'] = None
+                if is_home is True:
+                    game_dict['home_team'] = team_name
+                    game_dict['away_team'] = game_dict['Opponent']
+                elif is_home is False:
+                    game_dict['home_team'] = game_dict['Opponent']
+                    game_dict['away_team'] = team_name
+                else:
+                    game_dict['home_team'] = game_dict['Opponent']
+                    game_dict['away_team'] = team_name
+                game_dict['home_score'] = None
+                game_dict['away_score'] = None
+        else:
+            game_dict['Result'] = None
+            if is_home is True:
+                game_dict['home_team'] = team_name
+                game_dict['away_team'] = game_dict['Opponent']
+            elif is_home is False:
+                game_dict['home_team'] = game_dict['Opponent']
+                game_dict['away_team'] = team_name
+            else:
+                game_dict['home_team'] = game_dict['Opponent']
+                game_dict['away_team'] = team_name
+            game_dict['home_score'] = None
+            game_dict['away_score'] = None
+        
+        schedule_data.append(game_dict)
+    
+    if not schedule_data:
+        raise ValueError(f"No valid games found")
+    
+    df = pd.DataFrame(schedule_data)
+    columns = ['Team', 'Date', 'Opponent', 'Location', 'Result', 
+               'home_team', 'away_team', 'home_score', 'away_score']
+    return df[columns]
+
+
+def scrape_with_selenium_single_format(team_name, url, driver, fmt):
+    """Scrape using Selenium with known format."""
+    try:
+        driver.get(url)
+        
+        wait = WebDriverWait(driver, 10)
+        
+        if fmt == 'v2':
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, "s-game-card")))
+        elif fmt == 'v3':
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, "sidearm-schedule-game-wrapper")))
+        else:  # v1
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, "sidearm-schedule-game")))
+        
+        time.sleep(1.5)
+        
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        
+        if fmt == 'v2':
+            return parse_soup_v2(soup, team_name)
+        elif fmt == 'v3':
+            return parse_soup_v3(soup, team_name)
+        else:
+            return parse_soup_v1(soup, team_name)
+            
+    except Exception as e:
+        raise Exception(f"Selenium scrape failed: {str(e)}")
+
+
+class SidearmScraper:
+    """
+    Intelligent scraper that learns and adapts.
+    """
+    
+    @staticmethod
+    def standardize_team_name(name):
+        """
+        Standardize team names by removing rankings and common variations.
+        
+        Args:
+            name: Raw team name from schedule
+        
+        Returns:
+            Standardized team name
+        """
+        # Remove rankings like "No. 22/29" or "No. 15" or "#10/7"
+        name = re.sub(r'(No\.\s*\d+(/\d+)?|#\d+(/\d+)?)\s*', '', name, flags=re.IGNORECASE)
+        
+        # Strip whitespace
+        name = name.strip()
+        
+        return name
+    
+    def __init__(self, url_dict, division, year):
+        """
+        Initialize SmartScraper with division and year for proper cache location.
+        
+        Parameters:
+        -----------
+        url_dict : dict
+            Mapping of team names to URLs
+        division : str
+            Division name (e.g., 'D1', 'D2', 'D3')
+        year : int or str
+            Season year (e.g., 2025)
+        """
+        self.url_dict = url_dict
+        self.division = division
+        self.year = str(year)
+        
+        # Construct cache directory path
+        self.cache_dir = os.path.join(
+            '.',
+            'PEAR',
+            'PEAR Baseball',
+            self.division,
+            f'y{self.year}',
+            'scraper_cache'
+        )
+        
+        # Create cache directory if it doesn't exist
+        os.makedirs(self.cache_dir, exist_ok=True)
+        
+        print(f"Cache directory: {self.cache_dir}")
+        
+        # Load or build intelligence
+        self.format_map = self._load_or_detect_formats()
+        self.static_teams = self._load_or_detect_static_teams()
+    
+    def _load_or_detect_formats(self):
+        """Load cached format detection or detect formats."""
+        cache_file = os.path.join(self.cache_dir, 'format_map.pkl')
+        
+        if os.path.exists(cache_file):
+            print("Loading cached format map...")
+            with open(cache_file, 'rb') as f:
+                return pickle.load(f)
+        
+        print("Detecting formats (one-time setup)...")
+        format_map = {}
+        
+        for i, (team, url) in enumerate(self.url_dict.items(), 1):
+            try:
+                response = requests.get(url, timeout=10, headers={
+                    'User-Agent': 'Mozilla/5.0'
+                })
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                if soup.find('div', {'data-test-id': 's-game-card-standard__root'}):
+                    fmt = 'v2'
+                elif soup.find('li', class_='sidearm-schedule-game-wrapper'):
+                    fmt = 'v3'
+                elif soup.find('li', class_='sidearm-schedule-game'):
+                    fmt = 'v1'
+                else:
+                    fmt = 'unknown'
+                
+                format_map[team] = fmt
+                
+                if i % 20 == 0:
+                    print(f"  Detected {i}/{len(self.url_dict)}...")
+                    
+            except Exception as e:
+                format_map[team] = 'unknown'
+        
+        with open(cache_file, 'wb') as f:
+            pickle.dump(format_map, f)
+        
+        print(f"Format detection complete. Results cached.")
+        return format_map
+    
+    def _load_or_detect_static_teams(self):
+        """Detect which teams have static HTML."""
+        cache_file = os.path.join(self.cache_dir, 'static_teams.pkl')
+        
+        if os.path.exists(cache_file):
+            print("Loading cached static team list...")
+            with open(cache_file, 'rb') as f:
+                return pickle.load(f)
+        
+        print("Detecting static vs dynamic teams (one-time setup)...")
+        static_teams = set()
+        
+        for i, (team, url) in enumerate(self.url_dict.items(), 1):
+            try:
+                response = requests.get(url, timeout=10, headers={
+                    'User-Agent': 'Mozilla/5.0'
+                })
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Check if we have game data with opponent names
+                has_games = False
+                
+                # Check v1
+                games_v1 = soup.find_all('li', class_='sidearm-schedule-game')
+                for game in games_v1:
+                    opponent = game.find('span', class_='sidearm-schedule-game-opponent-name')
+                    if opponent and opponent.get_text(strip=True):
+                        has_games = True
+                        break
+                
+                # Check v2
+                if not has_games:
+                    games_v2 = soup.find_all('div', {'data-test-id': 's-game-card-standard__root'})
+                    for game in games_v2:
+                        opponent = game.find('a', {'data-test-id': 's-game-card-standard__header-team-opponent-link'})
+                        if opponent and opponent.get_text(strip=True):
+                            has_games = True
+                            break
+                
+                # Check v3
+                if not has_games:
+                    wrappers = soup.find_all('li', class_='sidearm-schedule-game-wrapper')
+                    for wrapper in wrappers:
+                        game = wrapper.find('div', class_='sidearm-schedule-game')
+                        if game:
+                            opponent = game.find('span', class_='sidearm-schedule-game-opponent-name')
+                            if opponent and opponent.get_text(strip=True):
+                                has_games = True
+                                break
+                
+                if has_games:
+                    static_teams.add(team)
+                
+                if i % 20 == 0:
+                    print(f"  Checked {i}/{len(self.url_dict)}...")
+                    
+            except:
+                pass
+        
+        with open(cache_file, 'wb') as f:
+            pickle.dump(static_teams, f)
+        
+        print(f"Found {len(static_teams)} static teams (fast), "
+              f"{len(self.url_dict) - len(static_teams)} dynamic (slow)")
+        
+        return static_teams
+    
+    def test_links(self, max_workers=4):
+        """
+        Test all links to see which scraper formats work.
+        Does NOT save results to cache - just validates links.
+        
+        Parameters:
+        -----------
+        max_workers : int
+            Number of parallel workers for testing
+            
+        Returns:
+        --------
+        tuple: (successful_teams, failed_teams)
+            - successful_teams: List of (team_name, working_format) tuples
+            - failed_teams: List of (team_name, error_message) tuples
+        """
+        print(f"\n{'='*60}")
+        print(f"TESTING LINKS (Validation Mode)")
+        print(f"{'='*60}")
+        print(f"Testing {len(self.url_dict)} teams...")
+        print("This will try all 3 scraper formats for each team.\n")
+        
+        successful_teams = []
+        failed_teams = []
+        
+        def test_single_team(team):
+            """Test a single team with all formats."""
+            url = self.url_dict[team]
+            formats_to_try = ['v1', 'v2', 'v3']
+            
+            # First try with requests (fast)
+            for fmt in formats_to_try:
+                try:
+                    response = requests.get(url, timeout=8, headers={
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                    })
+                    response.raise_for_status()
+                    soup = BeautifulSoup(response.text, 'html.parser')
+                    
+                    if fmt == 'v2':
+                        df = parse_soup_v2(soup, team)
+                    elif fmt == 'v3':
+                        df = parse_soup_v3(soup, team)
+                    else:
+                        df = parse_soup_v1(soup, team)
+                    
+                    # Success with requests!
+                    return ('success', team, fmt, 'requests', len(df), None)
+                    
+                except Exception:
+                    continue
+            
+            # Requests failed all formats, try Selenium
+            driver = None
+            try:
+                driver = _create_driver()
+                
+                for fmt in formats_to_try:
+                    try:
+                        df = scrape_with_selenium_single_format(team, url, driver, fmt)
+                        # Success with Selenium!
+                        return ('success', team, fmt, 'selenium', len(df), None)
+                        
+                    except Exception:
+                        continue
+                
+                # All formats failed with both methods
+                return ('failed', team, None, None, None, "All scraper formats failed")
+                
+            except Exception as e:
+                return ('failed', team, None, None, None, str(e)[:200])
+                
+            finally:
+                if driver:
+                    try:
+                        driver.quit()
+                    except:
+                        pass
+        
+        # Test all teams in parallel
+        start_time = time.time()
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {executor.submit(test_single_team, team): team 
+                       for team in self.url_dict.keys()}
+            
+            completed = 0
+            total = len(self.url_dict)
+            
+            for future in as_completed(futures):
+                completed += 1
+                result = future.result()
+                
+                if result[0] == 'success':
+                    _, team, fmt, method, games, _ = result
+                    successful_teams.append((team, fmt))
+                    print(f"  [{completed}/{total}] ✓ {team}: {fmt} ({method}, {games} games)")
+                else:
+                    _, team, _, _, _, error = result
+                    failed_teams.append((team, error))
+                    print(f"  [{completed}/{total}] ✗ {team}: {error[:60]}")
+        
+        total_time = time.time() - start_time
+        
+        # Summary
+        print(f"\n{'='*60}")
+        print(f"LINK TESTING COMPLETE")
+        print(f"{'='*60}")
+        print(f"✓ Successful: {len(successful_teams)}/{total}")
+        print(f"✗ Failed: {len(failed_teams)}/{total}")
+        print(f"⏱  Time: {total_time:.1f}s ({total_time/total:.2f}s per team)")
+        
+        if successful_teams:
+            print(f"\nFormat breakdown:")
+            format_counts = {}
+            for team, fmt in successful_teams:
+                format_counts[fmt] = format_counts.get(fmt, 0) + 1
+            for fmt, count in sorted(format_counts.items()):
+                print(f"  {fmt}: {count} teams")
+        
+        if failed_teams:
+            print(f"\nFailed teams:")
+            for team, error in failed_teams[:10]:
+                print(f"  - {team}: {error[:80]}")
+            if len(failed_teams) > 10:
+                print(f"  ... and {len(failed_teams) - 10} more")
+        
+        return successful_teams, failed_teams
+    
+    def _save_format_map(self):
+        """Save the format map to cache."""
+        cache_file = os.path.join(self.cache_dir, 'format_map.pkl')
+        with open(cache_file, 'wb') as f:
+            pickle.dump(self.format_map, f)
+    
+    def reclassify_as_static(self, team_names):
+        """
+        Manually reclassify teams as static (works with requests).
+        Useful when teams were incorrectly classified as dynamic.
+        
+        Parameters:
+        -----------
+        team_names : list or str
+            Team name(s) to reclassify as static
+        
+        Example:
+        --------
+        scraper.reclassify_as_static(['Team A', 'Team B'])
+        scraper.reclassify_as_static('Single Team')
+        """
+        if isinstance(team_names, str):
+            team_names = [team_names]
+        
+        for team in team_names:
+            if team in self.url_dict:
+                self.static_teams.add(team)
+                print(f"✓ Reclassified {team} as static")
+            else:
+                print(f"✗ {team} not found in URL dictionary")
+        
+        # Save updated static teams list
+        cache_file = os.path.join(self.cache_dir, 'static_teams.pkl')
+        with open(cache_file, 'wb') as f:
+            pickle.dump(self.static_teams, f)
+        
+        print(f"\nUpdated: {len(self.static_teams)} static teams, "
+              f"{len(self.url_dict) - len(self.static_teams)} dynamic teams")
+    
+    def test_dynamic_teams(self, max_test=None, auto_reclassify=True):
+        """
+        Test if teams classified as "dynamic" actually work with requests.
+        Useful for finding misclassified teams that don't really need Selenium.
+        
+        Parameters:
+        -----------
+        max_test : int or None
+            Maximum number of dynamic teams to test. If None, tests all.
+        auto_reclassify : bool
+            If True, automatically reclassify teams that work with requests
+        
+        Returns:
+        --------
+        tuple: (works_with_requests, needs_selenium)
+            - works_with_requests: List of team names that work with requests
+            - needs_selenium: List of team names that need Selenium
+        
+        Example:
+        --------
+        # Test first 20 dynamic teams
+        works, needs_sel = scraper.test_dynamic_teams(max_test=20)
+        
+        # Test all dynamic teams and auto-reclassify
+        works, needs_sel = scraper.test_dynamic_teams(auto_reclassify=True)
+        """
+        # Get list of teams currently classified as dynamic
+        dynamic_teams = [t for t in self.url_dict.keys() if t not in self.static_teams]
+        
+        if not dynamic_teams:
+            print("No dynamic teams to test - all teams are already classified as static!")
+            return [], []
+        
+        # Limit testing if max_test specified
+        teams_to_test = dynamic_teams[:max_test] if max_test else dynamic_teams
+        
+        print(f"\n{'='*60}")
+        print(f"TESTING DYNAMIC TEAMS")
+        print(f"{'='*60}")
+        print(f"Testing {len(teams_to_test)}/{len(dynamic_teams)} 'dynamic' teams with requests...")
+        print("(Checking if they actually need Selenium or work with requests)\n")
+        
+        works_with_requests = []
+        needs_selenium = []
+        
+        for i, team in enumerate(teams_to_test, 1):
+            url = self.url_dict[team]
+            
+            try:
+                response = requests.get(url, timeout=15, headers={
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                })
+                response.raise_for_status()
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Check if it has games using all three format checks
+                has_v1_games = False
+                games_v1 = soup.find_all('li', class_='sidearm-schedule-game')
+                for game in games_v1:
+                    opponent = game.find('span', class_='sidearm-schedule-game-opponent-name')
+                    if opponent and opponent.get_text(strip=True):
+                        has_v1_games = True
+                        break
+                
+                has_v2_games = False
+                games_v2 = soup.find_all('div', {'data-test-id': 's-game-card-standard__root'})
+                for game in games_v2:
+                    opponent = game.find('a', {'data-test-id': 's-game-card-standard__header-team-opponent-link'})
+                    if opponent and opponent.get_text(strip=True):
+                        has_v2_games = True
+                        break
+                
+                has_v3_games = False
+                wrappers = soup.find_all('li', class_='sidearm-schedule-game-wrapper')
+                for wrapper in wrappers:
+                    game = wrapper.find('div', class_='sidearm-schedule-game')
+                    if game:
+                        opponent = game.find('span', class_='sidearm-schedule-game-opponent-name')
+                        if opponent and opponent.get_text(strip=True):
+                            has_v3_games = True
+                            break
+                
+                has_games = has_v1_games or has_v2_games or has_v3_games
+                
+                if has_games:
+                    works_with_requests.append(team)
+                    print(f"  [{i}/{len(teams_to_test)}] ✓ {team} works with requests!")
+                else:
+                    needs_selenium.append(team)
+                    print(f"  [{i}/{len(teams_to_test)}] ✗ {team} no games found (might be empty schedule)")
+                    
+            except Exception as e:
+                needs_selenium.append(team)
+                error_msg = str(e)[:50]
+                print(f"  [{i}/{len(teams_to_test)}] ✗ {team} needs Selenium ({error_msg})")
+        
+        # Summary
+        print(f"\n{'='*60}")
+        print(f"TESTING RESULTS")
+        print(f"{'='*60}")
+        print(f"✓ Works with requests: {len(works_with_requests)}/{len(teams_to_test)}")
+        print(f"✗ Needs Selenium: {len(needs_selenium)}/{len(teams_to_test)}")
+        
+        if works_with_requests:
+            print(f"\nTeams that can be reclassified as static:")
+            for team in works_with_requests[:10]:
+                print(f"  - {team}")
+            if len(works_with_requests) > 10:
+                print(f"  ... and {len(works_with_requests) - 10} more")
+        
+        # Auto-reclassify if requested
+        if auto_reclassify and works_with_requests:
+            print(f"\nAuto-reclassifying {len(works_with_requests)} teams as static...")
+            self.reclassify_as_static(works_with_requests)
+        elif works_with_requests and not auto_reclassify:
+            print(f"\nTo reclassify these teams, run:")
+            print(f"  scraper.reclassify_as_static({works_with_requests})")
+        
+        return works_with_requests, needs_selenium
+    
+    def scrape_all(self, max_workers=4):
+        """
+        Scrape all teams using optimal method for each.
+        
+        Returns:
+        --------
+        tuple: (dataframe, failed_teams_list)
+            - dataframe: Combined DataFrame of all successful scrapes
+            - failed_teams_list: List of (team_name, error_message) tuples
+        """
+        static = [t for t in self.url_dict.keys() if t in self.static_teams]
+        dynamic = [t for t in self.url_dict.keys() if t not in self.static_teams]
+        
+        print(f"\nScraping strategy:")
+        print(f"  {len(static)} teams: Fast (requests)")
+        print(f"  {len(dynamic)} teams: Slow (Selenium)")
+        
+        start_time = time.time()
+        
+        # Fast path: Scrape static teams
+        static_results = []
+        if static:
+            print("\n1. Scraping static teams (fast)...")
+            static_results = self._scrape_static_teams(static, max_workers)
+        
+        # Slow path: Scrape dynamic teams
+        dynamic_results = []
+        if dynamic:
+            print("\n2. Scraping dynamic teams (slow)...")
+            dynamic_results = self._scrape_dynamic_teams_batched(dynamic, max_workers)
+        
+        total_time = time.time() - start_time
+        
+        # Combine results
+        all_results = static_results + dynamic_results
+        successes = [df for team, df, error in all_results if error is None]
+        failures = [(team, error) for team, df, error in all_results if error is not None]
+        
+        print(f"\n{'='*60}")
+        print(f"COMPLETE: {len(successes)}/{len(self.url_dict)} teams in {total_time:.1f}s")
+        print(f"Average: {total_time/len(self.url_dict):.2f}s per team")
+        
+        if failures:
+            print(f"\n⚠ {len(failures)} failures:")
+            for team, error in failures[:10]:
+                print(f"  - {team}: {error[:80]}")
+            if len(failures) > 10:
+                print(f"  ... and {len(failures) - 10} more")
+        
+        if successes:
+            df = pd.concat(successes, ignore_index=True)
+            return df, failures
+        else:
+            return pd.DataFrame(), failures
+    
+    def _scrape_static_teams(self, teams, max_workers):
+        """Scrape static teams using requests with retry logic."""
+        results = []
+        
+        def scrape_static(team):
+            url = self.url_dict[team]
+            fmt = self.format_map.get(team, 'v1')
+            
+            # Try the cached format first
+            formats_to_try = [fmt]
+            # Add other formats as fallbacks
+            all_formats = ['v1', 'v2', 'v3']
+            for f in all_formats:
+                if f != fmt:
+                    formats_to_try.append(f)
+            
+            last_error = None
+            
+            # Try each format up to 2 times
+            for try_fmt in formats_to_try:
+                for attempt in range(2):
+                    try:
+                        response = requests.get(url, timeout=15, headers={
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                        })
+                        response.raise_for_status()
+                        soup = BeautifulSoup(response.text, 'html.parser')
+                        
+                        if try_fmt == 'v2':
+                            df = parse_soup_v2(soup, team)
+                        elif try_fmt == 'v3':
+                            df = parse_soup_v3(soup, team)
+                        else:
+                            df = parse_soup_v1(soup, team)
+                        
+                        # Success! Update cache if we used a different format
+                        if try_fmt != fmt:
+                            self.format_map[team] = try_fmt
+                            self._save_format_map()
+                        
+                        return (team, df, None)
+                        
+                    except requests.Timeout:
+                        last_error = "Request timeout"
+                        if attempt == 0:  # Retry once on timeout
+                            time.sleep(1)
+                            continue
+                    except requests.RequestException as e:
+                        last_error = f"Request error: {str(e)[:150]}"
+                        break  # Don't retry on connection errors
+                    except Exception as e:
+                        last_error = str(e)[:200]
+                        break  # Don't retry on parsing errors
+            
+            # All formats failed
+            return (team, None, last_error)
+        
+        with ThreadPoolExecutor(max_workers=max_workers*2) as executor:
+            futures = {executor.submit(scrape_static, team): team for team in teams}
+            
+            for i, future in enumerate(as_completed(futures), 1):
+                result = future.result()
+                results.append(result)
+                team, df, error = result
+                status = "✓" if error is None else "✗"
+                games_str = f": {len(df)} games" if df is not None else ""
+                print(f"  [{i}/{len(teams)}] {status} {team}{games_str}")
+        
+        return results
+    
+    def _scrape_dynamic_teams_batched(self, teams, max_workers, batch_size=8):
+        """Scrape dynamic teams with Selenium, reusing drivers."""
+        
+        def scrape_batch(batch):
+            driver = _create_driver()
+            batch_results = []
+            
+            try:
+                for team in batch:
+                    url = self.url_dict[team]
+                    
+                    # Validate URL
+                    if not url or not isinstance(url, str) or not url.startswith('http'):
+                        batch_results.append((team, None, f"Invalid URL: {url}"))
+                        print(f"    ✗ {team}: Invalid URL")
+                        continue
+                    
+                    fmt = self.format_map.get(team, 'v1')
+                    
+                    # Try the cached format first
+                    formats_to_try = [fmt]
+                    # Add other formats as fallbacks
+                    all_formats = ['v1', 'v2', 'v3']
+                    for f in all_formats:
+                        if f != fmt:
+                            formats_to_try.append(f)
+                    
+                    last_error = None
+                    success = False
+                    
+                    # Try each format with retry
+                    for try_fmt in formats_to_try:
+                        for attempt in range(2):  # 2 attempts per format
+                            try:
+                                df = scrape_with_selenium_single_format(team, url, driver, try_fmt)
+                                
+                                # Success! Update cache if we used a different format
+                                if try_fmt != fmt:
+                                    self.format_map[team] = try_fmt
+                                    self._save_format_map()
+                                
+                                batch_results.append((team, df, None))
+                                print(f"    ✓ {team}: {len(df)} games")
+                                success = True
+                                break
+                                
+                            except Exception as e:
+                                last_error = str(e)[:200]
+                                if attempt == 0 and 'timeout' in str(e).lower():
+                                    # Retry once on timeout
+                                    time.sleep(1)
+                                    continue
+                                break  # Don't retry on other errors
+                        
+                        if success:
+                            break
+                    
+                    if not success:
+                        batch_results.append((team, None, last_error))
+                        print(f"    ✗ {team}: {last_error[:60]}")
+                        
+                        # Clear cookies after failure to reset state
+                        try:
+                            driver.delete_all_cookies()
+                        except:
+                            pass
+                        
+            finally:
+                try:
+                    driver.quit()
+                except:
+                    pass
+            
+            return batch_results
+        
+        batches = [teams[i:i+batch_size] for i in range(0, len(teams), batch_size)]
+        print(f"  Using {len(batches)} batches of ~{batch_size} teams")
+        
+        results = []
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = [executor.submit(scrape_batch, batch) for batch in batches]
+            
+            for i, future in enumerate(futures, 1):
+                batch_results = future.result()
+                results.extend(batch_results)
+                print(f"  Batch {i}/{len(batches)} complete")
+        
+        return results
+
+"""
+Presto Sports Schedule Scraper - Class-based Implementation
+Scrapes baseball schedules from ALL Presto Sports layout types.
+Special handling for Limestone University.
+"""
+
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import time
+import re
+from requests.exceptions import HTTPError
+
+
+class PrestoScraper:
+    """
+    Scraper for Presto Sports schedule pages with automatic format detection.
+    
+    Supports all Presto formats:
+    - Format 1: Table-based layout
+    - Format 2: Card-based layout
+    - Format 3a: Event-group div layout
+    - Format 3b: Event-group card layout
+    - Format 4: Tbody event-group table layout
+    
+    Special handling for Limestone University.
+    """
+    
+    def __init__(self, url_dict, year=2025, standardize_names=True):
+        """
+        Initialize PrestoScraper.
+        
+        Parameters:
+        -----------
+        url_dict : dict
+            Mapping of team names to URLs
+        year : int
+            Season year (default 2025)
+        standardize_names : bool
+            Whether to standardize opponent names (remove rankings, etc.)
+        """
+        self.url_dict = url_dict
+        self.year = year
+        self.standardize_names = standardize_names
+        self.session = requests.Session()
+        
+        # Default headers to avoid 403 errors
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'DNT': '1',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none'
+        }
+    
+    @staticmethod
+    def standardize_team_name(name):
+        """
+        Standardize team names by removing rankings and common variations.
+        
+        Args:
+            name: Raw team name from schedule
+        
+        Returns:
+            Standardized team name
+        """
+        # Remove rankings like "No. 22/29" or "No. 15" or "#10/7"
+        name = re.sub(r'(No\.\s*\d+(/\d+)?|#\d+(/\d+)?)\s*', '', name, flags=re.IGNORECASE)
+        
+        # Strip whitespace
+        name = name.strip()
+        
+        return name
+    
+    def scrape_team(self, team_name, max_retries=3, retry_delay=2):
+        """
+        Scrape a single team's schedule.
+        Special handling for Limestone University.
+        
+        Parameters:
+        -----------
+        team_name : str
+            Name of the team to scrape
+        max_retries : int
+            Maximum retry attempts for 403 errors
+        retry_delay : int
+            Delay in seconds between retries
+        
+        Returns:
+        --------
+        DataFrame with schedule data
+        """
+        # Special handling for Limestone
+        if team_name == "Limestone":
+            return self._scrape_limestone()
+        
+        # Normal Presto scraping for other teams
+        return self._scrape_presto_schedule(team_name, max_retries, retry_delay)
+    
+    def _scrape_limestone(self):
+        """
+        Special scraper for Limestone University.
+        Uses specific URL and parser for their site.
+        
+        Returns:
+        --------
+        DataFrame with schedule data
+        """
+        team_name = "Limestone"
+        url = 'https://www.thesac.com/sports/bsb/2024-25/schedule?teamId=6x43l4c55d380k6t&jsRendering=true'
+        
+        print(f"Scraping {team_name} schedule (special handling)...")
+        
+        try:
+            response = self.session.get(url, headers=self.headers, timeout=30)
+            response.raise_for_status()
+            
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Limestone uses Format 1 (table-based)
+            df = self._parse_presto_table_schedule(soup, team_name)
+            
+            return df
+        
+        except Exception as e:
+            print(f"Error scraping {team_name}: {e}")
+            raise
+    
+    def _scrape_presto_schedule(self, team_name, max_retries, retry_delay):
+        """
+        Scrape a Presto Sports schedule page with automatic format detection.
+        
+        Parameters:
+        -----------
+        team_name : str
+            Name of the team
+        max_retries : int
+            Maximum retry attempts
+        retry_delay : int
+            Delay between retries
+        
+        Returns:
+        --------
+        DataFrame with schedule data
+        """
+        url = self.url_dict[team_name]
+        last_error = None
+        
+        for attempt in range(max_retries):
+            try:
+                response = self.session.get(url, headers=self.headers, timeout=30)
+                response.raise_for_status()
+                
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Auto-detect format
+                return self._detect_and_parse_format(soup, team_name)
+            
+            except HTTPError as e:
+                last_error = e
+                if e.response.status_code == 403:
+                    if attempt < max_retries - 1:
+                        print(f"403 error for {team_name}, attempt {attempt + 1}/{max_retries}. Retrying in {retry_delay}s...")
+                        time.sleep(retry_delay)
+                        retry_delay *= 1.5
+                    else:
+                        print(f"Failed to scrape {team_name} after {max_retries} attempts")
+                        raise
+                else:
+                    raise
+            
+            except Exception as e:
+                print(f"Error scraping {team_name}: {e}")
+                raise
+        
+        if last_error:
+            raise last_error
+    
+    def _detect_and_parse_format(self, soup, team_name):
+        """
+        Auto-detect format and parse accordingly.
+        
+        Parameters:
+        -----------
+        soup : BeautifulSoup
+            Parsed HTML
+        team_name : str
+            Name of the team
+        
+        Returns:
+        --------
+        DataFrame with schedule data
+        """
+        # Check for Format 1: table format (most specific)
+        month_sections = soup.find_all('div', class_='section-event-month')
+        for section in month_sections:
+            if section.find('table', class_='table'):
+                print(f"Detected Format 1 (table-based) for {team_name}")
+                return self._parse_presto_table_schedule(soup, team_name)
+        
+        # Check for Format 2: card format
+        card_games = soup.find_all('div', class_='card')
+        card_event_rows = [card for card in card_games if 'event-row' in card.get('class', [])]
+        
+        if card_event_rows:
+            has_card_body = any(card.find('div', class_='card-body') for card in card_event_rows)
+            
+            if has_card_body:
+                print(f"Detected Format 2 (card-based) for {team_name}")
+                return self._parse_presto_card_schedule(soup, team_name)
+        
+        # Check for Format 3: event-group divs
+        event_groups = soup.find_all('div', class_='event-group')
+        if event_groups:
+            first_group = event_groups[0]
+            simple_event_rows = first_group.find_all('div', class_='event-row', recursive=False)
+            simple_event_rows = [row for row in simple_event_rows if 'card' not in row.get('class', [])]
+            
+            if simple_event_rows:
+                print(f"Detected Format 3 (event-group with divs) for {team_name}")
+                return self._parse_presto_div_schedule(soup, team_name)
+        
+        # Check for Format 4: tbody event-group table format
+        tbody_event_groups = soup.find_all('tbody', class_='event-group')
+        if tbody_event_groups:
+            print(f"Detected Format 4 (tbody event-group table) for {team_name}")
+            return self._parse_presto_tbody_schedule(soup, team_name)
+        
+        # Check for Format 5: Direct event-row divs (no event-groups, no cards)
+        direct_event_rows = soup.find_all('div', class_='event-row')
+        # Filter out any that are inside event-groups or are cards
+        direct_event_rows = [
+            row for row in direct_event_rows 
+            if not row.find_parent('div', class_='event-group')
+            and 'card' not in row.get('class', [])
+        ]
+        if direct_event_rows:
+            print(f"Detected Format 5 (direct event-row divs) for {team_name}")
+            return self._parse_presto_direct_event_row_schedule(soup, team_name)
+        
+        # Debug info if no format found
+        print(f"Debug info for {team_name}:")
+        print(f"  - Found {len(month_sections)} month sections")
+        print(f"  - Found {len(card_event_rows)} cards with event-row class")
+        print(f"  - Found {len(event_groups)} div event-group sections")
+        print(f"  - Found {len(tbody_event_groups)} tbody event-group sections")
+        print(f"  - Found {len(direct_event_rows)} direct event-row divs")
+        
+        raise ValueError(f"Could not detect Presto schedule format for {team_name}")
+    
+    def _parse_presto_table_schedule(self, soup, team_name):
+        """Parse Format 1: Table-based schedule HTML."""
+        games = []
+        
+        month_sections = soup.find_all('div', class_='section-event-month')
+        
+        for month_section in month_sections:
+            month_header = month_section.find('span', class_='month-title')
+            if not month_header:
+                continue
+            month_name = month_header.text.strip()
+            
+            table = month_section.find('table', class_='table')
+            if not table:
+                continue
+            
+            tbody = table.find('tbody')
+            if not tbody:
+                continue
+            
+            current_date_str = None
+            
+            for row in tbody.find_all('tr', class_='event-row'):
+                # Skip cancelled games
+                status_cell = row.find('td', class_='status')
+                if status_cell and 'Cancelled' in status_cell.text:
+                    continue
+                
+                # Get date
+                date_cell = row.find('td', class_='date')
+                if date_cell:
+                    date_text = date_cell.text.strip()
+                    if date_text and date_text not in ['\xa0', ' ', '&nbsp;']:
+                        date_match = re.search(r'[A-Za-z]+\.\s+(\d+)', date_text)
+                        if date_match:
+                            day = date_match.group(1)
+                            current_date_str = f"{month_name} {day}, {self.year}"
+                
+                if not current_date_str:
+                    continue
+                
+                # Get opponent
+                opponent_cell = row.find('td', class_='opponent')
+                if not opponent_cell:
+                    continue
+                
+                opponent_span = opponent_cell.find('span', class_='team-name')
+                if not opponent_span:
+                    continue
+                opponent = opponent_span.get('title', opponent_span.text.strip())
+                
+                if self.standardize_names:
+                    opponent = self.standardize_team_name(opponent)
+                
+                # Determine location
+                row_classes = row.get('class', [])
+                if 'home' in row_classes:
+                    location = 'Home'
+                    home_team = team_name
+                    away_team = opponent
+                elif 'away' in row_classes:
+                    location = 'Away'
+                    home_team = opponent
+                    away_team = team_name
+                elif 'neutral' in row_classes:
+                    location = 'Neutral'
+                    home_team = team_name
+                    away_team = opponent
+                else:
+                    location_badge = opponent_cell.find('span', class_='event-location-badge')
+                    if not location_badge:
+                        continue
+                    location_indicator = location_badge.text.strip().lower()
+                    
+                    if location_indicator == 'vs':
+                        location = 'Home'
+                        home_team = team_name
+                        away_team = opponent
+                    elif location_indicator == 'at':
+                        location = 'Away'
+                        home_team = opponent
+                        away_team = team_name
+                    else:
+                        location = 'Neutral'
+                        home_team = team_name
+                        away_team = opponent
+                
+                # Get result
+                result_cell = row.find('td', class_='result')
+                if not result_cell:
+                    continue
+                
+                result_text = result_cell.text.strip()
+                result_match = re.search(r'([WL]),?\s*(\d+)-(\d+)', result_text)
+                if not result_match:
+                    continue
+                
+                result_letter = result_match.group(1)
+                score1 = int(result_match.group(2))
+                score2 = int(result_match.group(3))
+                
+                if result_letter == 'W':
+                    team_score = score1 if score1 > score2 else score2
+                    opponent_score = score2 if score1 > score2 else score1
+                else:
+                    team_score = score1 if score1 < score2 else score2
+                    opponent_score = score2 if score1 < score2 else score1
+                
+                if location == 'Home':
+                    home_score = team_score
+                    away_score = opponent_score
+                elif location == 'Away':
+                    home_score = opponent_score
+                    away_score = team_score
+                else:
+                    home_score = team_score
+                    away_score = opponent_score
+                
+                result_with_score = f"{result_letter}{team_score}-{opponent_score}"
+                
+                game = {
+                    'Team': team_name,
+                    'Date': current_date_str,
+                    'Opponent': opponent,
+                    'Location': location,
+                    'Result': result_with_score,
+                    'home_team': home_team,
+                    'away_team': away_team,
+                    'home_score': home_score,
+                    'away_score': away_score
+                }
+                
+                games.append(game)
+        
+        df = pd.DataFrame(games)
+        
+        if len(df) > 0:
+            df['Date'] = pd.to_datetime(df['Date'], format='%B %d, %Y')
+            df = df.sort_values('Date').reset_index(drop=True)
+        
+        print(f"Successfully parsed {len(df)} games for {team_name}")
+        return df
+    
+    def _parse_presto_card_schedule(self, soup, team_name):
+        """Parse Format 2: Card-based schedule HTML."""
+        games = []
+        
+        # Try month sections first
+        month_sections = soup.find_all('div', class_=re.compile('section-event-month'))
+        
+        if month_sections:
+            print(f"  Using Structure 1: Month-based sections")
+            
+            for month_section in month_sections:
+                month_header = month_section.find('span', class_='month-title')
+                if not month_header:
+                    continue
+                current_month = month_header.text.strip()
+                
+                all_cards = month_section.find_all('div', class_='card')
+                game_cards = [card for card in all_cards if 'event-row' in card.get('class', [])]
+                
+                for card in game_cards:
+                    game = self._parse_card_game(card, team_name, current_month, date_format='short')
+                    if game:
+                        games.append(game)
+        else:
+            print(f"  Using Structure 2: Direct card listing")
+            
+            all_cards = soup.find_all('div', class_='card')
+            game_cards = [card for card in all_cards if 'event-row' in card.get('class', [])]
+            
+            for card in game_cards:
+                game = self._parse_card_game(card, team_name, None, date_format='full')
+                if game:
+                    games.append(game)
+        
+        df = pd.DataFrame(games)
+        
+        if len(df) > 0:
+            for date_format in ['%b %d, %Y', '%B %d, %Y']:
+                try:
+                    df['Date'] = pd.to_datetime(df['Date'], format=date_format)
+                    break
+                except:
+                    continue
+            
+            df = df.sort_values('Date').reset_index(drop=True)
+        
+        print(f"Successfully parsed {len(df)} games for {team_name}")
+        return df
+    
+    def _parse_card_game(self, card, team_name, current_month, date_format='short'):
+        """Parse a single game card."""
+        # Skip cancelled/postponed
+        status_elem = card.find('span', class_='status')
+        if status_elem and ('Cancelled' in status_elem.get_text() or 'Postponed' in status_elem.get_text()):
+            return None
+        
+        status_cell = card.find('div', class_='status')
+        if status_cell and ('Cancelled' in status_cell.get_text() or 'Postponed' in status_cell.get_text()):
+            return None
+        
+        # Get opponent
+        opponent_span = card.find('span', class_='team-name')
+        if not opponent_span:
+            return None
+        opponent = opponent_span.get('title', opponent_span.text.strip())
+        
+        if self.standardize_names:
+            opponent = self.standardize_team_name(opponent)
+        
+        # Determine location
+        card_classes = card.get('class', [])
+        if 'home' in card_classes:
+            location = 'Home'
+            home_team = team_name
+            away_team = opponent
+        elif 'away' in card_classes:
+            location = 'Away'
+            home_team = opponent
+            away_team = team_name
+        elif 'neutral' in card_classes:
+            location = 'Neutral'
+            home_team = team_name
+            away_team = opponent
+        else:
+            location_badge = card.find('span', class_='event-location-badge')
+            if location_badge:
+                location_indicator = location_badge.text.strip().lower()
+                if location_indicator == 'vs':
+                    location = 'Home'
+                    home_team = team_name
+                    away_team = opponent
+                elif location_indicator == 'at':
+                    location = 'Away'
+                    home_team = opponent
+                    away_team = team_name
+                else:
+                    location = 'Neutral'
+                    home_team = team_name
+                    away_team = opponent
+            else:
+                return None
+        
+        # Get date
+        date_str = None
+        date_div = card.find('div', class_='date')
+        
+        if date_div:
+            date_text = date_div.get_text(strip=True)
+            
+            if date_format == 'full':
+                date_match = re.search(r'([A-Za-z]+)\s+(\d+),\s+(\d{4})', date_text)
+                if date_match:
+                    month = date_match.group(1)
+                    day = date_match.group(2)
+                    year_found = date_match.group(3)
+                    date_str = f"{month} {day}, {year_found}"
+            else:
+                if current_month:
+                    date_spans = date_div.find_all('span')
+                    for span in date_spans:
+                        span_text = span.text.strip()
+                        date_match = re.search(r'[A-Za-z]+\.\s+(\d+)', span_text)
+                        if date_match:
+                            day = date_match.group(1)
+                            date_str = f"{current_month} {day}, {self.year}"
+                            break
+        
+        if not date_str:
+            return None
+        
+        # Get result
+        result_div = card.find('div', class_='event-result')
+        if not result_div:
+            return None
+        
+        result_text = result_div.get_text(strip=True)
+        result_match = re.search(r'([WL]),?\s*(\d+)-(\d+)', result_text)
+        if not result_match:
+            return None
+        
+        result_letter = result_match.group(1)
+        score1 = int(result_match.group(2))
+        score2 = int(result_match.group(3))
+        
+        if result_letter == 'W':
+            team_score = score1 if score1 > score2 else score2
+            opponent_score = score2 if score1 > score2 else score1
+        else:
+            team_score = score1 if score1 < score2 else score2
+            opponent_score = score2 if score1 < score2 else score1
+        
+        if location == 'Home':
+            home_score = team_score
+            away_score = opponent_score
+        elif location == 'Away':
+            home_score = opponent_score
+            away_score = team_score
+        else:
+            home_score = team_score
+            away_score = opponent_score
+        
+        result_with_score = f"{result_letter}{team_score}-{opponent_score}"
+        
+        return {
+            'Team': team_name,
+            'Date': date_str,
+            'Opponent': opponent,
+            'Location': location,
+            'Result': result_with_score,
+            'home_team': home_team,
+            'away_team': away_team,
+            'home_score': home_score,
+            'away_score': away_score
+        }
+    
+    def _parse_presto_div_schedule(self, soup, team_name):
+        """Parse Format 3: Event-group div schedule HTML."""
+        games = []
+        
+        # Find all event-group sections
+        event_groups = soup.find_all('div', class_='event-group')
+        
+        print(f"  Found {len(event_groups)} event groups")
+        
+        # Detect which sub-format we're dealing with
+        is_card_format = False
+        if event_groups:
+            first_group = event_groups[0]
+            
+            # Check for card elements
+            card_rows = first_group.find_all('div', class_='card')
+            card_event_rows = [card for card in card_rows if 'event-row' in card.get('class', [])]
+            
+            # Check for card-body elements with event-row class
+            card_body_rows = first_group.find_all('div', class_='card-body')
+            card_body_event_rows = [body for body in card_body_rows if 'event-row' in body.get('class', [])]
+            
+            if card_event_rows or card_body_event_rows:
+                is_card_format = True
+                print(f"  Using card-based event-group format")
+            else:
+                print(f"  Using standard div-based event-group format")
+        
+        for group in event_groups:
+            # Get month name
+            month_header = group.find('div', class_='event-date')
+            if not month_header:
+                month_header = group.find('div', class_='card-header')
+            if not month_header:
+                continue
+            current_month = month_header.text.strip()
+            
+            if is_card_format:
+                # Parse card-based format
+                card_rows = group.find_all('div', class_='card')
+                event_rows = [card for card in card_rows if 'event-row' in card.get('class', [])]
+                
+                card_body_rows = group.find_all('div', class_='card-body')
+                for body in card_body_rows:
+                    if 'event-row' in body.get('class', []):
+                        event_rows.append(body)
+                
+                print(f"  Found {len(event_rows)} card event rows in {current_month}")
+                
+                for row in event_rows:
+                    game = self._parse_card_event_group_game(row, team_name, current_month)
+                    if game:
+                        games.append(game)
+            else:
+                # Parse standard div format
+                event_rows = group.find_all('div', class_='event-row')
+                event_rows = [row for row in event_rows if 'card' not in row.get('class', [])]
+                print(f"  Found {len(event_rows)} div event rows in {current_month}")
+                
+                for row in event_rows:
+                    # Skip cancelled games
+                    status_div = row.find('div', class_='status')
+                    if status_div and 'Cancelled' in status_div.get_text():
+                        continue
+                    
+                    # Get date
+                    date_div = row.find('div', class_='date')
+                    if not date_div:
+                        continue
+                    
+                    date_spans = date_div.find_all('span')
+                    if len(date_spans) >= 3:
+                        month_abbr = date_spans[1].text.strip()
+                        day_num = date_spans[2].text.strip()
+                        date_str = f"{month_abbr} {day_num}, {self.year}"
+                    else:
+                        continue
+                    
+                    # Get opponent
+                    opponent_span = row.find('span', class_='team-name')
+                    if not opponent_span:
+                        continue
+                    opponent = opponent_span.text.strip()
+                    
+                    if self.standardize_names:
+                        opponent = self.standardize_team_name(opponent)
+                    
+                    # Get location
+                    va_div = row.find('div', class_='va')
+                    venue_link = row.find('a', class_='venue')
+                    
+                    if va_div:
+                        location_indicator = va_div.text.strip().lower()
+                        if location_indicator == 'vs':
+                            location = 'Home'
+                            home_team = team_name
+                            away_team = opponent
+                        elif location_indicator == 'at':
+                            location = 'Away'
+                            home_team = opponent
+                            away_team = team_name
+                        else:
+                            location = 'Neutral'
+                            home_team = team_name
+                            away_team = opponent
+                    elif venue_link:
+                        venue_text = venue_link.find('span')
+                        if venue_text:
+                            venue_indicator = venue_text.text.strip()
+                            if venue_indicator == 'H':
+                                location = 'Home'
+                                home_team = team_name
+                                away_team = opponent
+                            elif venue_indicator == 'A':
+                                location = 'Away'
+                                home_team = opponent
+                                away_team = team_name
+                            else:
+                                location = 'Neutral'
+                                home_team = team_name
+                                away_team = opponent
+                        else:
+                            continue
+                    else:
+                        continue
+                    
+                    # Get result
+                    result_div = row.find('div', class_='result')
+                    if not result_div:
+                        continue
+                    
+                    result_text = result_div.get_text(strip=True)
+                    result_match = re.search(r'([WL]),?\s*(\d+)-(\d+)', result_text)
+                    if not result_match:
+                        continue
+                    
+                    result_letter = result_match.group(1)
+                    score1 = int(result_match.group(2))
+                    score2 = int(result_match.group(3))
+                    
+                    if result_letter == 'W':
+                        team_score = score1 if score1 > score2 else score2
+                        opponent_score = score2 if score1 > score2 else score1
+                    else:
+                        team_score = score1 if score1 < score2 else score2
+                        opponent_score = score2 if score1 < score2 else score1
+                    
+                    if location == 'Home':
+                        home_score = team_score
+                        away_score = opponent_score
+                    elif location == 'Away':
+                        home_score = opponent_score
+                        away_score = team_score
+                    else:
+                        home_score = team_score
+                        away_score = opponent_score
+                    
+                    result_with_score = f"{result_letter}{team_score}-{opponent_score}"
+                    
+                    game = {
+                        'Team': team_name,
+                        'Date': date_str,
+                        'Opponent': opponent,
+                        'Location': location,
+                        'Result': result_with_score,
+                        'home_team': home_team,
+                        'away_team': away_team,
+                        'home_score': home_score,
+                        'away_score': away_score
+                    }
+                    games.append(game)
+        
+        df = pd.DataFrame(games)
+        
+        if len(df) > 0:
+            df['Date'] = pd.to_datetime(df['Date'], format='%b %d, %Y')
+            df = df.sort_values('Date').reset_index(drop=True)
+        
+        print(f"Successfully parsed {len(df)} games for {team_name}")
+        return df
+    
+    def _parse_card_event_group_game(self, card, team_name, current_month):
+        """Parse a single card from card-based event-group format."""
+        # Skip cancelled/postponed
+        status_elem = card.find('span', class_='status')
+        if status_elem and ('Cancelled' in status_elem.get_text() or 'Postponed' in status_elem.get_text()):
+            return None
+        
+        # Get opponent
+        opponent_span = card.find('span', class_='event-opponent-name')
+        if not opponent_span:
+            return None
+        opponent = opponent_span.text.strip()
+        
+        if self.standardize_names:
+            opponent = self.standardize_team_name(opponent)
+        
+        # Determine location
+        card_classes = card.get('class', [])
+        
+        if 'home' in card_classes:
+            location = 'Home'
+            home_team = team_name
+            away_team = opponent
+        elif 'away' in card_classes:
+            location = 'Away'
+            home_team = opponent
+            away_team = team_name
+        elif 'neutral' in card_classes:
+            location = 'Neutral'
+            home_team = team_name
+            away_team = opponent
+        else:
+            location_badge = card.find('span', class_='event-location-badge')
+            if not location_badge:
+                return None
+            
+            location_indicator = location_badge.text.strip().upper()
+            if location_indicator == 'VS':
+                location = 'Home'
+                home_team = team_name
+                away_team = opponent
+            elif location_indicator == 'AT':
+                location = 'Away'
+                home_team = opponent
+                away_team = team_name
+            else:
+                location = 'Neutral'
+                home_team = team_name
+                away_team = opponent
+        
+        # Get date
+        date_str = None
+        dateinfo_div = card.find('div', class_='event-dateinfo')
+        if dateinfo_div:
+            date_items = dateinfo_div.find_all('li', class_='list-inline-item')
+            for item in date_items:
+                item_text = item.get_text(strip=True)
+                date_match = re.search(r'([A-Za-z]+)\s+(\d+)\s*\([A-Za-z]+\)', item_text)
+                if date_match:
+                    month = date_match.group(1)
+                    day = date_match.group(2)
+                    date_str = f"{month} {day}, {self.year}"
+                    break
+        
+        if not date_str:
+            return None
+        
+        # Get result
+        result_div = card.find('div', class_='event-result')
+        if not result_div:
+            return None
+        
+        result_text = result_div.get_text(strip=True)
+        result_match = re.search(r'([WL]),?\s*(\d+)-(\d+)', result_text)
+        if not result_match:
+            return None
+        
+        result_letter = result_match.group(1)
+        score1 = int(result_match.group(2))
+        score2 = int(result_match.group(3))
+        
+        if result_letter == 'W':
+            team_score = score1 if score1 > score2 else score2
+            opponent_score = score2 if score1 > score2 else score1
+        else:
+            team_score = score1 if score1 < score2 else score2
+            opponent_score = score2 if score1 < score2 else score1
+        
+        if location == 'Home':
+            home_score = team_score
+            away_score = opponent_score
+        elif location == 'Away':
+            home_score = opponent_score
+            away_score = team_score
+        else:
+            home_score = team_score
+            away_score = opponent_score
+        
+        result_with_score = f"{result_letter}{team_score}-{opponent_score}"
+        
+        return {
+            'Team': team_name,
+            'Date': date_str,
+            'Opponent': opponent,
+            'Location': location,
+            'Result': result_with_score,
+            'home_team': home_team,
+            'away_team': away_team,
+            'home_score': home_score,
+            'away_score': away_score
+        }
+    
+    def _parse_presto_tbody_schedule(self, soup, team_name):
+        """Parse Format 4: Tbody event-group table schedule HTML."""
+        games = []
+        
+        # Find all tbody event-group sections
+        event_groups = soup.find_all('tbody', class_='event-group')
+        
+        for group in event_groups:
+            # Get month name from month-title row
+            month_row = group.find('tr', class_='month-title')
+            if not month_row:
+                continue
+            
+            month_td = month_row.find('td')
+            if not month_td:
+                continue
+            
+            current_month = month_td.text.strip()
+            
+            # Track current date for rows without explicit date
+            current_date_str = None
+            
+            # Find all event rows in this month
+            event_rows = group.find_all('tr', class_='event-row')
+            
+            for row in event_rows:
+                # Skip cancelled games
+                status_cell = row.find('td', class_='e_status')
+                if status_cell and 'Cancelled' in status_cell.text:
+                    continue
+                
+                # Get date
+                date_cell = row.find('td', class_='e_date')
+                if date_cell:
+                    date_text = date_cell.text.strip()
+                    if date_text and date_text not in ['\xa0', ' ', '&nbsp;']:
+                        date_match = re.search(r'[A-Za-z]+\.\s+(\d+)', date_text)
+                        if date_match:
+                            day = date_match.group(1)
+                            current_date_str = f"{current_month} {day}, {self.year}"
+                
+                if not current_date_str:
+                    continue
+                
+                # Get opponent
+                opponent_cell = row.find('td', class_='e_opponent')
+                if not opponent_cell:
+                    opponent_cell = row.find('td', class_='e_team')
+                if not opponent_cell:
+                    continue
+                
+                opponent_span = opponent_cell.find('span', class_='team-name')
+                if not opponent_span:
+                    continue
+                
+                opponent = opponent_span.text.strip()
+                
+                if self.standardize_names:
+                    opponent = self.standardize_team_name(opponent)
+                
+                # Determine location from row classes
+                row_classes = row.get('class', [])
+                if 'home' in row_classes:
+                    location = 'Home'
+                    home_team = team_name
+                    away_team = opponent
+                elif 'away' in row_classes:
+                    location = 'Away'
+                    home_team = opponent
+                    away_team = team_name
+                elif 'neutral' in row_classes:
+                    location = 'Neutral'
+                    home_team = team_name
+                    away_team = opponent
+                else:
+                    # Fallback to va span
+                    va_span = opponent_cell.find('span', class_='va')
+                    if not va_span:
+                        continue
+                    
+                    location_indicator = va_span.text.strip().lower()
+                    if location_indicator == 'vs.' or location_indicator == 'vs':
+                        location = 'Home'
+                        home_team = team_name
+                        away_team = opponent
+                    elif location_indicator == 'at':
+                        location = 'Away'
+                        home_team = opponent
+                        away_team = team_name
+                    else:
+                        location = 'Neutral'
+                        home_team = team_name
+                        away_team = opponent
+                
+                # Check for neutral site indicator
+                neutralsite_span = opponent_cell.find('span', class_='neutralsite')
+                if neutralsite_span:
+                    location = 'Neutral'
+                    home_team = team_name
+                    away_team = opponent
+                
+                # Get result
+                result_cell = row.find('td', class_='e_result')
+                if not result_cell:
+                    continue
+                
+                result_text = result_cell.text.strip()
+                result_match = re.search(r'([WL]),?\s*(\d+)-(\d+)', result_text)
+                if not result_match:
+                    continue
+                
+                result_letter = result_match.group(1)
+                score1 = int(result_match.group(2))
+                score2 = int(result_match.group(3))
+                
+                if result_letter == 'W':
+                    team_score = score1 if score1 > score2 else score2
+                    opponent_score = score2 if score1 > score2 else score1
+                else:
+                    team_score = score1 if score1 < score2 else score2
+                    opponent_score = score2 if score1 < score2 else score1
+                
+                if location == 'Home':
+                    home_score = team_score
+                    away_score = opponent_score
+                elif location == 'Away':
+                    home_score = opponent_score
+                    away_score = team_score
+                else:
+                    home_score = team_score
+                    away_score = opponent_score
+                
+                result_with_score = f"{result_letter}{team_score}-{opponent_score}"
+                
+                game = {
+                    'Team': team_name,
+                    'Date': current_date_str,
+                    'Opponent': opponent,
+                    'Location': location,
+                    'Result': result_with_score,
+                    'home_team': home_team,
+                    'away_team': away_team,
+                    'home_score': home_score,
+                    'away_score': away_score
+                }
+                
+                games.append(game)
+        
+        df = pd.DataFrame(games)
+        
+        if len(df) > 0:
+            df['Date'] = pd.to_datetime(df['Date'], format='%B %d, %Y')
+            df = df.sort_values('Date').reset_index(drop=True)
+        
+        print(f"Successfully parsed {len(df)} games for {team_name}")
+        return df
+    
+    def _parse_presto_direct_event_row_schedule(self, soup, team_name):
+        """Parse Format 5: Direct event-row divs (no grouping structure)."""
+        games = []
+        
+        # Find all direct event-row divs (not inside event-groups)
+        all_event_rows = soup.find_all('div', class_='event-row')
+        direct_event_rows = [
+            row for row in all_event_rows 
+            if not row.find_parent('div', class_='event-group')
+            and 'card' not in row.get('class', [])
+        ]
+        
+        print(f"  Found {len(direct_event_rows)} direct event-row divs")
+        
+        for row in direct_event_rows:
+            # Skip cancelled games
+            status_cell = row.find('td', class_='status')
+            if status_cell and ('Cancelled' in status_cell.text or 'Canceled' in status_cell.text):
+                continue
+            
+            # Get date from date div
+            date_div = row.find('div', class_='date')
+            if not date_div:
+                continue
+            
+            # Parse date spans - format like <span>Mar</span> <span>01</span>
+            date_spans = date_div.find_all('span')
+            if len(date_spans) >= 2:
+                month = date_spans[0].text.strip()
+                day = date_spans[1].text.strip()
+                date_str = f"{month} {day}, {self.year}"
+            else:
+                continue
+            
+            # Get opponent from event table
+            event_table = row.find('table')
+            if not event_table:
+                continue
+            
+            opponent_span = event_table.find('span', class_='team-name')
+            if not opponent_span:
+                continue
+            opponent = opponent_span.text.strip()
+            
+            if self.standardize_names:
+                opponent = self.standardize_team_name(opponent)
+            
+            # Determine location from row classes FIRST (most reliable)
+            row_classes = row.get('class', [])
+            if 'home' in row_classes:
+                location = 'Home'
+                home_team = team_name
+                away_team = opponent
+            elif 'away' in row_classes:
+                location = 'Away'
+                home_team = opponent
+                away_team = team_name
+            elif 'neutral' in row_classes:
+                location = 'Neutral'
+                home_team = team_name
+                away_team = opponent
+            else:
+                # Fallback to va cell (vs/at indicator)
+                va_cell = event_table.find('td', class_='va')
+                if not va_cell:
+                    continue
+                
+                location_indicator = va_cell.text.strip().lower()
+                if 'vs' in location_indicator:
+                    location = 'Home'
+                    home_team = team_name
+                    away_team = opponent
+                elif 'at' in location_indicator:
+                    location = 'Away'
+                    home_team = opponent
+                    away_team = team_name
+                else:
+                    location = 'Neutral'
+                    home_team = team_name
+                    away_team = opponent
+            
+            # Get result from result cell
+            result_cell = event_table.find('td', class_='result')
+            if not result_cell:
+                continue
+            
+            result_text = result_cell.text.strip()
+            
+            # Parse result like "L, 6-5" or "W, 8-5"
+            result_match = re.search(r'([WL]),?\s*(\d+)-(\d+)', result_text)
+            if not result_match:
+                # No result yet (future game)
+                continue
+            
+            result_letter = result_match.group(1)
+            score1 = int(result_match.group(2))
+            score2 = int(result_match.group(3))
+            
+            if result_letter == 'W':
+                team_score = score1 if score1 > score2 else score2
+                opponent_score = score2 if score1 > score2 else score1
+            else:
+                team_score = score1 if score1 < score2 else score2
+                opponent_score = score2 if score1 < score2 else score1
+            
+            if location == 'Home':
+                home_score = team_score
+                away_score = opponent_score
+            elif location == 'Away':
+                home_score = opponent_score
+                away_score = team_score
+            else:
+                home_score = team_score
+                away_score = opponent_score
+            
+            result_with_score = f"{result_letter}{team_score}-{opponent_score}"
+            
+            game = {
+                'Team': team_name,
+                'Date': date_str,
+                'Opponent': opponent,
+                'Location': location,
+                'Result': result_with_score,
+                'home_team': home_team,
+                'away_team': away_team,
+                'home_score': home_score,
+                'away_score': away_score
+            }
+            
+            games.append(game)
+        
+        df = pd.DataFrame(games)
+        
+        if len(df) > 0:
+            df['Date'] = pd.to_datetime(df['Date'], format='%b %d, %Y')
+            df = df.sort_values('Date').reset_index(drop=True)
+        
+        print(f"Successfully parsed {len(df)} games for {team_name}")
+        return df
+    
+    def scrape_all(self, show_progress=True):
+        """
+        Scrape all teams in the URL dictionary.
+        
+        Parameters:
+        -----------
+        show_progress : bool
+            Whether to print progress updates
+        
+        Returns:
+        --------
+        tuple: (dataframe, failed_teams_list)
+            - dataframe: Combined DataFrame of all successful scrapes
+            - failed_teams_list: List of (team_name, error_message) tuples
+        """
+        all_schedules = []
+        failed_teams = []
+        start_time = time.time()
+        
+        for i, team_name in enumerate(self.url_dict.keys(), 1):
+            try:
+                df = self.scrape_team(team_name)
+                all_schedules.append(df)
+                
+                if show_progress:
+                    elapsed = time.time() - start_time
+                    avg_time = elapsed / i
+                    est_remaining = avg_time * (len(self.url_dict) - i)
+                    print(f"[{i}/{len(self.url_dict)}] ✓ {team_name}: {len(df)} games "
+                          f"(~{int(est_remaining)}s remaining)")
+            
+            except Exception as e:
+                error_msg = str(e)[:200]
+                failed_teams.append((team_name, error_msg))
+                if show_progress:
+                    print(f"[{i}/{len(self.url_dict)}] ✗ {team_name}: {error_msg[:100]}")
+        
+        total_time = time.time() - start_time
+        
+        if show_progress:
+            print(f"\n✓ Completed in {total_time:.1f} seconds ({total_time/60:.1f} minutes)")
+            print(f"  Average: {total_time/len(self.url_dict):.2f} seconds per team")
+            print(f"  Success rate: {len(all_schedules)}/{len(self.url_dict)} "
+                  f"({len(all_schedules)/len(self.url_dict)*100:.1f}%)")
+        
+        if failed_teams and show_progress:
+            print(f"\n⚠ Failed to scrape {len(failed_teams)} teams:")
+            for team, error in failed_teams[:10]:
+                print(f"  - {team}: {error}")
+            if len(failed_teams) > 10:
+                print(f"  ... and {len(failed_teams) - 10} more")
+        
+        if all_schedules:
+            df = pd.concat(all_schedules, ignore_index=True)
+            return df, failed_teams
+        else:
+            return pd.DataFrame(), failed_teams
+
+base_url = "https://www.ncaa.com"
+soup = get_soup(f"{base_url}/stats/baseball/d1")
+dropdown = soup.find("select", {"id": "select-container-team"})
+stat_links = {
+    option.text.strip(): base_url + option["value"]
+    for option in dropdown.find_all("option") if option.get("value")
+}
+team_links = get_stat_dataframe_with_link('Earned Run Average').sort_values('Team')[['Team', 'link']]
+schedule_links = enrich_with_social_links(team_links)
+schedule_links['Augusta'] = 'https://augustajags.com/sports/baseball/schedule/2025'
+schedule_links['Azusa Pacific'] = 'https://athletics.apu.edu/sports/baseball/schedule/2025'
+schedule_links['Bloomfield'] = 'https://bcbearsathletics.com/sports/baseball/schedule/2025'
+schedule_links['Bluefield St.'] = 'https://gobstate.com/sports/baseball/schedule/2025'
+schedule_links['Cal State LA'] = 'https://lagoldeneagles.com/sports/baseball/schedule/2025'
+schedule_links['Catawba'] = 'https://catawbaathletics.com/sports/baseball/schedule/2025'
+schedule_links["D'Youville"] = 'https://dyusaints.com/sports/baseball/schedule/2025'
+schedule_links['Colo. Sch. of Mines'] = 'https://minesathletics.com/sports/baseball/schedule/2025'
+schedule_links['Colorado Mesa'] = 'https://cmumavericks.com/sports/baseball/schedule/2025'
+schedule_links['Davenport'] = 'https://dupanthers.com/sports/baseball/schedule/2025'
+schedule_links['Edward Waters'] = 'https://ewutigerpride.com/sports/baseball/schedule/2025'
+schedule_links['Findlay'] = 'https://findlayoilers.com/sports/baseball/schedule/2025'
+schedule_links['Franklin Pierce'] = 'https://fpuravens.com/sports/baseball/schedule/2025'
+schedule_links['Glenville St.'] = 'https://gstatepioneers.com/sports/baseball/schedule/2025'
+schedule_links['Jefferson'] = 'https://jeffersonrams.com/sports/baseball/schedule/2025'
+schedule_links['Menlo'] = 'https://menloathletics.com/sports/baseball/schedule/2025'
+schedule_links['North Greenville'] = 'https://www.nguathletics.com/sports/baseball/schedule/2025'
+schedule_links['Purdue Northwest'] = 'https://pnwathletics.com/sports/baseball/schedule/2025'
+schedule_links['Pittsburg St.'] = 'https://pittstategorillas.com/sports/baseball/schedule/2025'
+# Salem (WV) - nothing to scrape
+schedule_links["St. Edward's"] = 'https://gohilltoppers.com/sports/baseball/schedule/2025'
+schedule_links['UIndy'] = 'https://athletics.uindy.edu/sports/baseball/schedule/2025'
+schedule_links['Upper Iowa'] = 'https://uiupeacocks.com/sports/baseball/schedule/2025'
+presto_teams = ['Bridgeport', 'Carson-Newman', 'Coker', 'Dominican (NY)', 
+               'Emory & Henry', 'Mars Hill', 'Northwood', 'Saginaw Valley', 
+               'St. Thomas Aquinas', 'Tampa', 'Tusculum', 'Wilmington (DE)', 'Limestone']
+presto_links, sidearm_links = split_links_by_provider(schedule_links, presto_teams)
+presto_links['Bridgeport'] = 'https://ubknights.com/sports/bsb/2024-25/schedule'
+presto_links['Carson-Newman'] = 'https://cneagles.com/sports/m-basebl/2024-25/schedule'
+presto_links['Coker'] = 'https://cokercobras.com/sports/bsb/2024-25/schedule'
+presto_links['Dominican (NY)'] = 'https://chargerathletics.com/sports/bsb/2024-25/schedule'
+presto_links['Emory & Henry'] = 'https://gowasps.com/sports/bsb/2024-25/schedule'
+presto_links['Mars Hill'] = 'https://www.marshilllions.com/sports/bsb/2024-25/schedule'
+presto_links['Northwood'] = 'https://timberwolves.gonorthwood.com/sports/bsb/2024-25/schedule'
+presto_links['Saginaw Valley'] = 'https://svsucardinals.com/sports/bsb/2024-25/schedule'
+presto_links['St. Thomas Aquinas'] = 'https://stacathletics.com/sports/bsb/2024-25/schedule'
+presto_links['Tampa'] = 'https://tampaspartans.com/sports/bsb/2024-25/schedule'
+presto_links['Tusculum'] = 'https://tusculumpioneers.com/sports/bsb/2024-25/schedule'
+presto_links['Wilmington (DE)'] = 'https://wildcats.athletics.wilmu.edu/sports/bsb/2024-25/schedule'
+presto_links['Limestone'] = 'https://www.thesac.com/sports/bsb/2024-25/schedule?teamId=6x43l4c55d380k6t&jsRendering=true'
+sidearm_teams = list(sidearm_links.keys())
+
+# USAGE:
+# ======
+# 
+# # Initialize with division and year
+# scraper = SmartScraper(
+#     sidearm_links,
+#     division='D2',      # 'D1', 'D2', 'D3', etc.
+#     year=2025           # Season year
+# )
+# 
+# # OPTION 1: Test links first (recommended for new link dictionaries)
+# # This validates all links and shows which formats work
+# successful_teams, failed_teams = scraper.test_links(max_workers=4)
+# print(f"Working: {len(successful_teams)}, Broken: {len(failed_teams)}")
+#
+# # OPTION 2: Scrape everything
+# # Cache saved to: ./PEAR/PEAR Baseball/D2/y2025/scraper_cache/
+# # Returns: (dataframe, failed_teams_list)
+# result_df, failed_teams = scraper.scrape_all(max_workers=4)
+#
+# # Check failures
+# if failed_teams:
+#     print(f"Failed teams: {[team for team, error in failed_teams]}")
+#
+# # Reclassify and test the Selenium teams to see if they can use requests
+# scraper = SidearmScraper(sidearm_links, division='D3', year=2025)
+# # Test all dynamic teams and automatically reclassify those that work with requests
+# works, needs_sel = scraper.test_dynamic_teams(auto_reclassify=True)
+# print(f"\nReclassified {len(works)} teams as static!")
+#
+# THE FIRST RUN WILL TAKE ABOUT AN HOUR TO CACHE ALL OF THE NECESSARY SCRAPING INFORMATION
+
+scraper = SidearmScraper(sidearm_links, division = 'D2', year = 2025)
+sidearm_unclean_df, failed_sidearm = scraper.scrape_all()
+
+# USAGE:
+# ======
+# 
+# # Initialize scraper
+# presto_scraper = PrestoScraper(
+#     presto_links,  # Your URL dictionary
+#     year=2025,
+#     standardize_names=True
+# )
+# 
+# # Scrape all teams
+# df, failed_teams = presto_scraper.scrape_all()
+
+presto_scraper = PrestoScraper(presto_links, year=2025, standardize_names=True)
+presto_unclean_df, failed_presto = presto_scraper.scrape_all()
+
+sidearm_clean = clean_schedule_dataframe(sidearm_unclean_df)
+presto_clean = clean_schedule_dataframe(presto_unclean_df)
+sidearm_clean["Date"] = pd.to_datetime(
+    sidearm_clean["Date"].apply(lambda x: parse_flexible_date(x, year=2025))
+)
+schedule_df = pd.concat([sidearm_clean, presto_clean], ignore_index=True)
+schedule_df = schedule_df[~schedule_df['Result'].isin(['Cancelled', 'Postponed', 'Canceled'])]
+schedule_df = schedule_df[schedule_df['Date'] < pd.Timestamp('2025-07-01')].sort_values('Date').reset_index(drop=True)
