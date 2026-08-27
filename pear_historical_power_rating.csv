@@ -1,0 +1,2415 @@
+,team,season,power_rating
+0,Oklahoma,2007,29.4
+1,West Virginia,2007,28.7
+2,LSU,2007,28.6
+3,USC,2007,27.9
+4,Florida,2007,27.6
+5,Ohio State,2007,26.5
+6,Missouri,2007,24.0
+7,Kansas,2007,23.7
+8,Oregon,2007,22.7
+9,Georgia,2007,22.6
+10,Texas,2007,20.5
+11,Texas Tech,2007,19.0
+12,Virginia Tech,2007,18.5
+13,South Florida,2007,18.2
+14,Clemson,2007,18.1
+15,Auburn,2007,17.6
+16,Arkansas,2007,17.3
+17,Cincinnati,2007,16.9
+18,Tennessee,2007,16.4
+19,Penn State,2007,16.2
+20,Arizona State,2007,14.5
+21,Michigan,2007,14.4
+22,Boston College,2007,14.1
+23,BYU,2007,13.3
+24,Kentucky,2007,13.1
+25,California,2007,12.9
+26,South Carolina,2007,12.8
+27,Illinois,2007,12.7
+28,Oklahoma State,2007,12.1
+29,Oregon State,2007,11.6
+30,Rutgers,2007,11.3
+31,Alabama,2007,11.3
+32,Boise State,2007,11.0
+33,Wisconsin,2007,10.4
+34,UCLA,2007,10.2
+35,Michigan State,2007,9.7
+36,Kansas State,2007,9.4
+37,Louisville,2007,9.0
+38,Utah,2007,8.8
+39,Florida State,2007,8.4
+40,Hawai'i,2007,7.8
+41,UConn,2007,7.6
+42,Arizona,2007,7.5
+43,Texas A&M,2007,7.3
+44,Purdue,2007,7.2
+45,Wake Forest,2007,6.9
+46,Georgia Tech,2007,6.6
+47,Virginia,2007,6.2
+48,Maryland,2007,5.4
+49,Washington,2007,5.4
+50,TCU,2007,5.0
+51,Nebraska,2007,4.5
+52,UCF,2007,4.4
+53,Colorado,2007,4.1
+54,Air Force,2007,3.8
+55,Pittsburgh,2007,3.4
+56,Mississippi State,2007,3.1
+57,Vanderbilt,2007,2.2
+58,Iowa,2007,1.7
+59,Troy,2007,1.1
+60,Fresno State,2007,0.6
+61,Washington State,2007,0.5
+62,Miami,2007,0.5
+63,Indiana,2007,-0.3
+64,Tulsa,2007,-0.8
+65,North Carolina,2007,-1.0
+66,New Mexico,2007,-1.4
+67,Southern Miss,2007,-2.3
+68,East Carolina,2007,-2.9
+69,Ole Miss,2007,-2.9
+70,NC State,2007,-3.9
+71,Houston,2007,-4.8
+72,Stanford,2007,-4.9
+73,Ball State,2007,-5.3
+74,Navy,2007,-5.8
+75,Northwestern,2007,-6.0
+76,Notre Dame,2007,-8.0
+77,Colorado State,2007,-8.9
+78,Wyoming,2007,-8.9
+79,Central Michigan,2007,-8.9
+80,Nevada,2007,-9.2
+81,Minnesota,2007,-10.0
+82,Bowling Green,2007,-10.1
+83,Florida Atlantic,2007,-10.2
+84,Iowa State,2007,-10.8
+85,Marshall,2007,-11.1
+86,Western Michigan,2007,-11.4
+87,UTEP,2007,-13.3
+88,Middle Tennessee,2007,-13.8
+89,San Diego State,2007,-14.1
+90,Miami (OH),2007,-14.9
+91,Ohio,2007,-15.0
+92,Syracuse,2007,-15.3
+93,Arkansas State,2007,-15.4
+94,UNLV,2007,-15.7
+95,Baylor,2007,-16.0
+96,Toledo,2007,-16.1
+97,Memphis,2007,-16.4
+98,Duke,2007,-16.6
+99,UL Monroe,2007,-16.9
+100,Louisiana Tech,2007,-17.6
+101,Tulane,2007,-18.4
+102,Akron,2007,-18.6
+103,Kent State,2007,-18.6
+104,San José State,2007,-18.7
+105,SMU,2007,-18.7
+106,Buffalo,2007,-19.4
+107,Rice,2007,-19.8
+108,Eastern Michigan,2007,-21.8
+109,Louisiana,2007,-21.9
+110,Northern Illinois,2007,-22.8
+111,New Mexico State,2007,-23.0
+112,Army,2007,-23.2
+113,Temple,2007,-23.5
+114,UAB,2007,-24.9
+115,Utah State,2007,-26.8
+116,North Texas,2007,-27.3
+117,Idaho,2007,-28.6
+118,Florida International,2007,-31.0
+119,Florida,2008,37.6
+120,USC,2008,35.5
+121,Oklahoma,2008,35.1
+122,Texas,2008,34.2
+123,Penn State,2008,28.5
+124,Texas Tech,2008,22.8
+125,Missouri,2008,22.2
+126,Ohio State,2008,21.5
+127,Alabama,2008,20.1
+128,TCU,2008,19.5
+129,Oklahoma State,2008,19.0
+130,Iowa,2008,18.7
+131,Boise State,2008,17.3
+132,Utah,2008,17.2
+133,Oregon,2008,16.8
+134,Ole Miss,2008,16.8
+135,Georgia,2008,16.4
+136,California,2008,15.5
+137,Florida State,2008,14.6
+138,Arizona,2008,14.2
+139,LSU,2008,13.1
+140,Nebraska,2008,12.6
+141,Oregon State,2008,12.4
+142,Kansas,2008,11.9
+143,BYU,2008,10.5
+144,Clemson,2008,10.1
+145,North Carolina,2008,9.9
+146,Georgia Tech,2008,8.4
+147,Pittsburgh,2008,8.2
+148,Boston College,2008,8.1
+149,Tulsa,2008,7.8
+150,Ball State,2008,7.8
+151,Virginia Tech,2008,7.7
+152,South Carolina,2008,7.3
+153,West Virginia,2008,7.2
+154,Miami,2008,7.1
+155,Wisconsin,2008,7.0
+156,Michigan State,2008,7.0
+157,Illinois,2008,6.5
+158,Wake Forest,2008,6.5
+159,Cincinnati,2008,6.0
+160,Rutgers,2008,5.8
+161,South Florida,2008,5.7
+162,Tennessee,2008,5.6
+163,Northwestern,2008,5.0
+164,Notre Dame,2008,4.6
+165,UConn,2008,4.3
+166,Maryland,2008,3.3
+167,Houston,2008,3.2
+168,Arizona State,2008,3.1
+169,Baylor,2008,2.6
+170,Stanford,2008,2.2
+171,Auburn,2008,1.8
+172,Purdue,2008,1.6
+173,Rice,2008,1.2
+174,NC State,2008,0.7
+175,Vanderbilt,2008,0.7
+176,Troy,2008,0.4
+177,Southern Miss,2008,0.4
+178,Arkansas,2008,0.1
+179,Minnesota,2008,-0.3
+180,Kansas State,2008,-0.3
+181,East Carolina,2008,-0.5
+182,Navy,2008,-0.6
+183,Air Force,2008,-0.9
+184,Virginia,2008,-1.0
+185,Nevada,2008,-1.1
+186,Michigan,2008,-1.2
+187,Kentucky,2008,-1.2
+188,Bowling Green,2008,-1.9
+189,Colorado,2008,-3.0
+190,New Mexico,2008,-3.6
+191,Duke,2008,-3.8
+192,Northern Illinois,2008,-4.2
+193,UCLA,2008,-4.3
+194,Western Michigan,2008,-4.6
+195,Colorado State,2008,-5.9
+196,Louisville,2008,-6.5
+197,Fresno State,2008,-6.6
+198,Central Michigan,2008,-7.2
+199,Texas A&M,2008,-7.5
+200,Memphis,2008,-7.5
+201,Buffalo,2008,-7.7
+202,UTEP,2008,-7.9
+203,Temple,2008,-8.2
+204,Iowa State,2008,-8.3
+205,Marshall,2008,-8.5
+206,Akron,2008,-8.8
+207,Mississippi State,2008,-9.1
+208,Hawai'i,2008,-9.9
+209,Ohio,2008,-10.4
+210,Florida Atlantic,2008,-11.0
+211,Louisiana Tech,2008,-11.0
+212,UNLV,2008,-11.2
+213,Arkansas State,2008,-11.6
+214,Louisiana,2008,-12.2
+215,Indiana,2008,-12.8
+216,UCF,2008,-12.8
+217,San José State,2008,-13.0
+218,Kent State,2008,-13.4
+219,Syracuse,2008,-14.1
+220,UAB,2008,-15.0
+221,Toledo,2008,-15.2
+222,Middle Tennessee,2008,-15.5
+223,Wyoming,2008,-16.5
+224,Florida International,2008,-16.6
+225,Army,2008,-18.2
+226,Utah State,2008,-19.3
+227,Miami (OH),2008,-19.4
+228,SMU,2008,-19.7
+229,Tulane,2008,-20.1
+230,Washington,2008,-20.5
+231,San Diego State,2008,-21.0
+232,Eastern Michigan,2008,-21.3
+233,UL Monroe,2008,-22.2
+234,New Mexico State,2008,-22.9
+235,Western Kentucky,2008,-24.4
+236,Washington State,2008,-25.5
+237,Idaho,2008,-33.7
+238,North Texas,2008,-36.5
+239,Florida,2009,33.3
+240,Alabama,2009,30.8
+241,Texas,2009,29.9
+242,Virginia Tech,2009,25.9
+243,TCU,2009,25.0
+244,Oklahoma,2009,22.9
+245,Boise State,2009,20.9
+246,Oregon,2009,19.7
+247,Ohio State,2009,19.3
+248,Texas Tech,2009,19.2
+249,Penn State,2009,19.1
+250,Miami,2009,19.0
+251,Nebraska,2009,18.9
+252,LSU,2009,18.6
+253,Cincinnati,2009,16.5
+254,Clemson,2009,15.9
+255,Arkansas,2009,15.9
+256,Ole Miss,2009,15.4
+257,Pittsburgh,2009,15.3
+258,Georgia Tech,2009,14.6
+259,Tennessee,2009,14.4
+260,USC,2009,14.1
+261,Georgia,2009,14.1
+262,Iowa,2009,13.6
+263,Auburn,2009,13.2
+264,BYU,2009,13.0
+265,Wisconsin,2009,12.3
+266,Stanford,2009,12.0
+267,Oregon State,2009,11.2
+268,Oklahoma State,2009,11.1
+269,Utah,2009,10.3
+270,West Virginia,2009,10.0
+271,South Carolina,2009,10.0
+272,North Carolina,2009,9.8
+273,Notre Dame,2009,9.5
+274,Arizona,2009,9.0
+275,Florida State,2009,8.9
+276,Boston College,2009,8.4
+277,UConn,2009,6.9
+278,Missouri,2009,6.9
+279,Air Force,2009,6.4
+280,Michigan State,2009,6.2
+281,California,2009,6.1
+282,Mississippi State,2009,5.9
+283,Houston,2009,5.4
+284,Kansas,2009,5.3
+285,Central Michigan,2009,5.3
+286,Kentucky,2009,4.9
+287,Texas A&M,2009,4.8
+288,Rutgers,2009,4.0
+289,UCLA,2009,3.6
+290,Arizona State,2009,3.5
+291,Wake Forest,2009,3.5
+292,Michigan,2009,2.8
+293,Navy,2009,2.0
+294,Purdue,2009,2.0
+295,South Florida,2009,1.9
+296,Washington,2009,1.5
+297,Virginia,2009,0.9
+298,East Carolina,2009,0.9
+299,Nevada,2009,0.8
+300,Minnesota,2009,0.4
+301,Kansas State,2009,0.0
+302,Fresno State,2009,-0.2
+303,Southern Miss,2009,-0.7
+304,NC State,2009,-1.3
+305,Troy,2009,-1.4
+306,Iowa State,2009,-1.9
+307,Northwestern,2009,-3.4
+308,Colorado,2009,-3.4
+309,Middle Tennessee,2009,-3.4
+310,Temple,2009,-3.5
+311,UCF,2009,-3.6
+312,Baylor,2009,-4.0
+313,Louisiana Tech,2009,-4.4
+314,Duke,2009,-4.4
+315,Northern Illinois,2009,-4.7
+316,Tulsa,2009,-5.3
+317,Vanderbilt,2009,-5.5
+318,Illinois,2009,-5.6
+319,Maryland,2009,-6.0
+320,Bowling Green,2009,-6.7
+321,SMU,2009,-6.8
+322,Ohio,2009,-7.1
+323,Indiana,2009,-7.2
+324,Syracuse,2009,-7.2
+325,Louisville,2009,-7.7
+326,Marshall,2009,-7.9
+327,Colorado State,2009,-9.6
+328,UAB,2009,-9.7
+329,Buffalo,2009,-11.1
+330,UTEP,2009,-11.2
+331,Western Michigan,2009,-12.8
+332,UNLV,2009,-12.9
+333,Utah State,2009,-13.0
+334,Idaho,2009,-13.1
+335,Toledo,2009,-13.1
+336,Wyoming,2009,-13.4
+337,San Diego State,2009,-14.1
+338,Hawai'i,2009,-14.7
+339,Kent State,2009,-14.8
+340,UL Monroe,2009,-15.9
+341,Arkansas State,2009,-17.2
+342,Florida Atlantic,2009,-17.4
+343,Memphis,2009,-17.7
+344,Army,2009,-19.0
+345,Ball State,2009,-19.5
+346,North Texas,2009,-19.8
+347,Akron,2009,-20.7
+348,Louisiana,2009,-21.0
+349,New Mexico,2009,-21.9
+350,Miami (OH),2009,-22.2
+351,Florida International,2009,-23.4
+352,Washington State,2009,-25.3
+353,San José State,2009,-26.2
+354,Tulane,2009,-26.6
+355,Rice,2009,-28.4
+356,Western Kentucky,2009,-29.2
+357,New Mexico State,2009,-32.2
+358,Eastern Michigan,2009,-32.5
+359,Stanford,2010,32.5
+360,Oregon,2010,32.0
+361,Boise State,2010,30.7
+362,Alabama,2010,30.1
+363,Ohio State,2010,27.2
+364,Auburn,2010,27.0
+365,TCU,2010,25.7
+366,Arkansas,2010,22.7
+367,Oklahoma,2010,21.7
+368,Wisconsin,2010,21.4
+369,Virginia Tech,2010,21.4
+370,Oklahoma State,2010,20.3
+371,South Carolina,2010,19.8
+372,LSU,2010,19.7
+373,Nebraska,2010,18.0
+374,Florida State,2010,17.4
+375,Missouri,2010,16.5
+376,Georgia,2010,16.4
+377,USC,2010,15.7
+378,Arizona State,2010,15.6
+379,Iowa,2010,15.5
+380,Florida,2010,14.5
+381,Arizona,2010,14.2
+382,Miami,2010,14.2
+383,Texas A&M,2010,13.2
+384,West Virginia,2010,13.2
+385,Nevada,2010,13.0
+386,Notre Dame,2010,13.0
+387,Mississippi State,2010,12.8
+388,Utah,2010,11.7
+389,NC State,2010,11.4
+390,Michigan State,2010,10.7
+391,Pittsburgh,2010,10.5
+392,Clemson,2010,9.8
+393,Oregon State,2010,9.8
+394,California,2010,9.6
+395,Illinois,2010,8.3
+396,Maryland,2010,8.3
+397,Hawai'i,2010,7.8
+398,North Carolina,2010,7.6
+399,Northern Illinois,2010,6.5
+400,Louisville,2010,6.3
+401,UCF,2010,6.1
+402,San Diego State,2010,5.8
+403,Air Force,2010,5.5
+404,Kentucky,2010,5.5
+405,Kansas State,2010,5.5
+406,Tennessee,2010,5.4
+407,Texas,2010,5.3
+408,Michigan,2010,4.8
+409,Penn State,2010,4.7
+410,Washington,2010,4.5
+411,Boston College,2010,3.2
+412,Texas Tech,2010,3.1
+413,BYU,2010,3.1
+414,Ole Miss,2010,2.4
+415,UCLA,2010,1.7
+416,Georgia Tech,2010,1.6
+417,South Florida,2010,1.6
+418,Baylor,2010,1.4
+419,Southern Miss,2010,1.4
+420,Tulsa,2010,1.3
+421,Navy,2010,0.8
+422,Cincinnati,2010,0.8
+423,Syracuse,2010,0.7
+424,Fresno State,2010,-1.0
+425,UConn,2010,-1.5
+426,Colorado,2010,-3.0
+427,SMU,2010,-3.4
+428,Houston,2010,-4.0
+429,Northwestern,2010,-4.0
+430,Iowa State,2010,-4.8
+431,Temple,2010,-5.2
+432,Virginia,2010,-5.5
+433,Troy,2010,-5.8
+434,Western Michigan,2010,-6.3
+435,East Carolina,2010,-7.2
+436,Louisiana Tech,2010,-7.5
+437,Washington State,2010,-7.8
+438,Minnesota,2010,-8.1
+439,Purdue,2010,-8.3
+440,Indiana,2010,-8.3
+441,Toledo,2010,-8.7
+442,Duke,2010,-9.1
+443,Florida International,2010,-9.5
+444,Rutgers,2010,-9.6
+445,Army,2010,-9.6
+446,Ohio,2010,-9.8
+447,Vanderbilt,2010,-10.8
+448,Idaho,2010,-11.0
+449,Miami (OH),2010,-11.6
+450,UAB,2010,-11.7
+451,Wake Forest,2010,-12.0
+452,Arkansas State,2010,-12.4
+453,Kent State,2010,-13.1
+454,Central Michigan,2010,-13.2
+455,UTEP,2010,-13.9
+456,Wyoming,2010,-14.3
+457,Marshall,2010,-15.0
+458,Middle Tennessee,2010,-15.8
+459,Utah State,2010,-15.9
+460,Kansas,2010,-16.3
+461,North Texas,2010,-17.9
+462,Rice,2010,-19.3
+463,San José State,2010,-20.1
+464,UL Monroe,2010,-20.3
+465,Colorado State,2010,-20.6
+466,Tulane,2010,-20.6
+467,Ball State,2010,-21.4
+468,Florida Atlantic,2010,-22.2
+469,Western Kentucky,2010,-22.8
+470,Bowling Green,2010,-23.2
+471,UNLV,2010,-23.7
+472,Louisiana,2010,-24.4
+473,Buffalo,2010,-27.1
+474,New Mexico,2010,-28.6
+475,Memphis,2010,-29.3
+476,New Mexico State,2010,-30.5
+477,Akron,2010,-30.8
+478,Eastern Michigan,2010,-31.7
+479,Alabama,2011,34.2
+480,LSU,2011,33.3
+481,Oklahoma State,2011,29.6
+482,Oregon,2011,28.5
+483,Wisconsin,2011,27.5
+484,Oklahoma,2011,26.7
+485,Stanford,2011,24.1
+486,Boise State,2011,24.0
+487,USC,2011,20.5
+488,Texas A&M,2011,19.9
+489,Michigan,2011,19.1
+490,Arkansas,2011,19.1
+491,Georgia,2011,18.2
+492,Michigan State,2011,17.7
+493,Florida State,2011,17.2
+494,South Carolina,2011,16.5
+495,Notre Dame,2011,16.5
+496,Texas,2011,15.5
+497,Houston,2011,15.3
+498,TCU,2011,13.9
+499,Missouri,2011,13.6
+500,West Virginia,2011,13.0
+501,Florida,2011,12.4
+502,Nebraska,2011,12.4
+503,Baylor,2011,11.6
+504,Virginia Tech,2011,10.7
+505,Kansas State,2011,10.3
+506,Miami,2011,9.9
+507,Ohio State,2011,9.8
+508,Cincinnati,2011,9.8
+509,Arizona State,2011,9.3
+510,Iowa,2011,8.6
+511,Southern Miss,2011,8.5
+512,California,2011,8.5
+513,Penn State,2011,8.3
+514,Mississippi State,2011,7.5
+515,Vanderbilt,2011,7.4
+516,Clemson,2011,7.0
+517,South Florida,2011,6.4
+518,Utah,2011,5.7
+519,Toledo,2011,5.6
+520,Georgia Tech,2011,5.3
+521,Auburn,2011,5.2
+522,Temple,2011,5.1
+523,Tennessee,2011,5.1
+524,BYU,2011,4.9
+525,Pittsburgh,2011,4.5
+526,Tulsa,2011,4.5
+527,Illinois,2011,4.3
+528,North Carolina,2011,3.4
+529,Washington,2011,3.0
+530,Louisville,2011,3.0
+531,Rutgers,2011,2.7
+532,Louisiana Tech,2011,1.8
+533,Northwestern,2011,1.4
+534,Northern Illinois,2011,1.4
+535,Texas Tech,2011,1.3
+536,Iowa State,2011,0.3
+537,UCF,2011,0.2
+538,UCLA,2011,-0.0
+539,SMU,2011,-0.3
+540,Arizona,2011,-0.5
+541,Western Michigan,2011,-0.7
+542,NC State,2011,-0.9
+543,Nevada,2011,-0.9
+544,Purdue,2011,-1.0
+545,Air Force,2011,-1.5
+546,UConn,2011,-1.6
+547,Virginia,2011,-1.8
+548,San Diego State,2011,-2.5
+549,Arkansas State,2011,-2.6
+550,Wake Forest,2011,-2.7
+551,Ohio,2011,-3.0
+552,Oregon State,2011,-3.3
+553,Washington State,2011,-3.3
+554,Syracuse,2011,-3.7
+555,Utah State,2011,-4.3
+556,Navy,2011,-5.1
+557,Boston College,2011,-5.4
+558,Kentucky,2011,-5.6
+559,Hawai'i,2011,-7.6
+560,Florida International,2011,-7.7
+561,Miami (OH),2011,-7.7
+562,East Carolina,2011,-7.8
+563,Bowling Green,2011,-8.7
+564,Minnesota,2011,-8.7
+565,Louisiana,2011,-9.3
+566,Maryland,2011,-9.3
+567,Fresno State,2011,-9.5
+568,Marshall,2011,-9.6
+569,UTEP,2011,-9.7
+570,Ole Miss,2011,-9.8
+571,Duke,2011,-10.1
+572,Colorado,2011,-11.7
+573,San José State,2011,-11.8
+574,Western Kentucky,2011,-12.1
+575,Rice,2011,-12.4
+576,UL Monroe,2011,-12.7
+577,Kent State,2011,-12.8
+578,Wyoming,2011,-13.0
+579,Ball State,2011,-13.5
+580,Kansas,2011,-14.7
+581,Eastern Michigan,2011,-15.9
+582,North Texas,2011,-16.6
+583,Army,2011,-16.8
+584,Indiana,2011,-17.0
+585,Colorado State,2011,-18.0
+586,Troy,2011,-18.2
+587,Central Michigan,2011,-18.3
+588,Buffalo,2011,-18.9
+589,New Mexico State,2011,-21.0
+590,UAB,2011,-21.9
+591,Idaho,2011,-22.2
+592,Middle Tennessee,2011,-24.7
+593,Tulane,2011,-25.8
+594,UNLV,2011,-26.5
+595,Florida Atlantic,2011,-29.5
+596,Memphis,2011,-30.4
+597,Akron,2011,-33.3
+598,New Mexico,2011,-35.1
+599,Alabama,2012,38.1
+600,Oregon,2012,31.6
+601,Texas A&M,2012,30.3
+602,Georgia,2012,26.3
+603,Oklahoma,2012,25.1
+604,Kansas State,2012,24.4
+605,Florida State,2012,24.3
+606,Florida,2012,24.0
+607,LSU,2012,22.5
+608,Oklahoma State,2012,21.9
+609,Notre Dame,2012,20.0
+610,South Carolina,2012,19.6
+611,USC,2012,17.4
+612,Clemson,2012,17.3
+613,Ohio State,2012,17.2
+614,Stanford,2012,16.9
+615,Michigan,2012,16.9
+616,Texas,2012,16.5
+617,Oregon State,2012,15.8
+618,Nebraska,2012,14.8
+619,Wisconsin,2012,14.8
+620,Arizona State,2012,14.1
+621,Baylor,2012,13.4
+622,Ole Miss,2012,12.3
+623,Texas Tech,2012,11.9
+624,UCLA,2012,11.7
+625,TCU,2012,11.6
+626,BYU,2012,11.0
+627,Vanderbilt,2012,10.8
+628,Boise State,2012,10.8
+629,Penn State,2012,10.6
+630,Utah State,2012,10.5
+631,Michigan State,2012,10.1
+632,Fresno State,2012,9.6
+633,Cincinnati,2012,9.3
+634,Tennessee,2012,9.0
+635,West Virginia,2012,8.9
+636,Northwestern,2012,8.6
+637,North Carolina,2012,8.6
+638,Northern Illinois,2012,8.2
+639,Arizona,2012,8.1
+640,Mississippi State,2012,8.0
+641,Louisville,2012,7.0
+642,Virginia Tech,2012,6.8
+643,UCF,2012,6.6
+644,Missouri,2012,6.5
+645,Georgia Tech,2012,6.5
+646,Syracuse,2012,6.4
+647,Arkansas,2012,6.3
+648,San José State,2012,6.1
+649,Iowa State,2012,5.9
+650,Pittsburgh,2012,5.0
+651,Washington,2012,4.8
+652,Tulsa,2012,4.1
+653,Miami,2012,3.7
+654,Louisiana Tech,2012,3.7
+655,Utah,2012,3.3
+656,San Diego State,2012,2.2
+657,Rutgers,2012,1.9
+658,NC State,2012,1.7
+659,Arkansas State,2012,1.0
+660,California,2012,0.4
+661,Auburn,2012,-1.1
+662,Iowa,2012,-1.6
+663,Louisiana,2012,-2.0
+664,Kent State,2012,-2.0
+665,Nevada,2012,-3.0
+666,Purdue,2012,-3.3
+667,Toledo,2012,-3.5
+668,SMU,2012,-3.6
+669,Minnesota,2012,-3.9
+670,Ball State,2012,-4.8
+671,Virginia,2012,-4.9
+672,UConn,2012,-4.9
+673,South Florida,2012,-5.1
+674,Western Kentucky,2012,-5.4
+675,UL Monroe,2012,-5.7
+676,Indiana,2012,-5.9
+677,Bowling Green,2012,-6.4
+678,Duke,2012,-6.7
+679,Troy,2012,-6.8
+680,Boston College,2012,-7.4
+681,Washington State,2012,-7.6
+682,Houston,2012,-7.8
+683,Middle Tennessee,2012,-8.2
+684,East Carolina,2012,-8.4
+685,Maryland,2012,-8.6
+686,Ohio,2012,-8.7
+687,Marshall,2012,-8.8
+688,Kentucky,2012,-8.9
+689,Navy,2012,-8.9
+690,Rice,2012,-9.0
+691,Kansas,2012,-10.8
+692,Temple,2012,-10.9
+693,Air Force,2012,-11.8
+694,Western Michigan,2012,-11.9
+695,Wake Forest,2012,-12.1
+696,Illinois,2012,-13.0
+697,UTEP,2012,-13.5
+698,Florida International,2012,-13.9
+699,Wyoming,2012,-14.0
+700,Memphis,2012,-14.3
+701,Central Michigan,2012,-14.4
+702,North Texas,2012,-14.4
+703,Texas State,2012,-15.7
+704,Buffalo,2012,-16.0
+705,New Mexico,2012,-16.7
+706,UAB,2012,-16.7
+707,Colorado State,2012,-16.8
+708,Florida Atlantic,2012,-18.2
+709,Miami (OH),2012,-18.6
+710,UNLV,2012,-18.7
+711,Army,2012,-19.4
+712,UTSA,2012,-20.0
+713,Southern Miss,2012,-20.9
+714,Colorado,2012,-21.8
+715,Eastern Michigan,2012,-22.3
+716,Akron,2012,-23.1
+717,Hawai'i,2012,-23.4
+718,Tulane,2012,-23.4
+719,South Alabama,2012,-23.7
+720,Idaho,2012,-29.3
+721,New Mexico State,2012,-34.4
+722,Massachusetts,2012,-35.5
+723,Florida State,2013,40.4
+724,Alabama,2013,33.4
+725,Oregon,2013,32.0
+726,Baylor,2013,27.2
+727,Ohio State,2013,26.4
+728,Stanford,2013,24.7
+729,LSU,2013,24.1
+730,Auburn,2013,23.7
+731,Oklahoma State,2013,22.6
+732,Clemson,2013,22.4
+733,Wisconsin,2013,22.0
+734,Washington,2013,21.9
+735,Arizona State,2013,21.7
+736,Missouri,2013,21.7
+737,UCLA,2013,20.7
+738,Louisville,2013,20.6
+739,Georgia,2013,20.3
+740,Texas A&M,2013,20.1
+741,South Carolina,2013,19.9
+742,Kansas State,2013,18.7
+743,Michigan State,2013,18.6
+744,Oklahoma,2013,18.2
+745,USC,2013,18.2
+746,Arizona,2013,14.7
+747,Ole Miss,2013,13.8
+748,Iowa,2013,13.2
+749,UCF,2013,13.0
+750,Miami,2013,12.5
+751,Oregon State,2013,12.3
+752,Notre Dame,2013,11.7
+753,Texas,2013,11.5
+754,BYU,2013,11.2
+755,Virginia Tech,2013,10.9
+756,Texas Tech,2013,10.8
+757,Mississippi State,2013,10.8
+758,Florida,2013,10.4
+759,Georgia Tech,2013,10.2
+760,Michigan,2013,9.8
+761,Utah,2013,9.7
+762,TCU,2013,9.5
+763,North Carolina,2013,9.3
+764,Bowling Green,2013,8.5
+765,Nebraska,2013,8.2
+766,Boise State,2013,8.0
+767,Vanderbilt,2013,7.3
+768,Fresno State,2013,6.6
+769,Utah State,2013,6.4
+770,East Carolina,2013,6.1
+771,Washington State,2013,5.8
+772,Duke,2013,5.5
+773,Pittsburgh,2013,5.5
+774,Penn State,2013,5.0
+775,Houston,2013,4.9
+776,Marshall,2013,4.9
+777,Northern Illinois,2013,4.5
+778,Cincinnati,2013,4.2
+779,Northwestern,2013,4.0
+780,Tennessee,2013,3.1
+781,Minnesota,2013,3.1
+782,Indiana,2013,2.9
+783,Boston College,2013,2.7
+784,Maryland,2013,2.4
+785,Ball State,2013,1.8
+786,Toledo,2013,1.1
+787,Navy,2013,-0.1
+788,North Texas,2013,-0.1
+789,Colorado State,2013,-0.6
+790,West Virginia,2013,-1.1
+791,Arkansas,2013,-1.6
+792,Syracuse,2013,-1.6
+793,Iowa State,2013,-2.9
+794,Rice,2013,-3.2
+795,Illinois,2013,-3.3
+796,Wake Forest,2013,-4.6
+797,NC State,2013,-4.8
+798,Buffalo,2013,-5.3
+799,Colorado,2013,-5.5
+800,Western Kentucky,2013,-5.9
+801,San Diego State,2013,-6.2
+802,Kentucky,2013,-6.4
+803,Virginia,2013,-6.5
+804,San José State,2013,-6.5
+805,Florida Atlantic,2013,-7.0
+806,Memphis,2013,-7.0
+807,UTSA,2013,-7.2
+808,South Alabama,2013,-7.7
+809,Rutgers,2013,-8.4
+810,Tulane,2013,-8.6
+811,Middle Tennessee,2013,-9.2
+812,Louisiana,2013,-9.2
+813,SMU,2013,-9.3
+814,California,2013,-10.4
+815,Temple,2013,-11.3
+816,UNLV,2013,-11.3
+817,Arkansas State,2013,-11.5
+818,Kansas,2013,-11.8
+819,Nevada,2013,-12.1
+820,UConn,2013,-12.6
+821,Ohio,2013,-13.6
+822,South Florida,2013,-14.1
+823,Hawai'i,2013,-14.2
+824,Kent State,2013,-14.3
+825,Tulsa,2013,-15.6
+826,Troy,2013,-15.7
+827,Wyoming,2013,-16.0
+828,Akron,2013,-16.6
+829,Purdue,2013,-18.4
+830,Texas State,2013,-19.2
+831,New Mexico,2013,-19.8
+832,UL Monroe,2013,-19.9
+833,Central Michigan,2013,-20.6
+834,Army,2013,-20.8
+835,Louisiana Tech,2013,-20.9
+836,Air Force,2013,-23.6
+837,UAB,2013,-25.4
+838,Western Michigan,2013,-27.1
+839,UTEP,2013,-30.2
+840,Georgia State,2013,-30.5
+841,Southern Miss,2013,-31.4
+842,Massachusetts,2013,-32.7
+843,New Mexico State,2013,-33.2
+844,Idaho,2013,-33.3
+845,Miami (OH),2013,-33.5
+846,Florida International,2013,-37.6
+847,Eastern Michigan,2013,-38.0
+848,Alabama,2014,30.1
+849,Oregon,2014,26.4
+850,Ohio State,2014,25.4
+851,Georgia,2014,24.9
+852,TCU,2014,24.3
+853,Auburn,2014,22.1
+854,Baylor,2014,21.6
+855,Michigan State,2014,21.1
+856,Ole Miss,2014,20.4
+857,Mississippi State,2014,20.2
+858,Florida State,2014,19.5
+859,LSU,2014,17.3
+860,Wisconsin,2014,17.2
+861,Stanford,2014,17.1
+862,Oklahoma,2014,17.0
+863,Kansas State,2014,16.7
+864,Arkansas,2014,16.2
+865,USC,2014,15.8
+866,UCLA,2014,15.2
+867,Clemson,2014,15.2
+868,Missouri,2014,14.6
+869,Georgia Tech,2014,14.2
+870,Marshall,2014,13.8
+871,Texas A&M,2014,13.5
+872,Florida,2014,12.9
+873,Nebraska,2014,12.9
+874,Louisville,2014,12.5
+875,Arizona State,2014,11.8
+876,South Carolina,2014,11.8
+877,Tennessee,2014,11.1
+878,Miami,2014,10.6
+879,West Virginia,2014,9.6
+880,Arizona,2014,9.4
+881,Notre Dame,2014,9.3
+882,Boise State,2014,8.9
+883,Utah,2014,8.4
+884,Minnesota,2014,6.9
+885,Washington,2014,6.7
+886,Virginia Tech,2014,6.5
+887,Pittsburgh,2014,6.5
+888,Texas,2014,6.1
+889,Duke,2014,5.8
+890,Memphis,2014,5.4
+891,Boston College,2014,5.2
+892,BYU,2014,5.2
+893,Penn State,2014,4.9
+894,Oklahoma State,2014,4.3
+895,Michigan,2014,4.1
+896,Iowa,2014,4.0
+897,Virginia,2014,4.0
+898,East Carolina,2014,3.9
+899,NC State,2014,3.8
+900,Louisiana Tech,2014,3.7
+901,Colorado State,2014,3.1
+902,Kentucky,2014,3.0
+903,Maryland,2014,2.7
+904,Cincinnati,2014,2.5
+905,UCF,2014,1.5
+906,California,2014,1.3
+907,Utah State,2014,1.1
+908,Northwestern,2014,0.5
+909,Oregon State,2014,0.5
+910,Navy,2014,0.4
+911,Texas Tech,2014,0.4
+912,Houston,2014,-0.2
+913,Rutgers,2014,-1.2
+914,North Carolina,2014,-1.6
+915,Toledo,2014,-1.8
+916,Georgia Southern,2014,-2.3
+917,Washington State,2014,-2.3
+918,Air Force,2014,-2.8
+919,Illinois,2014,-2.8
+920,Indiana,2014,-3.0
+921,Western Michigan,2014,-3.0
+922,Syracuse,2014,-3.2
+923,Western Kentucky,2014,-3.2
+924,San Diego State,2014,-3.2
+925,Arkansas State,2014,-3.7
+926,Northern Illinois,2014,-3.9
+927,Louisiana,2014,-4.0
+928,Colorado,2014,-4.3
+929,UAB,2014,-4.6
+930,Nevada,2014,-4.8
+931,Temple,2014,-5.1
+932,Rice,2014,-5.5
+933,Purdue,2014,-6.2
+934,Iowa State,2014,-7.1
+935,Central Michigan,2014,-7.2
+936,Vanderbilt,2014,-8.2
+937,Middle Tennessee,2014,-8.7
+938,Fresno State,2014,-9.2
+939,Kansas,2014,-9.5
+940,UTSA,2014,-9.6
+941,South Alabama,2014,-9.8
+942,Wake Forest,2014,-9.9
+943,Ball State,2014,-10.4
+944,App State,2014,-10.4
+945,Bowling Green,2014,-10.9
+946,Texas State,2014,-11.0
+947,UTEP,2014,-11.2
+948,Florida Atlantic,2014,-12.5
+949,Akron,2014,-12.6
+950,Florida International,2014,-13.2
+951,UL Monroe,2014,-13.3
+952,Hawai'i,2014,-13.5
+953,Old Dominion,2014,-13.7
+954,Buffalo,2014,-14.0
+955,Ohio,2014,-14.0
+956,Tulane,2014,-14.2
+957,San José State,2014,-14.2
+958,South Florida,2014,-14.4
+959,North Texas,2014,-15.0
+960,New Mexico,2014,-15.1
+961,Wyoming,2014,-15.6
+962,Southern Miss,2014,-16.6
+963,Army,2014,-16.8
+964,Kent State,2014,-17.2
+965,UConn,2014,-17.3
+966,Tulsa,2014,-17.3
+967,Miami (OH),2014,-18.3
+968,Massachusetts,2014,-18.5
+969,UNLV,2014,-19.4
+970,Troy,2014,-20.5
+971,Idaho,2014,-21.7
+972,SMU,2014,-25.1
+973,New Mexico State,2014,-25.8
+974,Georgia State,2014,-27.0
+975,Eastern Michigan,2014,-30.7
+976,Alabama,2015,26.8
+977,Ohio State,2015,23.9
+978,Clemson,2015,21.8
+979,Oklahoma,2015,21.7
+980,Ole Miss,2015,21.6
+981,Stanford,2015,20.6
+982,Baylor,2015,18.6
+983,Notre Dame,2015,18.3
+984,Florida State,2015,17.3
+985,Tennessee,2015,17.3
+986,North Carolina,2015,17.2
+987,LSU,2015,17.2
+988,Michigan,2015,16.8
+989,Arkansas,2015,16.5
+990,USC,2015,15.3
+991,TCU,2015,15.1
+992,Mississippi State,2015,14.4
+993,Michigan State,2015,14.1
+994,Georgia,2015,13.2
+995,UCLA,2015,12.8
+996,Texas A&M,2015,12.5
+997,Oregon,2015,12.5
+998,Wisconsin,2015,11.7
+999,Auburn,2015,11.3
+1000,West Virginia,2015,11.1
+1001,Washington,2015,11.0
+1002,Utah,2015,10.7
+1003,Florida,2015,10.7
+1004,Navy,2015,10.5
+1005,California,2015,10.0
+1006,Western Kentucky,2015,9.9
+1007,Houston,2015,9.7
+1008,Oklahoma State,2015,9.6
+1009,Louisville,2015,9.3
+1010,Boise State,2015,9.1
+1011,Iowa,2015,9.0
+1012,Arizona State,2015,8.1
+1013,Memphis,2015,7.9
+1014,Pittsburgh,2015,7.7
+1015,Bowling Green,2015,7.6
+1016,Nebraska,2015,7.6
+1017,BYU,2015,7.6
+1018,NC State,2015,7.3
+1019,Penn State,2015,6.7
+1020,Virginia Tech,2015,6.7
+1021,Toledo,2015,6.7
+1022,Georgia Tech,2015,6.2
+1023,Washington State,2015,5.3
+1024,Miami,2015,5.1
+1025,San Diego State,2015,4.7
+1026,South Florida,2015,4.5
+1027,App State,2015,4.5
+1028,Texas Tech,2015,4.3
+1029,Temple,2015,4.1
+1030,Georgia Southern,2015,3.7
+1031,Western Michigan,2015,3.1
+1032,Minnesota,2015,3.0
+1033,Texas,2015,2.3
+1034,Northwestern,2015,2.3
+1035,Louisiana Tech,2015,2.1
+1036,Duke,2015,1.9
+1037,Cincinnati,2015,1.7
+1038,Missouri,2015,1.7
+1039,South Carolina,2015,1.7
+1040,Arizona,2015,1.5
+1041,Air Force,2015,1.3
+1042,Kansas State,2015,1.2
+1043,Boston College,2015,1.0
+1044,Indiana,2015,0.8
+1045,Southern Miss,2015,0.5
+1046,Illinois,2015,0.4
+1047,Virginia,2015,0.2
+1048,Marshall,2015,0.1
+1049,Utah State,2015,-0.2
+1050,East Carolina,2015,-0.6
+1051,Kentucky,2015,-1.4
+1052,Northern Illinois,2015,-1.7
+1053,Vanderbilt,2015,-1.9
+1054,Iowa State,2015,-2.0
+1055,Arkansas State,2015,-2.4
+1056,Maryland,2015,-2.8
+1057,Central Michigan,2015,-3.2
+1058,Syracuse,2015,-3.8
+1059,Middle Tennessee,2015,-4.2
+1060,Ohio,2015,-4.2
+1061,Wake Forest,2015,-4.7
+1062,Colorado,2015,-4.8
+1063,Akron,2015,-5.1
+1064,UConn,2015,-5.3
+1065,Colorado State,2015,-5.3
+1066,San José State,2015,-7.1
+1067,Purdue,2015,-8.0
+1068,Tulsa,2015,-8.3
+1069,Rutgers,2015,-8.9
+1070,Nevada,2015,-9.3
+1071,Troy,2015,-9.8
+1072,New Mexico,2015,-10.3
+1073,Georgia State,2015,-10.7
+1074,Oregon State,2015,-11.5
+1075,Buffalo,2015,-11.7
+1076,Massachusetts,2015,-12.8
+1077,Florida Atlantic,2015,-13.4
+1078,Louisiana,2015,-14.1
+1079,South Alabama,2015,-15.2
+1080,Ball State,2015,-15.6
+1081,Kent State,2015,-15.9
+1082,Fresno State,2015,-15.9
+1083,UNLV,2015,-16.1
+1084,SMU,2015,-16.2
+1085,Army,2015,-16.7
+1086,Florida International,2015,-16.8
+1087,Tulane,2015,-17.6
+1088,Miami (OH),2015,-17.8
+1089,Rice,2015,-18.0
+1090,Idaho,2015,-18.1
+1091,UTSA,2015,-18.8
+1092,Wyoming,2015,-19.4
+1093,Old Dominion,2015,-19.6
+1094,Hawai'i,2015,-19.8
+1095,Texas State,2015,-20.1
+1096,UL Monroe,2015,-20.6
+1097,UCF,2015,-21.4
+1098,New Mexico State,2015,-22.4
+1099,Eastern Michigan,2015,-22.8
+1100,UTEP,2015,-22.9
+1101,Kansas,2015,-23.0
+1102,Charlotte,2015,-25.8
+1103,North Texas,2015,-26.4
+1104,Alabama,2016,32.5
+1105,Clemson,2016,26.1
+1106,Washington,2016,25.6
+1107,Michigan,2016,25.5
+1108,Ohio State,2016,25.0
+1109,LSU,2016,22.2
+1110,Oklahoma,2016,20.5
+1111,Louisville,2016,20.1
+1112,USC,2016,19.9
+1113,Florida State,2016,19.1
+1114,Auburn,2016,16.5
+1115,Wisconsin,2016,16.2
+1116,Penn State,2016,15.6
+1117,Miami,2016,15.0
+1118,Virginia Tech,2016,13.5
+1119,Stanford,2016,13.5
+1120,Florida,2016,12.6
+1121,Tennessee,2016,12.3
+1122,Western Kentucky,2016,12.2
+1123,Oklahoma State,2016,12.0
+1124,Texas A&M,2016,11.7
+1125,North Carolina,2016,10.8
+1126,Washington State,2016,10.8
+1127,Colorado,2016,10.5
+1128,West Virginia,2016,10.4
+1129,Ole Miss,2016,10.2
+1130,Pittsburgh,2016,10.1
+1131,Western Michigan,2016,10.0
+1132,Notre Dame,2016,9.7
+1133,Boise State,2016,9.7
+1134,Iowa,2016,9.2
+1135,Utah,2016,8.5
+1136,Kansas State,2016,8.4
+1137,Houston,2016,8.3
+1138,Temple,2016,8.2
+1139,Minnesota,2016,8.0
+1140,TCU,2016,7.8
+1141,South Florida,2016,7.6
+1142,NC State,2016,7.5
+1143,Baylor,2016,7.3
+1144,Nebraska,2016,7.2
+1145,BYU,2016,7.0
+1146,Memphis,2016,6.6
+1147,Georgia Tech,2016,6.5
+1148,Arkansas,2016,6.4
+1149,Georgia,2016,6.4
+1150,San Diego State,2016,6.1
+1151,Toledo,2016,6.1
+1152,UCLA,2016,5.7
+1153,Texas,2016,5.7
+1154,Northwestern,2016,5.7
+1155,Tulsa,2016,5.5
+1156,App State,2016,4.4
+1157,Michigan State,2016,4.2
+1158,Navy,2016,3.8
+1159,Mississippi State,2016,3.8
+1160,Oregon,2016,2.6
+1161,Louisiana Tech,2016,2.1
+1162,Indiana,2016,1.9
+1163,Texas Tech,2016,1.7
+1164,Air Force,2016,1.7
+1165,California,2016,1.1
+1166,Vanderbilt,2016,0.9
+1167,Troy,2016,0.3
+1168,Colorado State,2016,-0.3
+1169,Wake Forest,2016,-0.8
+1170,Iowa State,2016,-1.3
+1171,UCF,2016,-1.6
+1172,Kentucky,2016,-1.6
+1173,Missouri,2016,-1.7
+1174,Maryland,2016,-1.9
+1175,Oregon State,2016,-2.1
+1176,Arizona State,2016,-2.4
+1177,Duke,2016,-2.7
+1178,Arkansas State,2016,-3.1
+1179,Boston College,2016,-3.3
+1180,South Carolina,2016,-3.6
+1181,Old Dominion,2016,-3.7
+1182,Arizona,2016,-4.8
+1183,Wyoming,2016,-5.1
+1184,Southern Miss,2016,-5.2
+1185,Syracuse,2016,-5.4
+1186,Virginia,2016,-5.5
+1187,Ohio,2016,-5.6
+1188,Northern Illinois,2016,-5.6
+1189,Middle Tennessee,2016,-6.3
+1190,New Mexico,2016,-7.0
+1191,Utah State,2016,-7.1
+1192,Georgia Southern,2016,-7.1
+1193,Cincinnati,2016,-7.6
+1194,Army,2016,-7.9
+1195,Miami (OH),2016,-8.3
+1196,Illinois,2016,-8.8
+1197,SMU,2016,-9.2
+1198,Idaho,2016,-9.2
+1199,Central Michigan,2016,-9.6
+1200,Eastern Michigan,2016,-10.2
+1201,UTSA,2016,-10.3
+1202,East Carolina,2016,-10.3
+1203,Akron,2016,-11.0
+1204,Louisiana,2016,-11.4
+1205,South Alabama,2016,-11.6
+1206,Tulane,2016,-11.8
+1207,Ball State,2016,-11.8
+1208,Purdue,2016,-12.3
+1209,Hawai'i,2016,-12.8
+1210,Bowling Green,2016,-13.2
+1211,Kent State,2016,-13.2
+1212,UConn,2016,-14.4
+1213,Rutgers,2016,-14.4
+1214,Georgia State,2016,-14.9
+1215,Nevada,2016,-14.9
+1216,Kansas,2016,-15.6
+1217,UNLV,2016,-15.6
+1218,San José State,2016,-15.8
+1219,Massachusetts,2016,-16.8
+1220,North Texas,2016,-16.9
+1221,Marshall,2016,-17.1
+1222,Florida Atlantic,2016,-18.5
+1223,Fresno State,2016,-19.0
+1224,Rice,2016,-19.5
+1225,New Mexico State,2016,-19.9
+1226,Florida International,2016,-20.2
+1227,UTEP,2016,-20.5
+1228,Charlotte,2016,-21.1
+1229,UL Monroe,2016,-22.5
+1230,Buffalo,2016,-22.7
+1231,Texas State,2016,-28.7
+1232,Alabama,2017,31.0
+1233,Ohio State,2017,28.7
+1234,Georgia,2017,27.6
+1235,Clemson,2017,26.5
+1236,Penn State,2017,26.0
+1237,Oklahoma,2017,24.6
+1238,Auburn,2017,24.6
+1239,Wisconsin,2017,24.2
+1240,Washington,2017,21.7
+1241,Notre Dame,2017,20.2
+1242,Oklahoma State,2017,18.7
+1243,TCU,2017,17.5
+1244,UCF,2017,16.3
+1245,LSU,2017,16.1
+1246,Louisville,2017,15.9
+1247,Mississippi State,2017,15.0
+1248,Michigan,2017,15.0
+1249,Miami,2017,14.9
+1250,Florida State,2017,14.8
+1251,USC,2017,14.4
+1252,Virginia Tech,2017,14.3
+1253,Stanford,2017,13.8
+1254,NC State,2017,12.2
+1255,Iowa,2017,12.2
+1256,Michigan State,2017,11.5
+1257,Texas,2017,10.3
+1258,Wake Forest,2017,10.2
+1259,Northwestern,2017,10.1
+1260,Iowa State,2017,9.7
+1261,Memphis,2017,9.1
+1262,Kansas State,2017,8.6
+1263,South Florida,2017,8.0
+1264,Utah,2017,7.9
+1265,Georgia Tech,2017,7.8
+1266,Washington State,2017,7.5
+1267,Missouri,2017,7.5
+1268,Boston College,2017,7.4
+1269,Indiana,2017,7.2
+1270,Boise State,2017,7.1
+1271,Oregon,2017,7.0
+1272,Purdue,2017,6.9
+1273,South Carolina,2017,6.6
+1274,Texas A&M,2017,6.6
+1275,Duke,2017,6.0
+1276,West Virginia,2017,5.6
+1277,Texas Tech,2017,5.2
+1278,Houston,2017,4.9
+1279,Ole Miss,2017,4.6
+1280,Florida Atlantic,2017,4.5
+1281,Arizona,2017,4.0
+1282,Florida,2017,3.6
+1283,Toledo,2017,3.5
+1284,Pittsburgh,2017,3.4
+1285,San Diego State,2017,3.4
+1286,UCLA,2017,3.3
+1287,Navy,2017,2.7
+1288,Arizona State,2017,2.2
+1289,Syracuse,2017,1.5
+1290,App State,2017,1.5
+1291,Kentucky,2017,1.5
+1292,Troy,2017,0.8
+1293,Minnesota,2017,0.7
+1294,Ohio,2017,0.6
+1295,Virginia,2017,-0.0
+1296,Colorado,2017,-0.3
+1297,Nebraska,2017,-0.5
+1298,Fresno State,2017,-0.5
+1299,Arkansas,2017,-0.5
+1300,California,2017,-0.6
+1301,North Carolina,2017,-1.0
+1302,Colorado State,2017,-1.2
+1303,Army,2017,-1.7
+1304,Temple,2017,-1.7
+1305,Northern Illinois,2017,-1.7
+1306,SMU,2017,-2.1
+1307,Arkansas State,2017,-2.4
+1308,Tennessee,2017,-2.5
+1309,Baylor,2017,-2.9
+1310,Vanderbilt,2017,-3.1
+1311,Maryland,2017,-3.4
+1312,Wyoming,2017,-3.9
+1313,Western Michigan,2017,-4.4
+1314,Tulane,2017,-4.6
+1315,Marshall,2017,-4.8
+1316,Utah State,2017,-5.3
+1317,Louisiana Tech,2017,-5.8
+1318,Eastern Michigan,2017,-5.8
+1319,Miami (OH),2017,-6.6
+1320,Rutgers,2017,-6.7
+1321,Southern Miss,2017,-7.0
+1322,UTSA,2017,-7.3
+1323,Central Michigan,2017,-7.5
+1324,Middle Tennessee,2017,-7.9
+1325,North Texas,2017,-8.4
+1326,Buffalo,2017,-8.6
+1327,Air Force,2017,-8.9
+1328,BYU,2017,-9.4
+1329,Tulsa,2017,-9.7
+1330,Illinois,2017,-10.5
+1331,New Mexico State,2017,-10.8
+1332,Massachusetts,2017,-10.9
+1333,Cincinnati,2017,-10.9
+1334,Western Kentucky,2017,-11.2
+1335,Florida International,2017,-11.5
+1336,UNLV,2017,-12.2
+1337,Nevada,2017,-13.0
+1338,UL Monroe,2017,-13.2
+1339,Bowling Green,2017,-13.8
+1340,UAB,2017,-14.2
+1341,New Mexico,2017,-14.5
+1342,Georgia State,2017,-14.6
+1343,Idaho,2017,-14.6
+1344,Akron,2017,-14.8
+1345,Oregon State,2017,-15.0
+1346,South Alabama,2017,-15.6
+1347,Georgia Southern,2017,-15.7
+1348,Coastal Carolina,2017,-16.1
+1349,UConn,2017,-16.4
+1350,Kansas,2017,-16.4
+1351,East Carolina,2017,-16.8
+1352,Louisiana,2017,-17.7
+1353,Old Dominion,2017,-18.3
+1354,Hawai'i,2017,-19.7
+1355,Kent State,2017,-22.7
+1356,Texas State,2017,-24.4
+1357,Rice,2017,-25.5
+1358,Ball State,2017,-25.5
+1359,San José State,2017,-25.6
+1360,Charlotte,2017,-26.4
+1361,UTEP,2017,-29.4
+1362,Alabama,2018,37.9
+1363,Clemson,2018,32.2
+1364,Georgia,2018,30.9
+1365,Oklahoma,2018,23.5
+1366,Mississippi State,2018,22.1
+1367,Michigan,2018,21.3
+1368,Ohio State,2018,21.2
+1369,LSU,2018,20.5
+1370,Florida,2018,20.1
+1371,Auburn,2018,19.5
+1372,Texas A&M,2018,19.2
+1373,Missouri,2018,19.0
+1374,Notre Dame,2018,18.2
+1375,Penn State,2018,16.8
+1376,Washington,2018,16.3
+1377,West Virginia,2018,15.2
+1378,Fresno State,2018,14.6
+1379,UCF,2018,14.4
+1380,Iowa,2018,14.3
+1381,Kentucky,2018,13.2
+1382,Utah,2018,12.8
+1383,Utah State,2018,12.5
+1384,Texas,2018,12.4
+1385,South Carolina,2018,12.0
+1386,Washington State,2018,11.4
+1387,Wisconsin,2018,11.2
+1388,Boise State,2018,10.9
+1389,Oklahoma State,2018,10.6
+1390,Stanford,2018,10.2
+1391,Miami,2018,9.9
+1392,NC State,2018,9.2
+1393,Michigan State,2018,9.1
+1394,Iowa State,2018,9.0
+1395,Syracuse,2018,8.6
+1396,App State,2018,8.3
+1397,Vanderbilt,2018,7.5
+1398,Ole Miss,2018,6.8
+1399,Virginia,2018,6.7
+1400,Texas Tech,2018,6.7
+1401,Purdue,2018,6.7
+1402,Oregon,2018,6.1
+1403,TCU,2018,5.9
+1404,Cincinnati,2018,5.6
+1405,Ohio,2018,5.3
+1406,Minnesota,2018,5.0
+1407,Duke,2018,4.8
+1408,USC,2018,4.7
+1409,Northwestern,2018,4.7
+1410,Army,2018,4.7
+1411,Arizona State,2018,4.5
+1412,Boston College,2018,4.3
+1413,Memphis,2018,4.2
+1414,Pittsburgh,2018,3.9
+1415,Maryland,2018,3.7
+1416,Tennessee,2018,3.5
+1417,Nebraska,2018,3.4
+1418,Temple,2018,2.8
+1419,BYU,2018,2.8
+1420,Georgia Tech,2018,2.5
+1421,Indiana,2018,2.2
+1422,California,2018,1.8
+1423,Baylor,2018,1.6
+1424,Kansas State,2018,1.4
+1425,Wake Forest,2018,0.5
+1426,Arizona,2018,0.3
+1427,Virginia Tech,2018,0.2
+1428,Buffalo,2018,-0.3
+1429,Houston,2018,-0.3
+1430,Florida State,2018,-0.6
+1431,San Diego State,2018,-0.6
+1432,UAB,2018,-1.2
+1433,Toledo,2018,-1.2
+1434,Colorado,2018,-1.3
+1435,North Texas,2018,-1.3
+1436,UCLA,2018,-1.6
+1437,Troy,2018,-1.7
+1438,Wyoming,2018,-1.8
+1439,Marshall,2018,-2.1
+1440,Air Force,2018,-2.6
+1441,Arkansas,2018,-2.7
+1442,Arkansas State,2018,-2.7
+1443,Georgia Southern,2018,-2.7
+1444,Miami (OH),2018,-2.8
+1445,Nevada,2018,-3.4
+1446,Florida Atlantic,2018,-3.5
+1447,Middle Tennessee,2018,-3.8
+1448,Northern Illinois,2018,-3.8
+1449,North Carolina,2018,-4.1
+1450,Eastern Michigan,2018,-4.2
+1451,Tulane,2018,-6.0
+1452,Florida International,2018,-6.4
+1453,South Florida,2018,-6.7
+1454,Southern Miss,2018,-6.9
+1455,Kansas,2018,-7.0
+1456,SMU,2018,-8.7
+1457,Louisiana Tech,2018,-8.7
+1458,Louisiana,2018,-9.7
+1459,Navy,2018,-10.9
+1460,Western Michigan,2018,-11.1
+1461,Illinois,2018,-11.3
+1462,Hawai'i,2018,-11.8
+1463,Tulsa,2018,-12.1
+1464,UL Monroe,2018,-13.3
+1465,Colorado State,2018,-13.5
+1466,Rutgers,2018,-13.5
+1467,Louisville,2018,-13.6
+1468,New Mexico,2018,-14.2
+1469,UNLV,2018,-14.5
+1470,Oregon State,2018,-15.5
+1471,Akron,2018,-15.9
+1472,Charlotte,2018,-16.5
+1473,East Carolina,2018,-16.5
+1474,Western Kentucky,2018,-17.0
+1475,San José State,2018,-17.1
+1476,Old Dominion,2018,-17.3
+1477,Liberty,2018,-17.5
+1478,Ball State,2018,-17.7
+1479,Coastal Carolina,2018,-18.3
+1480,Massachusetts,2018,-18.8
+1481,Central Michigan,2018,-18.9
+1482,Texas State,2018,-20.3
+1483,Kent State,2018,-20.7
+1484,Bowling Green,2018,-21.2
+1485,South Alabama,2018,-21.8
+1486,New Mexico State,2018,-22.3
+1487,Georgia State,2018,-22.6
+1488,UTSA,2018,-23.6
+1489,UTEP,2018,-26.5
+1490,Rice,2018,-26.6
+1491,UConn,2018,-30.7
+1492,Ohio State,2019,35.8
+1493,LSU,2019,33.6
+1494,Alabama,2019,32.2
+1495,Clemson,2019,30.7
+1496,Georgia,2019,24.3
+1497,Wisconsin,2019,22.5
+1498,Oklahoma,2019,21.5
+1499,Penn State,2019,21.3
+1500,Florida,2019,21.1
+1501,Auburn,2019,21.1
+1502,Oregon,2019,20.0
+1503,Michigan,2019,19.5
+1504,Utah,2019,19.5
+1505,Notre Dame,2019,18.4
+1506,Baylor,2019,16.1
+1507,Minnesota,2019,15.7
+1508,Washington,2019,15.4
+1509,Iowa,2019,14.8
+1510,UCF,2019,14.6
+1511,Memphis,2019,14.4
+1512,Texas A&M,2019,13.8
+1513,Texas,2019,13.3
+1514,Iowa State,2019,12.5
+1515,USC,2019,10.5
+1516,Air Force,2019,10.0
+1517,Oklahoma State,2019,9.6
+1518,Navy,2019,9.3
+1519,App State,2019,9.2
+1520,Cincinnati,2019,8.7
+1521,TCU,2019,8.3
+1522,North Carolina,2019,8.2
+1523,Washington State,2019,8.2
+1524,Kansas State,2019,7.9
+1525,Indiana,2019,7.8
+1526,Boise State,2019,7.6
+1527,Louisiana,2019,7.4
+1528,Michigan State,2019,7.2
+1529,Missouri,2019,7.2
+1530,Tennessee,2019,6.9
+1531,Virginia Tech,2019,6.5
+1532,Kentucky,2019,6.5
+1533,Virginia,2019,6.5
+1534,Miami,2019,5.8
+1535,Arizona State,2019,5.5
+1536,Ole Miss,2019,5.1
+1537,Mississippi State,2019,5.0
+1538,SMU,2019,4.9
+1539,South Carolina,2019,4.8
+1540,Tulane,2019,4.5
+1541,Florida Atlantic,2019,3.8
+1542,Nebraska,2019,3.0
+1543,Texas Tech,2019,2.4
+1544,Florida State,2019,2.2
+1545,Pittsburgh,2019,2.1
+1546,Wake Forest,2019,2.0
+1547,California,2019,1.2
+1548,Louisville,2019,1.2
+1549,Oregon State,2019,0.2
+1550,Illinois,2019,-0.2
+1551,San Diego State,2019,-0.2
+1552,Duke,2019,-0.3
+1553,Western Kentucky,2019,-0.3
+1554,BYU,2019,-0.5
+1555,Purdue,2019,-0.9
+1556,Wyoming,2019,-0.9
+1557,Temple,2019,-1.1
+1558,Ohio,2019,-1.3
+1559,Tulsa,2019,-1.5
+1560,UCLA,2019,-1.8
+1561,Stanford,2019,-2.0
+1562,Buffalo,2019,-2.5
+1563,Colorado,2019,-2.5
+1564,Houston,2019,-2.6
+1565,Hawai'i,2019,-2.7
+1566,Louisiana Tech,2019,-2.8
+1567,Boston College,2019,-3.2
+1568,West Virginia,2019,-3.7
+1569,Marshall,2019,-3.8
+1570,Syracuse,2019,-3.9
+1571,Northwestern,2019,-4.0
+1572,Western Michigan,2019,-4.1
+1573,Georgia Southern,2019,-4.2
+1574,Army,2019,-4.6
+1575,Fresno State,2019,-5.0
+1576,Utah State,2019,-5.4
+1577,Southern Miss,2019,-5.5
+1578,Ball State,2019,-5.6
+1579,Arkansas State,2019,-5.8
+1580,Arizona,2019,-5.8
+1581,Maryland,2019,-7.0
+1582,UAB,2019,-7.0
+1583,Central Michigan,2019,-7.2
+1584,Liberty,2019,-7.7
+1585,Colorado State,2019,-8.1
+1586,Kansas,2019,-8.2
+1587,NC State,2019,-8.3
+1588,Troy,2019,-8.5
+1589,Eastern Michigan,2019,-8.5
+1590,Arkansas,2019,-8.5
+1591,Florida International,2019,-8.5
+1592,Miami (OH),2019,-8.8
+1593,South Florida,2019,-9.0
+1594,San José State,2019,-9.4
+1595,Kent State,2019,-9.4
+1596,Charlotte,2019,-9.6
+1597,Middle Tennessee,2019,-9.8
+1598,UL Monroe,2019,-9.8
+1599,North Texas,2019,-10.1
+1600,Georgia Tech,2019,-10.2
+1601,Vanderbilt,2019,-10.2
+1602,Georgia State,2019,-11.0
+1603,Coastal Carolina,2019,-12.5
+1604,Northern Illinois,2019,-12.6
+1605,Toledo,2019,-14.1
+1606,Nevada,2019,-14.2
+1607,East Carolina,2019,-14.9
+1608,UNLV,2019,-16.6
+1609,Rice,2019,-16.8
+1610,Rutgers,2019,-16.9
+1611,Texas State,2019,-17.4
+1612,New Mexico,2019,-18.6
+1613,South Alabama,2019,-18.8
+1614,Old Dominion,2019,-21.2
+1615,UTSA,2019,-23.0
+1616,New Mexico State,2019,-23.4
+1617,UConn,2019,-25.6
+1618,UTEP,2019,-28.8
+1619,Bowling Green,2019,-28.9
+1620,Akron,2019,-32.8
+1621,Massachusetts,2019,-39.5
+1622,Alabama,2020,29.5
+1623,Ohio State,2020,25.9
+1624,Clemson,2020,25.3
+1625,Oklahoma,2020,19.6
+1626,Georgia,2020,19.5
+1627,Notre Dame,2020,18.8
+1628,BYU,2020,18.4
+1629,Wisconsin,2020,14.5
+1630,Florida,2020,14.4
+1631,Cincinnati,2020,14.2
+1632,Texas A&M,2020,13.6
+1633,Iowa State,2020,13.1
+1634,North Carolina,2020,12.4
+1635,Texas,2020,12.1
+1636,Miami,2020,11.8
+1637,Iowa,2020,11.3
+1638,USC,2020,11.3
+1639,UCF,2020,11.0
+1640,Oregon,2020,11.0
+1641,Oklahoma State,2020,10.5
+1642,Arizona State,2020,8.5
+1643,App State,2020,8.4
+1644,Washington,2020,7.9
+1645,Boise State,2020,7.9
+1646,Buffalo,2020,7.7
+1647,Coastal Carolina,2020,7.7
+1648,Auburn,2020,7.7
+1649,West Virginia,2020,7.6
+1650,Louisiana,2020,7.4
+1651,Indiana,2020,7.3
+1652,Virginia Tech,2020,7.0
+1653,Penn State,2020,6.0
+1654,Marshall,2020,5.2
+1655,Northwestern,2020,5.1
+1656,Houston,2020,5.1
+1657,Utah,2020,5.1
+1658,Michigan,2020,5.0
+1659,Pittsburgh,2020,4.9
+1660,TCU,2020,4.8
+1661,LSU,2020,4.7
+1662,San Diego State,2020,4.1
+1663,Western Michigan,2020,3.4
+1664,Tulsa,2020,3.4
+1665,San José State,2020,3.4
+1666,Central Michigan,2020,3.2
+1667,Memphis,2020,3.2
+1668,Virginia,2020,3.1
+1669,SMU,2020,3.1
+1670,Nebraska,2020,2.7
+1671,Ole Miss,2020,2.5
+1672,Tulane,2020,2.5
+1673,Louisville,2020,2.3
+1674,Liberty,2020,2.0
+1675,UCLA,2020,2.0
+1676,Baylor,2020,1.8
+1677,Kansas State,2020,1.8
+1678,Kentucky,2020,1.5
+1679,Nevada,2020,1.3
+1680,UAB,2020,1.1
+1681,Georgia Southern,2020,1.1
+1682,Purdue,2020,1.1
+1683,Army,2020,0.9
+1684,Ball State,2020,0.9
+1685,NC State,2020,0.8
+1686,Stanford,2020,0.6
+1687,Colorado,2020,0.3
+1688,Ohio,2020,0.2
+1689,Tennessee,2020,0.1
+1690,Texas Tech,2020,-0.0
+1691,Wake Forest,2020,-0.4
+1692,Minnesota,2020,-0.7
+1693,California,2020,-0.8
+1694,Troy,2020,-0.9
+1695,Wyoming,2020,-0.9
+1696,Kent State,2020,-1.3
+1697,Mississippi State,2020,-1.5
+1698,Arkansas,2020,-1.6
+1699,Air Force,2020,-1.8
+1700,Fresno State,2020,-1.9
+1701,Washington State,2020,-2.0
+1702,Florida Atlantic,2020,-2.1
+1703,Western Kentucky,2020,-2.4
+1704,Maryland,2020,-2.9
+1705,Missouri,2020,-3.2
+1706,Toledo,2020,-3.2
+1707,Boston College,2020,-4.0
+1708,Michigan State,2020,-4.1
+1709,Arizona,2020,-4.5
+1710,Georgia Tech,2020,-5.4
+1711,Florida State,2020,-5.5
+1712,Duke,2020,-5.9
+1713,Miami (OH),2020,-6.0
+1714,Rice,2020,-6.2
+1715,Oregon State,2020,-6.5
+1716,South Carolina,2020,-6.6
+1717,Illinois,2020,-6.6
+1718,Georgia State,2020,-7.0
+1719,Arkansas State,2020,-7.1
+1720,UTSA,2020,-7.5
+1721,Charlotte,2020,-7.6
+1722,Hawai'i,2020,-8.1
+1723,Rutgers,2020,-8.2
+1724,Eastern Michigan,2020,-8.2
+1725,Colorado State,2020,-8.8
+1726,South Florida,2020,-9.0
+1727,New Mexico,2020,-9.8
+1728,North Texas,2020,-9.9
+1729,East Carolina,2020,-10.0
+1730,South Alabama,2020,-10.0
+1731,Louisiana Tech,2020,-10.0
+1732,Navy,2020,-10.3
+1733,Syracuse,2020,-10.4
+1734,Temple,2020,-10.4
+1735,Northern Illinois,2020,-10.4
+1736,Florida International,2020,-11.4
+1737,Southern Miss,2020,-11.7
+1738,Middle Tennessee,2020,-11.7
+1739,Texas State,2020,-12.4
+1740,Utah State,2020,-13.7
+1741,Kansas,2020,-13.9
+1742,UNLV,2020,-15.5
+1743,Vanderbilt,2020,-16.8
+1744,UTEP,2020,-19.9
+1745,New Mexico State,2020,-20.8
+1746,UL Monroe,2020,-23.0
+1747,Akron,2020,-23.6
+1748,Bowling Green,2020,-25.2
+1749,Massachusetts,2020,-32.3
+1750,Georgia,2021,34.4
+1751,Alabama,2021,27.4
+1752,Ohio State,2021,27.4
+1753,Michigan,2021,22.0
+1754,Cincinnati,2021,18.3
+1755,Oklahoma State,2021,17.5
+1756,Wisconsin,2021,16.7
+1757,Notre Dame,2021,16.5
+1758,Texas A&M,2021,16.3
+1759,Utah,2021,15.9
+1760,Oklahoma,2021,15.4
+1761,Iowa State,2021,14.8
+1762,Baylor,2021,14.7
+1763,Clemson,2021,14.3
+1764,Ole Miss,2021,13.8
+1765,Pittsburgh,2021,13.6
+1766,Tennessee,2021,13.0
+1767,Penn State,2021,12.8
+1768,Arkansas,2021,12.7
+1769,NC State,2021,12.5
+1770,Kentucky,2021,12.1
+1771,Kansas State,2021,11.7
+1772,Minnesota,2021,10.7
+1773,Auburn,2021,10.7
+1774,Wake Forest,2021,10.3
+1775,Purdue,2021,10.1
+1776,Florida,2021,9.9
+1777,UCLA,2021,9.8
+1778,Michigan State,2021,9.8
+1779,Iowa,2021,9.6
+1780,Oregon,2021,9.5
+1781,Nebraska,2021,9.3
+1782,Arizona State,2021,9.0
+1783,Boise State,2021,8.9
+1784,Texas,2021,8.5
+1785,Western Kentucky,2021,8.3
+1786,Mississippi State,2021,7.8
+1787,Houston,2021,7.7
+1788,Air Force,2021,7.5
+1789,BYU,2021,7.4
+1790,App State,2021,7.3
+1791,Coastal Carolina,2021,6.7
+1792,Miami,2021,6.7
+1793,Fresno State,2021,6.1
+1794,Oregon State,2021,5.9
+1795,Louisiana,2021,5.7
+1796,Florida State,2021,5.6
+1797,Louisville,2021,5.6
+1798,SMU,2021,5.3
+1799,LSU,2021,5.2
+1800,North Carolina,2021,5.2
+1801,Liberty,2021,5.1
+1802,Texas Tech,2021,5.1
+1803,Washington State,2021,4.4
+1804,Army,2021,4.0
+1805,San Diego State,2021,4.0
+1806,UTSA,2021,3.8
+1807,UAB,2021,3.8
+1808,Virginia,2021,3.6
+1809,Marshall,2021,3.3
+1810,Nevada,2021,3.2
+1811,UCF,2021,2.5
+1812,West Virginia,2021,2.3
+1813,California,2021,2.2
+1814,Toledo,2021,1.2
+1815,Illinois,2021,1.2
+1816,Maryland,2021,1.2
+1817,Tulsa,2021,1.1
+1818,South Carolina,2021,0.9
+1819,Utah State,2021,0.8
+1820,Washington,2021,0.3
+1821,Virginia Tech,2021,0.2
+1822,East Carolina,2021,-0.3
+1823,USC,2021,-0.3
+1824,Missouri,2021,-0.7
+1825,Syracuse,2021,-1.3
+1826,Western Michigan,2021,-1.5
+1827,TCU,2021,-1.7
+1828,Boston College,2021,-1.9
+1829,Memphis,2021,-2.2
+1830,Georgia State,2021,-2.5
+1831,Miami (OH),2021,-3.3
+1832,Wyoming,2021,-3.5
+1833,Central Michigan,2021,-4.2
+1834,Colorado State,2021,-4.6
+1835,Rutgers,2021,-4.9
+1836,Tulane,2021,-5.7
+1837,Hawai'i,2021,-6.6
+1838,Stanford,2021,-6.7
+1839,Georgia Tech,2021,-7.1
+1840,Middle Tennessee,2021,-7.2
+1841,Navy,2021,-7.2
+1842,Indiana,2021,-7.3
+1843,Colorado,2021,-7.3
+1844,San José State,2021,-7.9
+1845,Florida Atlantic,2021,-7.9
+1846,UTEP,2021,-8.7
+1847,Northern Illinois,2021,-9.2
+1848,Eastern Michigan,2021,-9.3
+1849,North Texas,2021,-9.5
+1850,South Alabama,2021,-10.2
+1851,Old Dominion,2021,-10.5
+1852,Ball State,2021,-10.5
+1853,Northwestern,2021,-10.8
+1854,Troy,2021,-10.8
+1855,Kent State,2021,-11.4
+1856,Arizona,2021,-11.5
+1857,Louisiana Tech,2021,-11.6
+1858,South Florida,2021,-12.0
+1859,Buffalo,2021,-13.3
+1860,UNLV,2021,-13.8
+1861,Georgia Southern,2021,-15.0
+1862,Ohio,2021,-15.6
+1863,Duke,2021,-16.9
+1864,Charlotte,2021,-17.3
+1865,Texas State,2021,-17.3
+1866,Vanderbilt,2021,-17.4
+1867,Bowling Green,2021,-17.5
+1868,Southern Miss,2021,-18.3
+1869,Arkansas State,2021,-18.4
+1870,UL Monroe,2021,-18.5
+1871,Kansas,2021,-18.9
+1872,New Mexico,2021,-19.7
+1873,Rice,2021,-19.9
+1874,Temple,2021,-23.1
+1875,New Mexico State,2021,-24.5
+1876,Florida International,2021,-26.2
+1877,UConn,2021,-27.6
+1878,Akron,2021,-28.0
+1879,Massachusetts,2021,-31.2
+1880,Georgia,2022,37.3
+1881,Ohio State,2022,32.1
+1882,Alabama,2022,31.6
+1883,Michigan,2022,29.3
+1884,Tennessee,2022,27.0
+1885,Texas,2022,22.4
+1886,Penn State,2022,22.0
+1887,TCU,2022,20.9
+1888,Kansas State,2022,19.8
+1889,Utah,2022,19.4
+1890,LSU,2022,19.0
+1891,Oregon,2022,17.6
+1892,Florida State,2022,17.3
+1893,Clemson,2022,16.8
+1894,USC,2022,16.8
+1895,Mississippi State,2022,15.9
+1896,Washington,2022,14.9
+1897,Ole Miss,2022,14.4
+1898,Minnesota,2022,14.1
+1899,Oregon State,2022,14.0
+1900,Illinois,2022,13.8
+1901,Oklahoma,2022,12.9
+1902,Notre Dame,2022,11.8
+1903,UCLA,2022,11.5
+1904,Tulane,2022,11.3
+1905,Arkansas,2022,11.3
+1906,Iowa,2022,11.0
+1907,Louisville,2022,10.6
+1908,Florida,2022,9.9
+1909,Maryland,2022,9.8
+1910,Baylor,2022,9.4
+1911,South Carolina,2022,9.3
+1912,Kentucky,2022,9.3
+1913,Texas Tech,2022,9.2
+1914,Wake Forest,2022,9.2
+1915,Wisconsin,2022,9.1
+1916,Cincinnati,2022,8.2
+1917,UCF,2022,8.0
+1918,Pittsburgh,2022,8.0
+1919,Oklahoma State,2022,7.8
+1920,Texas A&M,2022,7.7
+1921,Missouri,2022,7.4
+1922,Washington State,2022,7.3
+1923,NC State,2022,6.6
+1924,Auburn,2022,6.4
+1925,Iowa State,2022,6.3
+1926,Purdue,2022,5.9
+1927,North Carolina,2022,5.6
+1928,Duke,2022,5.1
+1929,Kansas,2022,4.4
+1930,Fresno State,2022,4.4
+1931,Boise State,2022,4.3
+1932,SMU,2022,4.2
+1933,James Madison,2022,4.2
+1934,UTSA,2022,4.2
+1935,Syracuse,2022,4.1
+1936,Memphis,2022,4.1
+1937,Air Force,2022,4.0
+1938,Houston,2022,3.7
+1939,Troy,2022,3.5
+1940,South Alabama,2022,2.8
+1941,West Virginia,2022,2.4
+1942,Western Kentucky,2022,2.1
+1943,Michigan State,2022,1.8
+1944,East Carolina,2022,1.8
+1945,BYU,2022,1.0
+1946,App State,2022,0.0
+1947,Marshall,2022,-0.5
+1948,Nebraska,2022,-2.2
+1949,UAB,2022,-2.7
+1950,California,2022,-2.9
+1951,Arizona,2022,-3.0
+1952,Louisiana,2022,-3.6
+1953,Miami,2022,-3.8
+1954,Liberty,2022,-3.9
+1955,Vanderbilt,2022,-4.1
+1956,Navy,2022,-4.2
+1957,Toledo,2022,-4.4
+1958,Army,2022,-4.6
+1959,Indiana,2022,-4.7
+1960,San José State,2022,-5.0
+1961,Arizona State,2022,-5.2
+1962,Coastal Carolina,2022,-5.2
+1963,Ohio,2022,-5.5
+1964,North Texas,2022,-5.5
+1965,Georgia State,2022,-6.1
+1966,San Diego State,2022,-6.2
+1967,Tulsa,2022,-6.3
+1968,Stanford,2022,-6.7
+1969,Virginia,2022,-7.2
+1970,Florida Atlantic,2022,-7.9
+1971,Southern Miss,2022,-8.1
+1972,Georgia Southern,2022,-8.1
+1973,Georgia Tech,2022,-8.5
+1974,Northwestern,2022,-8.7
+1975,Rutgers,2022,-8.9
+1976,Virginia Tech,2022,-9.0
+1977,Buffalo,2022,-9.2
+1978,Eastern Michigan,2022,-10.1
+1979,Kent State,2022,-10.6
+1980,Middle Tennessee,2022,-10.9
+1981,Wyoming,2022,-11.1
+1982,Boston College,2022,-11.7
+1983,Miami (OH),2022,-12.7
+1984,UNLV,2022,-12.7
+1985,Utah State,2022,-13.2
+1986,Temple,2022,-13.2
+1987,Old Dominion,2022,-13.7
+1988,Central Michigan,2022,-13.9
+1989,UTEP,2022,-14.3
+1990,Ball State,2022,-15.2
+1991,Texas State,2022,-15.6
+1992,Arkansas State,2022,-15.7
+1993,South Florida,2022,-16.0
+1994,UConn,2022,-16.6
+1995,Western Michigan,2022,-16.7
+1996,UL Monroe,2022,-17.0
+1997,Bowling Green,2022,-17.1
+1998,Northern Illinois,2022,-17.1
+1999,Rice,2022,-17.2
+2000,Louisiana Tech,2022,-18.9
+2001,New Mexico State,2022,-19.7
+2002,Colorado State,2022,-20.0
+2003,Nevada,2022,-21.2
+2004,Akron,2022,-21.4
+2005,Colorado,2022,-21.5
+2006,Charlotte,2022,-22.3
+2007,New Mexico,2022,-24.8
+2008,Hawai'i,2022,-24.8
+2009,Florida International,2022,-30.1
+2010,Massachusetts,2022,-30.4
+2011,Michigan,2023,30.7
+2012,Georgia,2023,30.1
+2013,Oregon,2023,29.0
+2014,Ohio State,2023,25.5
+2015,Alabama,2023,23.0
+2016,Texas,2023,23.0
+2017,Penn State,2023,22.9
+2018,Notre Dame,2023,21.5
+2019,LSU,2023,20.2
+2020,Washington,2023,19.6
+2021,Missouri,2023,18.7
+2022,Florida State,2023,18.4
+2023,Kansas State,2023,18.4
+2024,Oklahoma,2023,18.2
+2025,Tennessee,2023,16.7
+2026,Ole Miss,2023,16.5
+2027,Texas A&M,2023,15.2
+2028,Arizona,2023,14.9
+2029,Oregon State,2023,13.9
+2030,USC,2023,13.1
+2031,Clemson,2023,11.6
+2032,Louisville,2023,10.9
+2033,Maryland,2023,10.7
+2034,Kansas,2023,10.4
+2035,Utah,2023,9.7
+2036,Miami,2023,9.3
+2037,UCLA,2023,9.1
+2038,Kentucky,2023,9.1
+2039,Duke,2023,9.1
+2040,SMU,2023,8.8
+2041,TCU,2023,8.5
+2042,Auburn,2023,8.4
+2043,Troy,2023,8.3
+2044,James Madison,2023,8.3
+2045,Iowa State,2023,8.2
+2046,West Virginia,2023,7.7
+2047,NC State,2023,7.5
+2048,Wisconsin,2023,7.4
+2049,North Carolina,2023,7.3
+2050,Oklahoma State,2023,7.2
+2051,Texas Tech,2023,7.1
+2052,Liberty,2023,6.8
+2053,Florida,2023,6.5
+2054,Washington State,2023,6.2
+2055,UCF,2023,5.2
+2056,Virginia Tech,2023,5.2
+2057,South Carolina,2023,5.1
+2058,Iowa,2023,4.8
+2059,Boise State,2023,4.6
+2060,South Alabama,2023,3.6
+2061,Rutgers,2023,3.5
+2062,Air Force,2023,3.2
+2063,California,2023,2.8
+2064,Memphis,2023,2.4
+2065,UTSA,2023,2.2
+2066,Georgia Tech,2023,2.1
+2067,Tulane,2023,2.0
+2068,Arkansas,2023,2.0
+2069,App State,2023,0.9
+2070,Fresno State,2023,0.7
+2071,Toledo,2023,0.7
+2072,Nebraska,2023,0.6
+2073,Northwestern,2023,0.5
+2074,Mississippi State,2023,-0.2
+2075,UNLV,2023,-0.8
+2076,Illinois,2023,-1.0
+2077,Minnesota,2023,-1.0
+2078,Miami (OH),2023,-1.4
+2079,San José State,2023,-1.6
+2080,Colorado,2023,-1.8
+2081,BYU,2023,-2.2
+2082,Ohio,2023,-2.4
+2083,Wyoming,2023,-2.5
+2084,Purdue,2023,-2.8
+2085,Louisiana,2023,-3.1
+2086,Coastal Carolina,2023,-3.3
+2087,Jacksonville State,2023,-3.4
+2088,Western Kentucky,2023,-4.0
+2089,Texas State,2023,-4.2
+2090,Pittsburgh,2023,-4.2
+2091,Boston College,2023,-4.5
+2092,Wake Forest,2023,-4.6
+2093,Syracuse,2023,-4.7
+2094,New Mexico State,2023,-5.0
+2095,Houston,2023,-5.0
+2096,Baylor,2023,-5.5
+2097,Indiana,2023,-5.6
+2098,Cincinnati,2023,-5.8
+2099,Virginia,2023,-6.1
+2100,Bowling Green,2023,-6.6
+2101,Georgia State,2023,-6.8
+2102,Michigan State,2023,-6.9
+2103,Marshall,2023,-7.4
+2104,Georgia Southern,2023,-7.5
+2105,Army,2023,-7.6
+2106,Arizona State,2023,-7.7
+2107,Arkansas State,2023,-8.1
+2108,South Florida,2023,-8.3
+2109,Northern Illinois,2023,-8.4
+2110,Old Dominion,2023,-8.5
+2111,Stanford,2023,-8.6
+2112,Rice,2023,-9.3
+2113,Middle Tennessee,2023,-9.3
+2114,Florida Atlantic,2023,-9.5
+2115,Vanderbilt,2023,-9.6
+2116,North Texas,2023,-9.6
+2117,Colorado State,2023,-9.8
+2118,San Diego State,2023,-10.0
+2119,Utah State,2023,-10.3
+2120,East Carolina,2023,-12.6
+2121,Navy,2023,-13.2
+2122,Sam Houston,2023,-13.2
+2123,UAB,2023,-13.4
+2124,Louisiana Tech,2023,-14.1
+2125,Buffalo,2023,-14.2
+2126,Southern Miss,2023,-14.4
+2127,Tulsa,2023,-15.1
+2128,UTEP,2023,-15.4
+2129,Ball State,2023,-15.7
+2130,UConn,2023,-16.1
+2131,Western Michigan,2023,-16.4
+2132,Hawai'i,2023,-16.6
+2133,Central Michigan,2023,-16.7
+2134,New Mexico,2023,-16.8
+2135,Eastern Michigan,2023,-17.5
+2136,Charlotte,2023,-18.3
+2137,Massachusetts,2023,-19.1
+2138,Florida International,2023,-19.8
+2139,UL Monroe,2023,-19.9
+2140,Nevada,2023,-20.2
+2141,Temple,2023,-20.8
+2142,Akron,2023,-21.7
+2143,Kent State,2023,-28.3
+2144,Ohio State,2024,31.7
+2145,Oregon,2024,25.5
+2146,Texas,2024,24.9
+2147,Notre Dame,2024,24.6
+2148,Ole Miss,2024,24.6
+2149,Penn State,2024,24.1
+2150,Georgia,2024,22.6
+2151,Alabama,2024,22.6
+2152,Indiana,2024,20.4
+2153,Tennessee,2024,20.0
+2154,Miami,2024,18.8
+2155,South Carolina,2024,16.5
+2156,LSU,2024,15.9
+2157,SMU,2024,15.8
+2158,Texas A&M,2024,15.3
+2159,Clemson,2024,14.6
+2160,Louisville,2024,14.4
+2161,BYU,2024,13.7
+2162,USC,2024,13.6
+2163,Iowa,2024,13.5
+2164,Florida,2024,12.9
+2165,Arizona State,2024,12.6
+2166,Kansas State,2024,12.2
+2167,Missouri,2024,11.9
+2168,Michigan,2024,11.8
+2169,Minnesota,2024,11.6
+2170,Iowa State,2024,11.5
+2171,Boise State,2024,10.4
+2172,Colorado,2024,10.2
+2173,Oklahoma,2024,10.1
+2174,TCU,2024,9.6
+2175,Virginia Tech,2024,9.4
+2176,Baylor,2024,9.3
+2177,Illinois,2024,8.6
+2178,Nebraska,2024,8.5
+2179,Auburn,2024,8.4
+2180,Army,2024,8.4
+2181,Arkansas,2024,8.0
+2182,Kansas,2024,7.4
+2183,Tulane,2024,7.0
+2184,UNLV,2024,6.9
+2185,Kentucky,2024,6.4
+2186,Rutgers,2024,6.2
+2187,Vanderbilt,2024,5.9
+2188,Utah,2024,5.7
+2189,Wisconsin,2024,5.7
+2190,Washington,2024,5.6
+2191,Texas Tech,2024,5.4
+2192,Syracuse,2024,5.3
+2193,Georgia Tech,2024,5.2
+2194,Navy,2024,5.0
+2195,UCF,2024,5.0
+2196,Memphis,2024,4.6
+2197,Texas State,2024,3.6
+2198,Cincinnati,2024,3.3
+2199,James Madison,2024,3.0
+2200,California,2024,2.9
+2201,Duke,2024,2.9
+2202,Boston College,2024,2.8
+2203,Pittsburgh,2024,2.5
+2204,North Carolina,2024,2.2
+2205,West Virginia,2024,1.3
+2206,UCLA,2024,1.3
+2207,Marshall,2024,1.0
+2208,NC State,2024,0.7
+2209,Ohio,2024,0.6
+2210,Louisiana,2024,0.1
+2211,Washington State,2024,-0.1
+2212,Maryland,2024,-0.3
+2213,South Alabama,2024,-1.1
+2214,Miami (OH),2024,-1.3
+2215,Bowling Green,2024,-2.7
+2216,Virginia,2024,-2.8
+2217,UConn,2024,-2.8
+2218,Mississippi State,2024,-3.0
+2219,Oklahoma State,2024,-3.0
+2220,Michigan State,2024,-3.2
+2221,Jacksonville State,2024,-3.4
+2222,UTSA,2024,-3.4
+2223,Arizona,2024,-3.6
+2224,Northern Illinois,2024,-3.8
+2225,Toledo,2024,-3.9
+2226,Houston,2024,-4.2
+2227,Florida State,2024,-4.2
+2228,Old Dominion,2024,-4.4
+2229,South Florida,2024,-4.7
+2230,Georgia Southern,2024,-4.8
+2231,East Carolina,2024,-4.9
+2232,Fresno State,2024,-5.0
+2233,Wake Forest,2024,-5.0
+2234,Northwestern,2024,-5.7
+2235,Liberty,2024,-5.9
+2236,North Texas,2024,-6.0
+2237,Stanford,2024,-6.3
+2238,Western Kentucky,2024,-6.4
+2239,San José State,2024,-6.8
+2240,Buffalo,2024,-7.7
+2241,Sam Houston,2024,-7.9
+2242,Colorado State,2024,-8.0
+2243,Coastal Carolina,2024,-8.3
+2244,Oregon State,2024,-8.8
+2245,App State,2024,-9.7
+2246,Troy,2024,-10.0
+2247,Western Michigan,2024,-10.3
+2248,Rice,2024,-10.7
+2249,Air Force,2024,-11.9
+2250,Utah State,2024,-12.0
+2251,Arkansas State,2024,-12.2
+2252,Hawai'i,2024,-12.8
+2253,Louisiana Tech,2024,-12.9
+2254,Nevada,2024,-13.0
+2255,Florida International,2024,-13.2
+2256,New Mexico,2024,-13.4
+2257,Eastern Michigan,2024,-13.5
+2258,Charlotte,2024,-13.7
+2259,Wyoming,2024,-13.7
+2260,UAB,2024,-13.7
+2261,UL Monroe,2024,-13.9
+2262,Florida Atlantic,2024,-14.1
+2263,Georgia State,2024,-14.1
+2264,Purdue,2024,-15.0
+2265,Akron,2024,-15.2
+2266,San Diego State,2024,-16.9
+2267,Central Michigan,2024,-17.0
+2268,Temple,2024,-19.0
+2269,Ball State,2024,-19.2
+2270,Massachusetts,2024,-20.3
+2271,UTEP,2024,-22.2
+2272,New Mexico State,2024,-23.0
+2273,Tulsa,2024,-24.5
+2274,Middle Tennessee,2024,-25.0
+2275,Kennesaw State,2024,-25.2
+2276,Southern Miss,2024,-26.7
+2277,Kent State,2024,-32.3
+2278,Indiana,2025,33.2
+2279,Ohio State,2025,29.9
+2280,Oregon,2025,27.5
+2281,Notre Dame,2025,26.8
+2282,Texas Tech,2025,25.3
+2283,Georgia,2025,22.9
+2284,Miami,2025,22.7
+2285,Utah,2025,21.8
+2286,Ole Miss,2025,20.6
+2287,Texas A&M,2025,20.0
+2288,Vanderbilt,2025,19.0
+2289,Alabama,2025,17.8
+2290,Oklahoma,2025,17.7
+2291,USC,2025,17.6
+2292,Iowa,2025,17.6
+2293,Washington,2025,17.1
+2294,Penn State,2025,16.9
+2295,Texas,2025,16.4
+2296,BYU,2025,15.0
+2297,Tennessee,2025,14.3
+2298,Michigan,2025,13.5
+2299,Missouri,2025,13.0
+2300,Illinois,2025,12.4
+2301,SMU,2025,11.8
+2302,Arizona,2025,11.3
+2303,Auburn,2025,11.3
+2304,Louisville,2025,10.9
+2305,South Florida,2025,10.3
+2306,LSU,2025,9.8
+2307,James Madison,2025,9.6
+2308,North Texas,2025,9.6
+2309,Florida State,2025,9.4
+2310,Virginia,2025,9.4
+2311,Clemson,2025,9.2
+2312,TCU,2025,8.9
+2313,Pittsburgh,2025,8.3
+2314,Iowa State,2025,8.3
+2315,Georgia Tech,2025,8.3
+2316,Kansas State,2025,8.2
+2317,South Carolina,2025,7.7
+2318,Florida,2025,6.3
+2319,Duke,2025,6.1
+2320,NC State,2025,6.1
+2321,Nebraska,2025,6.0
+2322,Arizona State,2025,5.8
+2323,Arkansas,2025,5.8
+2324,Kansas,2025,5.5
+2325,Houston,2025,5.4
+2326,East Carolina,2025,5.0
+2327,Northwestern,2025,4.9
+2328,Old Dominion,2025,4.9
+2329,Cincinnati,2025,4.5
+2330,Wake Forest,2025,4.3
+2331,Toledo,2025,4.2
+2332,Tulane,2025,4.1
+2333,Mississippi State,2025,3.9
+2334,Memphis,2025,3.7
+2335,Navy,2025,3.3
+2336,San Diego State,2025,3.2
+2337,Kentucky,2025,3.1
+2338,Boise State,2025,3.1
+2339,Washington State,2025,2.9
+2340,Baylor,2025,2.5
+2341,Rutgers,2025,1.1
+2342,UTSA,2025,1.1
+2343,Minnesota,2025,1.0
+2344,Wisconsin,2025,0.6
+2345,UNLV,2025,0.4
+2346,Maryland,2025,-0.2
+2347,Michigan State,2025,-0.7
+2348,New Mexico,2025,-0.9
+2349,Army,2025,-1.0
+2350,UCF,2025,-1.2
+2351,Texas State,2025,-1.4
+2352,UConn,2025,-2.0
+2353,Hawai'i,2025,-2.3
+2354,Fresno State,2025,-2.6
+2355,Western Michigan,2025,-2.7
+2356,California,2025,-3.1
+2357,Utah State,2025,-3.8
+2358,Purdue,2025,-3.9
+2359,UCLA,2025,-3.9
+2360,Colorado,2025,-4.5
+2361,Ohio,2025,-4.8
+2362,Virginia Tech,2025,-4.8
+2363,West Virginia,2025,-5.0
+2364,Western Kentucky,2025,-5.3
+2365,Louisiana Tech,2025,-5.5
+2366,Miami (OH),2025,-6.2
+2367,Air Force,2025,-6.3
+2368,Boston College,2025,-6.4
+2369,North Carolina,2025,-6.9
+2370,Marshall,2025,-7.2
+2371,Kennesaw State,2025,-7.5
+2372,Stanford,2025,-7.5
+2373,Troy,2025,-7.6
+2374,Temple,2025,-8.1
+2375,Southern Miss,2025,-9.2
+2376,Syracuse,2025,-9.9
+2377,Jacksonville State,2025,-10.7
+2378,Liberty,2025,-10.7
+2379,Central Michigan,2025,-11.0
+2380,Arkansas State,2025,-11.2
+2381,Wyoming,2025,-11.4
+2382,Georgia Southern,2025,-11.6
+2383,Florida International,2025,-12.1
+2384,Louisiana,2025,-12.1
+2385,Missouri State,2025,-12.3
+2386,Florida Atlantic,2025,-12.3
+2387,Buffalo,2025,-12.5
+2388,Tulsa,2025,-12.7
+2389,South Alabama,2025,-12.7
+2390,San José State,2025,-13.2
+2391,Delaware,2025,-13.3
+2392,App State,2025,-13.4
+2393,Colorado State,2025,-13.6
+2394,Oklahoma State,2025,-13.6
+2395,Oregon State,2025,-14.3
+2396,Bowling Green,2025,-14.9
+2397,Nevada,2025,-15.2
+2398,Coastal Carolina,2025,-15.7
+2399,Eastern Michigan,2025,-15.9
+2400,Northern Illinois,2025,-16.3
+2401,UAB,2025,-16.6
+2402,New Mexico State,2025,-17.1
+2403,Rice,2025,-17.2
+2404,Middle Tennessee,2025,-17.7
+2405,UTEP,2025,-18.2
+2406,Akron,2025,-18.6
+2407,Kent State,2025,-20.7
+2408,Georgia State,2025,-21.3
+2409,UL Monroe,2025,-21.4
+2410,Ball State,2025,-22.2
+2411,Charlotte,2025,-23.9
+2412,Sam Houston,2025,-25.9
+2413,Massachusetts,2025,-34.2
